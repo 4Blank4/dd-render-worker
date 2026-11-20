@@ -137,6 +137,13 @@ DD-The-thao/
 
 ## 3. Nhật Ký Nâng Cấp Hệ Thống (Changelog)
 
+- **2026-11-20 (Tích Hợp Trạm Render Đám Mây Tạm Thời GitHub Actions Matrix — Zero-RAM Local & Tự Xóa Dữ Liệu 100%)**:
+  - **Kiến trúc Hybrid Local + GitHub Matrix (`.github/workflows/cloud_render.yml`, `core/cloud_runner.py`, `core/cloud_worker.py`, `config/cloud.json`, `requirements-cloud.txt`, `.gitignore`)**:
+    + Giữ nguyên 100% cấu trúc và quy trình local hiện tại (`daily_runner.py`, `short_batch.py`), bổ sung khả năng đẩy riêng 2 khâu nặng nhất (**ViTTS v3turbo + Whisper + Playwright HTML v2 Render**) lên dàn máy ảo GitHub Actions (`4Blank4/dd-render-worker`, Public repo = **miễn phí không giới hạn số phút chạy**, huy động tới **8–15 máy ảo x 16 GB RAM** chạy song song).
+    + Đóng gói tự chứa bổ sung `core/vendor/vieneu_utils/` bên cạnh `core/vendor/vieneu/` để chạy ViTTS v3turbo (ONNX CPU) độc lập 100% trên Ubuntu Linux không phụ thuộc máy Mac.
+    + Hỗ trợ cả 3 định dạng: `daily_long` (Video bản tin dài/tuần 16:9), `short_batch` (Lô video Shorts 9:16 đơn giọng/song giọng/DataViz/Hook) và `digest_short` (Video bản tin nhanh 17–26 tin `< 3 phút`).
+    + **Cơ chế Zero-Data Retention**: `.gitignore` chặn tuyệt đối `outputs/`, `projects/`, `_ref/`, `docs/`. Khi chạy chỉ gửi gói `_cloud_job/payload/` (~15–25 MB); ngay sau khi tải `.mp4`, `.wav`, `thumbnail*.jpg` về Google Drive, `cloud_runner.py` tự động xóa sạch `_cloud_job/` trên GitHub và gọi `gh run delete` xóa luôn Artifacts/Run trên đám mây.
+
 - **2026-11-19 (Nâng Cấp Toàn Diện 3 Giai Đoạn — 9 Layout Video Dài + Broadcast HUD, Tăng Tốc Render VideoToolbox/CDP & Unified Daily Runner + Auto-QA)**:
   - **Giai đoạn 1 — Nâng cấp thị giác Video Dài 16:9 (`templates/long_sports_news_v2.html`, `core/m8_news_bridge.py`)**:
     + Mở rộng từ 3 kiểu thực chạy lên **9 layout chống lặp** (`full`, `split`, `polaroid`, `cinema`, `triptych`, và 4 layout mới: `hero_mosaic`, `filmstrip_carousel`, `spotlight_sequence`, `bento_grid`), khai thác trọn vẹn **1–5 ảnh/câu** kèm đổi `📷 ẢNH` động theo từng khung ảnh.

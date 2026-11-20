@@ -425,4 +425,49 @@ def run_short_batch(ctx: ShortDayContext, items: List[Dict[str, Any]], title_ban
         all_credits.update(copy_and_verify_images(ctx, item))
         build_contact_sheet(ctx, item)
 
-    # Xác định chế độ chạy Cloud hay Local (mặc định giữ tươ
+    # Xác định chế độ chạy Cloud hay Local (mặc định giữ tương thích 100%, bật Cloud khi truyền --cloud hoặc DD_USE_CLOUD=1)
+    if cloud is None:
+        if "--local" in sys.argv:
+            use_cloud = False
+        elif "--cloud" in sys.argv or os.environ.get("DD_USE_CLOUD", "0") == "1":
+            use_cloud = True
+        else:
+            use_cloud = False
+    else:
+        use_cloud = bool(cloud)
+
+    # Luôn lưu shorts_spec.json chuẩn hóa trong day_dir để có thể đẩy lên GitHub Cloud bất cứ lúc nào
+    spec_out = ctx.day_dir / "shorts_spec.json"
+    spec_out.write_text(json.dumps(items, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    if use_cloud:
+        step(f"Chuyển giao {len(items)} Video Shorts lên GitHub Cloud Matrix (0% tải máy Mac)...")
+        is_orther = "Orther" in ctx.day_dir.parts
+        cmd = [
+            sys.executable, "-B", str(ROOT_DIR / "core" / "cloud_runner.py"),
+            "--day", ctx.day_dir.name,
+            "--mode", "short_batch",
+            "--shards", str(max(1, min(10, len(items)))),
+        ]
+        if is_orther:
+            cmd.append("--orther")
+        res = subprocess.run(cmd)
+        if res.returncode == 0:
+            banner(f"HOÀN TẤT XUẤT BẢN ĐÁM MÂY {len(items)} VIDEO SHORTS ({ctx.day_dir.name})")
+            return
+        warn("Cloud Render gặp sự cố, tự động chuyển về chạy trực tiếp trên máy Mac (Local Fallback)...")
+
+    step("Khởi tạo Vieneu v3turbo TTS engine (Local)...")
+    from vieneu import Vieneu
+    tts_model = Vieneu(mode="v3turbo")
+
+    audio_meta: Dict[int, Dict[str, Any]] = {}
+    for item in items:
+        audio_meta[item["id"]] = synthesize_item_audio(ctx, tts_model, item)
+
+    merge_day_metadata(ctx, items, all_credits, audio_meta)
+
+    for item in items:
+        build_and_publish_short(ctx, item)
+
+    banner(f"HOÀN TẤT XUẤT BẢN {len(items)} VIDEO SHORTS ({ctx.day_dir.name})")
