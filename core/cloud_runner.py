@@ -195,12 +195,36 @@ def stage_job_payload(day_str: str, mode: str, is_orther: bool) -> Tuple[Path, D
 
     # Thư mục ảnh đã duyệt QA (bắt buộc cho render)
     if (day_dir / "images").exists():
-        shutil.copytree(day_dir / "images", payload_dir / "images")
+        if mode == "digest_short":
+            # Chỉ đóng gói đúng những ảnh được dùng trong digest_specs.json + thumbnail để giữ Payload siêu nhẹ (~5-10 MB)
+            spec_p = day_dir / "shorts" / "digest_specs.json"
+            if not spec_p.exists():
+                spec_p = day_dir / "digest_specs.json"
+            needed_imgs = set()
+            if spec_p.exists():
+                cfg_d = json.loads(spec_p.read_text(encoding="utf-8"))
+                d_items = cfg_d["items"] if isinstance(cfg_d, dict) and "items" in cfg_d else cfg_d
+                for it in d_items:
+                    if it.get("image_file"):
+                        needed_imgs.add(it["image_file"])
+                if isinstance(cfg_d, dict) and isinstance(cfg_d.get("thumb"), dict) and cfg_d["thumb"].get("image"):
+                    needed_imgs.add(cfg_d["thumb"]["image"])
+            if needed_imgs:
+                (payload_dir / "images").mkdir(parents=True, exist_ok=True)
+                for fn in sorted(needed_imgs):
+                    src_img = day_dir / "images" / fn
+                    if src_img.exists():
+                        shutil.copy2(src_img, payload_dir / "images" / fn)
+            else:
+                shutil.copytree(day_dir / "images", payload_dir / "images")
+        else:
+            shutil.copytree(day_dir / "images", payload_dir / "images")
 
-    # Nếu đã có sẵn một số file audio/audio-title sinh dở trên máy thì gửi kèm để GitHub khỏi sinh lại
-    for af in ("audio", "audio-title"):
-        if (day_dir / af).exists():
-            shutil.copytree(day_dir / af, payload_dir / af)
+    # Với daily_long / short_batch: gửi kèm audio có sẵn để tận dụng cache; với digest_short thì không gửi (~800MB audio dài)
+    if mode != "digest_short":
+        for af in ("audio", "audio-title"):
+            if (day_dir / af).exists():
+                shutil.copytree(day_dir / af, payload_dir / af)
 
     manifest = {
         "job_id": f"{mode}_{day_str.replace('.', '_')}_{int(time.time())}",
@@ -318,7 +342,7 @@ def trigger_and_wait_workflow(cfg: Dict[str, Any], shards: int, workers_per_shar
     return run_id
 
 
-def download_and_merge_deliverable(cfg: Dict[str, Any], run_id: str, day_dir: Path) -> None:
+def download_and_merge_deliverable(cfg: Dict[str, Any], run_id: str, day_dir: Path, mode: str = "daily_long") -> None:
     full_repo = f"{cfg['github_owner']}/{cfg['repo_name']}"
     dl_tmp = Path(paths.WORK) / f"cloud_dl_{run_id}"
     _safe_trash(dl_tmp)
@@ -341,14 +365,15 @@ def download_and_merge_deliverable(cfg: Dict[str, Any], run_id: str, day_dir: Pa
             shutil.copy2(item, dest)
             copied_files.append(str(rel))
 
-    # Chuẩn hóa lại đường dẫn trong thethao.json / intro_hook.json về đường dẫn máy Mac
-    for jf in ("thethao.json", "intro_hook.json"):
-        jp = day_dir / jf
-        if jp.exists():
-            data = json.loads(jp.read_text(encoding="utf-8"))
-            from cloud_worker import _fix_day_paths
-            data = _fix_day_paths(data, day_dir)
-            jp.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    # Chỉ chuẩn hóa đường dẫn thethao.json / intro_hook.json nếu không phải mode digest_short (tránh đụng file của video dài đang chạy)
+    if mode != "digest_short":
+        for jf in ("thethao.json", "intro_hook.json"):
+            jp = day_dir / jf
+            if jp.exists():
+                data = json.loads(jp.read_text(encoding="utf-8"))
+                from cloud_worker import _fix_day_paths
+                data = _fix_day_paths(data, day_dir)
+                jp.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
 
     _safe_trash(dl_tmp)
     ok(f"Đã lưu {len(copied_files)} file thành phẩm vào: {paths.rel_to_root(str(day_dir))}")
@@ -411,7 +436,7 @@ def main() -> None:
     run_id = trigger_and_wait_workflow(cfg, shards=shards, workers_per_shard=args.workers)
 
     try:
-        download_and_merge_deliverable(cfg, run_id, day_dir)
+        download_and_merge_deliverable(cfg, run_id, day_dir, mode=args.mode)
     finally:
         if cfg.get("auto_cleanup_github", True) and not args.keep_cloud_data:
             cleanup_github_job_and_runs(cfg, run_id=run_id)

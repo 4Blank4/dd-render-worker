@@ -847,6 +847,51 @@ def run_digest_short_cloud(day_dir: Path, day_str: str, final_out_dir: Path) -> 
     body_dur = round(len(combined_voice) / 1000.0, 3)
     date_chip = _format_vi_date_chip(day_str)
 
+    # Kiểm tra trần 180s tính cả Outro (~6.5s)
+    if body_dur + 6.55 >= 180.0:
+        die(f"Digest Short quá dài: body={body_dur:.2f}s (+Outro ~6.5s >= 180s)! Hãy rút gọn digest_line.")
+
+    # Tạo bảng đối chứng Contact Sheet QA cho Digest Short
+    try:
+        from PIL import Image, ImageDraw, ImageFont
+        cols = 4
+        rows = (len(items_data) + cols - 1) // cols
+        cell_w, cell_h, thumb_w, thumb_h, margin, header_h = 460, 340, 432, 238, 20, 72
+        sheet = Image.new("RGB", (cols * cell_w + margin * 2, rows * cell_h + margin * 2 + header_h), (8, 13, 24))
+        draw = ImageDraw.Draw(sheet)
+        f_bold = ROOT / "assets" / "fonts" / "Be_Vietnam_Pro" / "BeVietnamPro-Bold.ttf"
+        f_semi = ROOT / "assets" / "fonts" / "Be_Vietnam_Pro" / "BeVietnamPro-SemiBold.ttf"
+        f_hdr = ImageFont.truetype(str(f_bold), 24) if f_bold.exists() else ImageFont.load_default()
+        f_lbl = ImageFont.truetype(str(f_bold), 15) if f_bold.exists() else ImageFont.load_default()
+        f_sub = ImageFont.truetype(str(f_semi), 13) if f_semi.exists() else ImageFont.load_default()
+        draw.text((margin, 22), f"KIỂM DUYỆT {len(items_data)} ẢNH DIGEST SHORT ({day_str}) — VIỆT NAM: NỮ | QUỐC TẾ: NAM", fill=(0, 229, 255), font=f_hdr)
+        for idx, rec in enumerate(items_data):
+            r, c = divmod(idx, cols)
+            x0, y0 = margin + c * cell_w, header_h + margin + r * cell_h
+            img_p = Path(rec["image"])
+            with Image.open(img_p) as im:
+                iw, ih = im.size
+                im_rgb = im.convert("RGB")
+                im_rgb.thumbnail((thumb_w, thumb_h), Image.Resampling.LANCZOS)
+                tw, th = im_rgb.size
+                sheet.paste(im_rgb, (x0 + 14 + (thumb_w - tw) // 2, y0 + 6 + (thumb_h - th) // 2))
+            tag_color = (56, 189, 248) if rec.get("voice_gender") == "Nam" else (244, 114, 182)
+            draw.rectangle([x0 + 10, y0 + 4, x0 + cell_w - 10, y0 + thumb_h + 8], outline=tag_color, width=2)
+            draw.text((x0 + 12, y0 + thumb_h + 14), f"[{int(rec['id']):02d}] {rec.get('region', '')} ({rec.get('voice_gender', '')}) · {img_p.name} ({iw}x{ih})", fill=tag_color, font=f_lbl)
+            draw.text((x0 + 12, y0 + thumb_h + 38), f"📷 {rec['credit']} | {rec['digest_line'][:44]}...", fill=(226, 232, 240), font=f_sub)
+            draw.text((x0 + 12, y0 + thumb_h + 58), f"📰 {rec['news_source']}", fill=(148, 163, 184), font=f_sub)
+        dd_mm_u = "_".join(day_str.split(".")[:2])
+        sheet.save(str(qa_dir / f"contact_digest_{dd_mm_u}.jpg"), quality=92)
+    except Exception as e:
+        warn(f"Không thể tạo Contact Sheet Digest: {e}")
+
+    # Lưu script export JSON
+    dd_mm_u = "_".join(day_str.split(".")[:2])
+    (shorts_dir / f"digest_script_{dd_mm_u}.json").write_text(
+        json.dumps({"day": day_str, "total_items": len(items_data), "body_duration_sec": body_dur, "items": items_data}, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+
     fx_cfg = json.loads((Path(paths.CONFIG) / "fx.json").read_text(encoding="utf-8")) if (Path(paths.CONFIG) / "fx.json").exists() else {}
     timeline = {
         "title": cfg.get("title", f"TIN NHANH THỂ THAO {'.'.join(day_str.split('.')[:2])}") if isinstance(cfg, dict) else "TIN NHANH THỂ THAO",
@@ -882,7 +927,16 @@ def run_digest_short_cloud(day_dir: Path, day_str: str, final_out_dir: Path) -> 
     )
     out_video = shorts_dir / out_video_name
     last_voice = digest_specs[-1].get("voice_preset", "primary")
-    append_short_outro(rendered_body, voice_hint=last_voice, out_path=out_video, enabled=True)
+    final_path, chosen_outro = append_short_outro(rendered_body, voice_hint=last_voice, out_path=out_video, enabled=True)
+
+    v_dur = _probe_dur(str(final_path), "v:0")
+    a_dur = _probe_dur(str(final_path), "a:0")
+    drift_ms = abs(v_dur - a_dur) * 1000.0
+    stats = measure_loudness(str(final_path)) or {}
+    if v_dur >= 180.0:
+        die(f"Video sau Outro dài {v_dur:.2f}s >= 180.0s!")
+    if drift_ms > 33.3:
+        die(f"Lệch A/V vượt ngưỡng 33.3ms: {drift_ms:.2f}ms")
 
     if isinstance(cfg, dict) and cfg.get("thumb"):
         t_cfg = cfg["thumb"]
@@ -895,6 +949,7 @@ def run_digest_short_cloud(day_dir: Path, day_str: str, final_out_dir: Path) -> 
             badge=t_cfg["badge"],
             tag_a=t_cfg["tag_a"],
             tag_b=t_cfg["tag_b"],
+            hero_size=t_cfg.get("hero_size"),
             obj_pos=t_cfg.get("obj_pos", "center 20%"),
         )
 
@@ -911,7 +966,9 @@ def run_digest_short_cloud(day_dir: Path, day_str: str, final_out_dir: Path) -> 
 
     final_out_dir.mkdir(parents=True, exist_ok=True)
     shutil.copytree(shorts_dir, final_out_dir / "shorts", dirs_exist_ok=True)
-    ok(f"HOÀN TẤT CLOUD DIGEST SHORT -> {out_video.name}")
+    if qa_dir.exists():
+        shutil.copytree(qa_dir, final_out_dir / "qa", dirs_exist_ok=True)
+    ok(f"HOÀN TẤT CLOUD DIGEST SHORT -> {out_video.name} | Dur={v_dur:.2f}s | Drift={drift_ms:.2f}ms | I={stats.get('input_i')} LUFS | TP={stats.get('input_tp')} dBTP | Outro={chosen_outro.name if chosen_outro else 'None'}")
 
 
 def main() -> None:

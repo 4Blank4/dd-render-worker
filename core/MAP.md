@@ -390,17 +390,4 @@ Không module nào tự viết lại logic đã có ở đây.
 ### Bộ Điều Phối Tổng Quát & Auto-QA (`daily_runner.py`, `qa_precheck.py`) — Nâng cấp 19.11.2026 & 20.11.2026
 - **`qa_precheck.py`**: Bộ kiểm duyệt tự động trước khi render (< 2 giây) quét từ ngữ máy móc/hậu trường bị cấm, số hàng nghìn có dấu chấm, chất lượng/trùng lặp ảnh trong `image_plan.json`, độ dài từng dòng thumbnail (`<= 21` ký tự) và tiêu đề SEO (`<= 100` ký tự).
   - Cách dùng: `python3 -B core/qa_precheck.py --day <DD.MM.YYYY>`
-- **`daily_runner.py`**: Bộ chạy bản tin ngày tổng quát 1 lệnh (thay thế việc nhân bản script theo từng ngày), tự động gọi Auto-QA, ViTTS, render chunk `video_only_output=True` + `h264_videotoolbox` + CDP screenshot (`--workers 3`), Cut-Concat PCM WAV `-14.0 LUFS` và render Thumbnail 16:9. Hỗ trợ `--cloud --shards 8` để đẩy phần TTS + Render lên GitHub Actions Matrix và tự động fallback về local nếu cần.
-  - Cách dùng:
-    + Chạy trên máy Mac: `python3 -B core/daily_runner.py --day <DD.MM.YYYY> --step all --workers 3`
-    + Chạy phần nặng trên GitHub Cloud: `python3 -B core/daily_runner.py --day <DD.MM.YYYY> --cloud --shards 8`
-
-### Bộ Điều Phối & Thực Thi Đám Mây GitHub Actions (`cloud_runner.py`, `cloud_worker.py`) — Mới 20.11.2026
-- **`cloud_runner.py`**: Bộ điều phối đám mây (Zero-RAM Local Orchestrator) kết nối trực tiếp với repo Public `4Blank4/dd-render-worker`. Đóng gói dữ liệu nhẹ của ngày đang làm (`thethao.json`, `images/`...) vào `_cloud_job/payload/`, kích hoạt GitHub Actions Matrix (`1–15` máy ảo x 16 GB RAM chạy song song), tự động tải thành phẩm (`.mp4`, `.wav`, `thumbnail*.jpg`, `_mota.txt`, `chapters*.json`) về `outputs/` trên Google Drive, rồi **tự động xóa sạch `_cloud_job/` và xóa luôn Workflow Run / Artifacts trên GitHub** (Zero-Data Retention).
-  - Cách dùng:
-    + Khởi tạo/đồng bộ Engine lên GitHub: `python3 -B core/cloud_runner.py --init-repo`
-    + Dựng Video Bản Tin Dài 16:9 trên GitHub (8 máy ảo song song): `python3 -B core/cloud_runner.py --day 20.11.2026 --mode daily_long --shards 8`
-    + Dựng lô Video Shorts 9:16 trên GitHub: `python3 -B core/cloud_runner.py --day 20.11.2026 --mode short_batch --orther --shards 3`
-    + Dựng Video Short Bản Tin Nhanh (Digest Short < 3 phút): `python3 -B core/cloud_runner.py --day 20.11.2026 --mode digest_short`
-    + Dọn sạch dữ liệu tạm trên GitHub: `python3 -B core/cloud_runner.py --cleanup-only`
-- **`cloud_worker.py`**: Worker thực thi bên trong máy ảo Ubuntu của GitHub Actions (`.github/workflows/cloud_render.yml`), xử lý phân mảnh (`--role shard`) và ghép nối tổng thành (`--role compose`) cho cả 3 chế độ `daily_long`, `short_batch` và `digest_short`.
+- **`daily_runner.py`**: Bộ chạy bản tin ngày tổng quát 1 lệnh (thay thế việc nhân bản script theo từng ngày), tự động gọi Auto-QA, ViTTS, render chunk `video_only_output=True` + `h264_videotoolbox` + CDP screenshot (`--workers 3`), Cut-Concat PCM WAV `-14.0 LUFS` và render Thumbnail 16:9. Hỗ trợ `--cloud --shards 8` để đẩy phần TTS + Render lên GitHub Act
