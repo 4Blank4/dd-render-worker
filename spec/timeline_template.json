@@ -1,0 +1,125 @@
+{
+  "schema_version": "1.0.0",
+  "project_name": "ten_du_an_the_thao",
+  "channel_name": "ĐIỂM ĐỌC",
+  "topic": "Điểm tin bóng đá và thể thao nổi bật trong ngày",
+
+  "format": "long",
+  "template": "long_cinematic.html",
+  "brand": "cinematic-dark",
+  "output_filename": "Diem-Doc-Ban-Tin-The-Thao.mp4",
+
+  "bgm": "bgm_editorial_5_minimal_loop.mp3",
+  "bgm_volume": 0.08,
+  "enable_sfx": true,
+  "karaoke_enabled": true,
+
+  "voice_config": {
+    "voice": "Minh Quân Pro",
+    "speed": 1.15,
+    "pitch": 0.85
+  },
+
+  "_huong_dan": [
+    "Đây là file timeline khởi đầu mẫu cho kênh Điểm Đọc (DD-The-thao).",
+    "Sao chép vào projects/<tên_project>/video_timeline.json rồi chỉnh sửa.",
+    "Sau khi sửa, LUÔN chạy: python3 core/m2_timeline_builder.py <tên_project> --normalize",
+    "rồi kiểm tra: python3 core/m0_validate.py <tên_project>",
+    "",
+    "QUY TẮC BẤT BIẾN:",
+    "  1. Mỗi scene có: scene_id (số nguyên 1..N), script_text, cards.",
+    "  2. Mỗi card có: id (duy nhất), type (trong registry), trigger_word.",
+    "  3. trigger_word BẮT BUỘC xuất hiện nguyên văn trong script_text của cảnh đó.",
+    "  4. Thứ tự trigger_word phải khớp thứ tự xuất hiện trong script_text.",
+    "  5. output_filename: ASCII không dấu, không khoảng trắng, đuôi .mp4.",
+    "",
+    "Xem 21 component khả dụng: python3 spec/schema.py --list",
+    "Xem chi tiết trường từng component: python3 spec/schema.py --json-schema"
+  ],
+
+  "scenes": [
+    {
+      "scene_id": 1,
+      "title": "01 — Khởi đầu & Tiêu điểm",
+      "script_text": "Chào mừng quý vị đến với Điểm Đọc. Tiêu điểm hôm nay là chiến thắng kịch tính với tỷ số bốn hai tại đấu trường Champions League.",
+      "transition": "none",
+      "cards": [
+        {
+          "id": "s1_banner",
+          "type": "title-banner",
+          "role": "hook",
+          "tag": "ĐIỂM ĐỌC THỂ THAO",
+          "badge": "TIÊU ĐIỂM HÔM NAY",
+          "title": "CHUYỂN ĐỘNG BÓNG ĐÁ ĐỈNH CAO",
+          "trigger_word": "Chào mừng"
+        },
+        {
+          "id": "s1_clash",
+          "type": "dual-number-clash",
+          "role": "evidence",
+          "left": {
+            "label": "ĐỘI NHÀ",
+            "value": "4",
+            "sub": "Bàn thắng"
+          },
+          "right": {
+            "label": "ĐỘI KHÁCH",
+            "value": "2",
+            "sub": "Bàn thắng"
+          },
+          "verdict": "CHAMPIONS LEAGUE",
+          "trigger_word": "bốn hai"
+        }
+      ]
+    },
+    {
+      "scene_id": 2,
+      "title": "02 — Thống kê & Phân tích",
+      "script_text": "Cầu thủ ngôi sao đã ghi hat-trick ấn tượng, nâng tổng số bàn thắng mùa này lên con số mười lăm bàn sau mười vòng đấu.",
+      "transition": "wipe",
+      "cards": [
+        {
+          "id": "s2_hero",
+          "type": "giant-number-spotlight",
+          "role": "payoff",
+          "kicker": "KỶ LỤC GHI BÀN",
+          "badge": "TOP SCORER",
+          "value": "15",
+          "unit": "BÀN THẮNG",
+          "description": "Hiệu suất săn bàn hủy diệt sau mười vòng đấu",
+          "accent": "ember",
+          "trigger_word": "mười lăm"
+        },
+        {
+          "id": "s2_facts",
+          "type": "fact-list",
+          "role": "evidence",
+          "title": "THÔNG SỐ NỔI BẬT",
+          "trigger_word": "mười vòng",
+          "items": [
+            { "label": "Hiệu suất", "value": "1.5 bàn/trận" },
+            { "label": "Kiến tạo", "value": "6 lần" },
+            { "label": "Dứt điểm", "value": "82% trúng đích" }
+          ]
+        }
+      ]
+    },
+    {
+      "scene_id": 3,
+      "title": "03 — Tổng kết & Kêu gọi",
+      "script_text": "Cảm ơn quý vị đã theo dõi Điểm Đọc. Đừng quên bấm đăng ký kênh để không bỏ lỡ những bản tin thể thao mới nhất.",
+      "transition": "fade",
+      "cards": [
+        {
+          "id": "s3_banner",
+          "type": "title-banner",
+          "role": "outro",
+          "tag": "ĐIỂM ĐỌC",
+          "badge": "ĐĂNG KÝ KÊNH",
+          "title": "HẸN GẶP LẠI TRONG BẢN TIN TIẾP THEO",
+          "trigger_word": "Cảm ơn"
+        }
+      ]
+    }
+  ]
+}

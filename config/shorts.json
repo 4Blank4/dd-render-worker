@@ -1,0 +1,44 @@
+{
+  "focus": {
+    "enabled": true,
+    "min_shorts": 2,
+    "max_shorts": 5,
+    "items_per_short": [1, 4],
+    "max_seconds": 170,
+    "source_file": "shorts.json"
+  },
+  "digest": {
+    "enabled": true,
+    "mode": "all_items",
+    "seconds_per_item": [5, 7],
+    "max_seconds": 120
+  },
+  "outro": {
+    "enabled": true,
+    "mode": "opposite_gender_random",
+    "dir": "logo/short_outros",
+    "catalog": [
+      {
+        "id": 1,
+        "file": "Outro_Short_1_Cyber_Pulse.mp4",
+        "voice_gender": "female",
+        "voice_preset": "secondary",
+        "style": "cyber_pulse"
+      },
+      {
+        "id": 2,
+        "file": "Outro_Short_2_Tactical_Broadcast.mp4",
+        "voice_gender": "male",
+        "voice_preset": "primary",
+        "style": "tactical_broadcast"
+      },
+      {
+        "id": 3,
+        "file": "Outro_Short_3_Kinetic_Slam.mp4",
+        "voice_gender": "female",
+        "voice_preset": "secondary",
+        "style": "kinetic_slam"
+      }
+    ]
+  }
+}

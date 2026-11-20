@@ -1,0 +1,1443 @@
+{
+  "_comment": "Từ điển phát âm thể thao Điểm Đọc: chuẩn hóa display -> say, hỗ trợ token_map và group highlight.",
+  "clubs": [
+    {
+      "display": "Manchester City",
+      "say": "Man-che-xtơ Xi-ti",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Man City",
+      "say": "Man Xi-ti",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Manchester United",
+      "say": "Man-che-xtơ U-nai-tịt",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Man United",
+      "say": "Man U-nai-tịt",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Man Utd",
+      "say": "Man U-nai-tịt",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Arsenal",
+      "say": "Ác-sơ-nân",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Liverpool",
+      "say": "Li-vơ-pun",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Chelsea",
+      "say": "Cheo-xi",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Tottenham Hotspur",
+      "say": "Tốt-ten-ham Hót-xpơ",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Tottenham",
+      "say": "Tốt-ten-ham",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Spurs",
+      "say": "Xpơ",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Newcastle United",
+      "say": "Niu-cát-xơn U-nai-tịt",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Newcastle",
+      "say": "Niu-cát-xơn",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Aston Villa",
+      "say": "Át-xtơn Vi-la",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Brighton",
+      "say": "Bơ-rai-tơn",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "West Ham",
+      "say": "Oét Ham",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Wolverhampton",
+      "say": "Vun-vơ-hăm-tơn",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Wolves",
+      "say": "Vun-vơ",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Everton",
+      "say": "Ê-vơ-tơn",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Fulham",
+      "say": "Phun-ham",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Brentford",
+      "say": "Bơ-ren-phọt",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Crystal Palace",
+      "say": "Cờ-rít-xtơn Pa-lát",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Nottingham Forest",
+      "say": "Nốt-tinh-ham Pho-rét",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Leicester City",
+      "say": "Lét-xtơ Xi-ti",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Southampton",
+      "say": "Sau-them-tơn",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Ipswich Town",
+      "say": "Íp-xuýt Tao",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Real Madrid",
+      "say": "Rê-an Ma-đrít",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Barcelona",
+      "say": "Bát-xê-lô-na",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Barca",
+      "say": "Bát-ca",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Atletico Madrid",
+      "say": "Át-lê-ti-cô Ma-đrít",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Bayern Munich",
+      "say": "Bay-ơn Mu-ních",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Borussia Dortmund",
+      "say": "Bo-rút-xi-a Đọt-mun",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Dortmund",
+      "say": "Đọt-mun",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Bayer Leverkusen",
+      "say": "Bay-ơ Lê-vơ-cu-xen",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Leverkusen",
+      "say": "Lê-vơ-cu-xen",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Paris Saint-Germain",
+      "say": "Pa-ri Xanh Giéc-man",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "PSG",
+      "say": "Pê-Ét-Giê",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Juventus",
+      "say": "Du-ven-tút",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Inter Milan",
+      "say": "In-tơ Mi-lan",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "AC Milan",
+      "say": "A-Cê Mi-lan",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "AS Roma",
+      "say": "A-Ét Rô-ma",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Napoli",
+      "say": "Na-pô-li",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Sporting CP",
+      "say": "Xpo-tinh",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Benfica",
+      "say": "Ben-phi-ca",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Porto",
+      "say": "Poóc-tô",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Inter Miami",
+      "say": "In-tơ Mai-a-mi",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Olympique Lyon",
+      "say": "Ô-lim-pích Li-ông",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "London City Lionesses",
+      "say": "Lân-đơn Xi-ti Lai-ơn-nét",
+      "group": true,
+      "status": "chưa nghe"
+    }
+  ],
+  "players": [
+    {
+      "display": "Erling Haaland",
+      "say": "E-lin Ha-lan",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Haaland",
+      "say": "Ha-lan",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Kylian Mbappe",
+      "say": "Ki-li-an Em-ba-pê",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Mbappe",
+      "say": "Em-ba-pê",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Vinicius Junior",
+      "say": "Vi-ni-xi-út Giu-ni-o",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Vinicius",
+      "say": "Vi-ni-xi-út",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Jude Bellingham",
+      "say": "Giút Bê-linh-găm",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Bellingham",
+      "say": "Bê-linh-găm",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Kevin De Bruyne",
+      "say": "Ke-vin Đơ Bơ-roi-nơ",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "De Bruyne",
+      "say": "Đơ Bơ-roi-nơ",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Bukayo Saka",
+      "say": "Bu-kai-ô Sa-ca",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Saka",
+      "say": "Sa-ca",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Kai Havertz",
+      "say": "Kai Ha-vợt",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Havertz",
+      "say": "Ha-vợt",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Declan Rice",
+      "say": "Đéc-lan Rai-sơ",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Martin Odegaard",
+      "say": "Mác-tin Ô-đơ-gát",
+      "group": true,
+      "status": "chờ nghe xác nhận"
+    },
+    {
+      "display": "Odegaard",
+      "say": "Ô-đơ-gát",
+      "group": false,
+      "status": "chờ nghe xác nhận"
+    },
+    {
+      "display": "William Saliba",
+      "say": "Uy-li-am Sa-li-ba",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Gabriel Magalhaes",
+      "say": "Ga-bri-en Ma-ga-lai-ét",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Rodri",
+      "say": "Rô-đri",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Phil Foden",
+      "say": "Phin Phô-đơn",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Foden",
+      "say": "Phô-đơn",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Bernardo Silva",
+      "say": "Béc-na-đô Sin-va",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Ruben Dias",
+      "say": "Ru-ben Đi-át",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Mohamed Salah",
+      "say": "Mô-ha-mét Sa-la",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Salah",
+      "say": "Sa-la",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Virgil van Dijk",
+      "say": "Vơ-gin Van Đai-kơ",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Van Dijk",
+      "say": "Van Đai-kơ",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Trent Alexander-Arnold",
+      "say": "Tơ-ren A-lếch-xan-đơ A-nôn",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Dominik Szoboszlai",
+      "say": "Đô-mi-ních Xô-bô-xlai",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Szoboszlai",
+      "say": "Xô-bô-xlai",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Alexis Mac Allister",
+      "say": "A-lếch-xít Mác A-li-xtơ",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Mac Allister",
+      "say": "Mác A-li-xtơ",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Darwin Nunez",
+      "say": "Đa-uyn Nu-nhét",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Cole Palmer",
+      "say": "Côn Pan-mơ",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Nicolas Jackson",
+      "say": "Ni-cô-la Giắc-xơn",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Enzo Fernandez",
+      "say": "En-dô Pher-nan-đét",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Moises Caicedo",
+      "say": "Moi-sét Cai-xê-đô",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Bruno Fernandes",
+      "say": "Bơ-ru-nô Pher-nan-đét",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Marcus Rashford",
+      "say": "Mác-cớt Rát-phót",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Alejandro Garnacho",
+      "say": "A-lê-han-đrô Gác-na-chô",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Garnacho",
+      "say": "Gác-na-chô",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Kobbie Mainoo",
+      "say": "Cô-bi May-nu",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Rasmus Hojlund",
+      "say": "Rát-mút Hôi-lun",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Hojlund",
+      "say": "Hôi-lun",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Son Heung-min",
+      "say": "Son Hâng-min",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "James Maddison",
+      "say": "Giêm Mát-đi-sơn",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Alexander Isak",
+      "say": "A-lếch-xan-đơ Ai-dắc",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Isak",
+      "say": "Ai-dắc",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Anthony Gordon",
+      "say": "An-thô-ni Go-đơn",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Ollie Watkins",
+      "say": "Ô-li Oát-kin",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Emiliano Martinez",
+      "say": "E-mi-li-a-nô Mác-ti-nét",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Robert Lewandowski",
+      "say": "Rô-bét Lê-van-đốp-xki",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Lewandowski",
+      "say": "Lê-van-đốp-xki",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Lamine Yamal",
+      "say": "La-min Gia-man",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Pedri",
+      "say": "Pê-đri",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Gavi",
+      "say": "Ga-vi",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Raphinha",
+      "say": "Ra-phin-ha",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Antoine Griezmann",
+      "say": "An-toan Gờ-ri-ét-xman",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Griezmann",
+      "say": "Gờ-ri-ét-xman",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Harry Kane",
+      "say": "Ha-ri Kên",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Jamal Musiala",
+      "say": "Gia-man Mu-xi-a-la",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Musiala",
+      "say": "Mu-xi-a-la",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Florian Wirtz",
+      "say": "Phơ-lo-ri-an Vớc-tơ",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Wirtz",
+      "say": "Vớc-tơ",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Lautaro Martinez",
+      "say": "Lau-ta-rô Mác-ti-nét",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Rafael Leao",
+      "say": "Ra-pha-en Lê-ao",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Khvicha Kvaratskhelia",
+      "say": "Kvi-cha Cva-rát-xkhê-li-a",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Lionel Messi",
+      "say": "Li-ô-nen Méc-xi",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Messi",
+      "say": "Méc-xi",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Cristiano Ronaldo",
+      "say": "Cờ-rít-ti-a-nô Rô-nan-đô",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Ronaldo",
+      "say": "Rô-nan-đô",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Kylian Mbappé",
+      "say": "Ki-li-an Em-ba-pê",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Mbappé",
+      "say": "Em-ba-pê",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Sir Stanley Matthews",
+      "say": "Xơ Xtan-li Mát-thiu",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Stanley Matthews",
+      "say": "Xtan-li Mát-thiu",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Ronaldo Nazário",
+      "say": "Rô-nan-đô Na-da-ri-ô",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Ronaldo Nazario",
+      "say": "Rô-nan-đô Na-da-ri-ô",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Joan García",
+      "say": "Ho-an Gác-xi-a",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Joan Garcia",
+      "say": "Ho-an Gác-xi-a",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Unai Simón",
+      "say": "U-nai Xi-môn",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Unai Simon",
+      "say": "U-nai Xi-môn",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "David Raya",
+      "say": "Đa-vít Ray-a",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Pau Cubarsí",
+      "say": "Pao Cu-bác-xi",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Pau Cubarsi",
+      "say": "Pao Cu-bác-xi",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Alexia Putellas",
+      "say": "A-lếch-xi-a Pu-tê-giát",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Aitana Bonmatí",
+      "say": "Ai-ta-na Bôn-ma-ti",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Aitana Bonmati",
+      "say": "Ai-ta-na Bôn-ma-ti",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Melchie Dumornay",
+      "say": "Men-chi Đu-mo-nây",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Ewa Pajor",
+      "say": "Ê-va Pa-yơ",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Khadija Shaw",
+      "say": "Kha-đi-gia So",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Bunny Shaw",
+      "say": "Băn-ni So",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Vozinha",
+      "say": "Vô-din-nha",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Thierry Henry",
+      "say": "Ti-ê-ri Ăng-ri",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Kate Scott",
+      "say": "Két Xcốt",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Kate Abdo",
+      "say": "Két Áp-đô",
+      "group": true,
+      "status": "chưa nghe"
+    }
+  ],
+  "coaches": [
+    {
+      "display": "Mikel Arteta",
+      "say": "Mi-ken A-tê-ta",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Arteta",
+      "say": "A-tê-ta",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Pep Guardiola",
+      "say": "Pép Goác-đi-ô-la",
+      "group": true,
+      "status": "chờ nghe xác nhận"
+    },
+    {
+      "display": "Guardiola",
+      "say": "Goác-đi-ô-la",
+      "group": false,
+      "status": "chờ nghe xác nhận"
+    },
+    {
+      "display": "Jurgen Klopp",
+      "say": "Giuốc-ghen Cờ-lốp",
+      "group": true,
+      "status": "chờ nghe xác nhận"
+    },
+    {
+      "display": "Klopp",
+      "say": "Cờ-lốp",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Arne Slot",
+      "say": "A-nê Xlót",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Erik ten Hag",
+      "say": "E-rích Ten Hác",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Ten Hag",
+      "say": "Ten Hác",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Enzo Maresca",
+      "say": "En-dô Ma-rét-xca",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Ange Postecoglou",
+      "say": "An-giê Pốt-xtê-cô-glu",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Unai Emery",
+      "say": "U-nai Ê-mê-ri",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Carlo Ancelotti",
+      "say": "Cát-lô An-chê-lốt-ti",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Ancelotti",
+      "say": "An-chê-lốt-ti",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Xabi Alonso",
+      "say": "Sa-bi A-lôn-xô",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Hansi Flick",
+      "say": "Han-xi Phơ-lích",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Luis Enrique",
+      "say": "Lu-i En-ri-kê",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Simone Inzaghi",
+      "say": "Xi-mô-nê In-da-ghi",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Ruben Amorim",
+      "say": "Ru-ben A-mô-rim",
+      "group": true,
+      "status": "chưa nghe"
+    }
+  ],
+  "competitions": [
+    {
+      "display": "UEFA Champions League",
+      "say": "U-ê-pha Cham-pi-ơn Lích",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Champions League",
+      "say": "Cúp Cê một",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Europa League",
+      "say": "Cúp Cê hai",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Conference League",
+      "say": "Cúp Cê ba",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Premier League",
+      "say": "Ngoại hạng Anh",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "La Liga",
+      "say": "La Li-ga",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Serie A",
+      "say": "Xê-ri A",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Bundesliga",
+      "say": "Bun-đét-xli-ga",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Ligue 1",
+      "say": "Lích một",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "World Cup",
+      "say": "Uôn Cúp",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "EURO",
+      "say": "Ơ-rô",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Asian Cup",
+      "say": "A-si-an Cúp",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "AFF Cup",
+      "say": "A-ép-ép Cúp",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "ASEAN Cup",
+      "say": "A-xê-an Cúp",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "SEA Games",
+      "say": "Xê Gêm",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "V.League 1",
+      "say": "Vê Lích một",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "V.League",
+      "say": "Vê Lích",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "V-League",
+      "say": "Vê Lích",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "FA Cup",
+      "say": "Cúp Ép-A",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Carabao Cup",
+      "say": "Cúp Ca-ra-bao",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Copa America",
+      "say": "Cô-pa A-mê-ri-ca",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Ballon d’Or",
+      "say": "Ba-lông Đo",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Ballon d'Or",
+      "say": "Ba-lông Đo",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Kopa Trophy",
+      "say": "Cúp Cô-pa",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Yashin Trophy",
+      "say": "Cúp Y-a-sin",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Socrates Award",
+      "say": "Giải Xô-cơ-rát",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Onze d'Or",
+      "say": "Ôn-dơ Đo",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "MLS",
+      "say": "Em-en-ét",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Liga F",
+      "say": "Li-ga Ép",
+      "group": true,
+      "status": "chưa nghe"
+    }
+  ],
+  "terms": [
+    {
+      "display": "hat-trick",
+      "say": "hắt trích",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "hattrick",
+      "say": "hắt trích",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "clean sheet",
+      "say": "gôn sạch",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "offside",
+      "say": "việt vị",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "penalty",
+      "say": "phạt đền",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "play-off",
+      "say": "play-ốp",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "playmaker",
+      "say": "nhạc trưởng",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "derby",
+      "say": "đác-bi",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "El Clasico",
+      "say": "En Cờ-la-xi-cô",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "VAR",
+      "say": "va",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "FIFA",
+      "say": "Phi-pha",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "UEFA",
+      "say": "U-ê-pha",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "AFC",
+      "say": "A-Ép-Xê",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "London Palladium",
+      "say": "Lân-đơn Pa la đi um",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Palladium",
+      "say": "Pa la đi um",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Zamora",
+      "say": "Da-mô-ra",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "France Football",
+      "say": "Phrăng Phút-bo",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "DAZN",
+      "say": "Đa-zôn",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Les Bleus",
+      "say": "Lê B-lơ",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "El Pulga",
+      "say": "En Pun-ga",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Onze d'Or",
+      "say": "Ông-dơ Đò",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "Socrates Award",
+      "say": "giải thưởng Xô-cơ-ra-tét",
+      "group": true,
+      "status": "chưa nghe"
+    }
+  ],
+  "general": [
+    {
+      "display": "HLV",
+      "say": "huấn luyện viên",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "CLB",
+      "say": "câu lạc bộ",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "ĐT",
+      "say": "đội tuyển",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "VĐV",
+      "say": "vận động viên",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "BXH",
+      "say": "bảng xếp hạng",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "TP.HCM",
+      "say": "thành phố hồ chí minh",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "TPHCM",
+      "say": "thành phố hồ chí minh",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "vs",
+      "say": "đối đầu",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "VS",
+      "say": "đối đầu",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "U23",
+      "say": "U hai mươi ba",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "U21",
+      "say": "U hai mươi mốt",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "U19",
+      "say": "U mười chín",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "U17",
+      "say": "U mười bảy",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "U16",
+      "say": "U mười sáu",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "0-0",
+      "say": "không không",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "1-0",
+      "say": "một không",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "2-0",
+      "say": "hai không",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "3-0",
+      "say": "ba không",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "1-1",
+      "say": "một đều",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "2-2",
+      "say": "hai đều",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "3-3",
+      "say": "ba đều",
+      "group": false,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "1/8",
+      "say": "một phần tám",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "1/16",
+      "say": "một phần mười sáu",
+      "group": true,
+      "status": "chưa nghe"
+    },
+    {
+      "display": "1/4",
+      "say": "tứ kết",
+      "group": false,
+      "status": "chưa nghe"
+    }
+  ]
+}

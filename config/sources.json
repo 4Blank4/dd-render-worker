@@ -1,0 +1,50 @@
+{
+  "sources": [
+    {
+      "name": "Thanh Niên",
+      "priority": 1,
+      "site": "https://thanhnien.vn/the-thao.html",
+      "rss": "https://thanhnien.vn/rss/the-thao.rss",
+      "image_quality": "cao",
+      "status": "chưa xác minh",
+      "note": "Ưu tiên số 1: nguồn tin thể thao uy tín, ảnh chất lượng tốt"
+    },
+    {
+      "name": "VnExpress",
+      "priority": 2,
+      "site": "https://vnexpress.net/the-thao",
+      "rss": "https://vnexpress.net/rss/the-thao.rss",
+      "image_quality": "trung bình",
+      "status": "chưa xác minh",
+      "note": "Nội dung rất tốt nhưng ảnh kém chất lượng hơn nên xếp thứ 2"
+    },
+    {
+      "name": "Bongdaplus",
+      "priority": 3,
+      "site": "https://bongdaplus.vn",
+      "rss": "https://bongdaplus.vn/rss/trang-chu.rss",
+      "image_quality": "cao",
+      "status": "chưa xác minh",
+      "note": "Chuyên trang bóng đá chuyên sâu, cập nhật tỷ số và tin chuyển nhượng"
+    },
+    {
+      "name": "Tuổi Trẻ",
+      "priority": 4,
+      "site": "https://tuoitre.vn/the-thao.htm",
+      "rss": "https://tuoitre.vn/rss/the-thao.rss",
+      "image_quality": "cao",
+      "status": "chưa xác minh",
+      "note": "Báo chính thống, thông tin xác thực cao"
+    },
+    {
+      "name": "Dân Trí",
+      "priority": 5,
+      "site": "https://dantri.com.vn/the-thao.htm",
+      "rss": "https://dantri.com.vn/rss/the-thao.rss",
+      "image_quality": "trung bình",
+      "status": "chưa xác minh",
+      "note": "Nguồn tin tổng hợp nhanh"
+    }
+  ],
+  "extra": []
+}

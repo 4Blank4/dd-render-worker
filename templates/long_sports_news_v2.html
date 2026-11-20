@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1920, height=1080, initial-scale=1.0">
+<title>Điểm Đọc — Tin Thể Thao v2 (16:9 Long Sports News v2)</title>
+
+<style>
+  @font-face {
+    font-family: 'Barlow Condensed';
+    src: url('__ASSETS__/fonts/Barlow_Condensed/BarlowCondensed-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-display: block;
+  }
+  @font-face {
+    font-family: 'Barlow Condensed';
+    src: url('__ASSETS__/fonts/Barlow_Condensed/BarlowCondensed-ExtraBold.ttf') format('truetype');
+    font-weight: 800;
+    font-display: block;
+  }
+  @font-face {
+    font-family: 'Be Vietnam Pro';
+    src: url('__ASSETS__/fonts/Be_Vietnam_Pro/BeVietnamPro-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-display: block;
+  }
+  @font-face {
+    font-family: 'Be Vietnam Pro';
+    src: url('__ASSETS__/fonts/Be_Vietnam_Pro/BeVietnamPro-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-display: block;
+  }
+  @font-face {
+    font-family: 'Oswald';
+    src: url('__ASSETS__/fonts/Oswald/static/Oswald-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-display: block;
+  }
+
+  :root {
+    --vw: 1920px;
+    --vh: 1080px;
+
+    /* Màu Cyber-Stadium Điểm Đọc (Quy chuẩn Xanh dương điện ảnh / Electric Cyan - Mát mắt, nổi bật trên nền đen) */
+    --bg-dark: #060911;
+    --accent-gold: #00E5FF; /* Giữ biến nhưng mang tone Electric Cyan mát mắt */
+    --accent-primary: #00E5FF;
+    --accent-cyan: #38BDF8;
+    --accent-teal: #06B6D4;
+    --accent-red: #EF4444;
+    --ink-white: #FFFFFF;
+    --ink-subtle: #94A3B8;
+
+    --font-heading: 'Barlow Condensed', 'Oswald', sans-serif;
+    --font-body: 'Be Vietnam Pro', sans-serif;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    width: var(--vw);
+    height: var(--vh);
+    background-color: var(--bg-dark);
+    color: var(--ink-white);
+    font-family: var(--font-body);
+    overflow: hidden;
+    position: relative;
+    user-select: none;
+  }
+
+  #stage-viewport {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    overflow: hidden;
+    background: radial-gradient(circle at 50% 45%, #0d1527 0%, #060911 85%);
+  }
+
+  /* ── 1. SÂN KHẤU NỘI DUNG TỪNG CÂU (Z-INDEX 25) ── */
+  #scenes-root {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 25;
+  }
+
+  .sentence-stage {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  /* ── 2. LỚP HIỆU ỨNG DÙNG CHUNG OVERLAY (Z-INDEX 45) NẰM TRÊN ẢNH, DƯỚI TEXT ── */
+  #fx-canvas {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 45;
+    pointer-events: none;
+  }
+
+  /* Gradient tối phía trên bảo vệ Header */
+  .vignette-top {
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 190px;
+    background: linear-gradient(180deg, rgba(6, 9, 17, 0.98) 0%, rgba(6, 9, 17, 0.75) 55%, transparent 100%);
+    z-index: 50;
+    pointer-events: none;
+  }
+
+  /* Gradient tối phía dưới bảo vệ Phụ đề & Ticker */
+  .vignette-bottom {
+    position: absolute;
+    bottom: 0; left: 0; right: 0; height: 280px;
+    background: linear-gradient(0deg, rgba(6, 9, 17, 0.98) 0%, rgba(6, 9, 17, 0.85) 60%, transparent 100%);
+    z-index: 50;
+    pointer-events: none;
+  }
+
+  /* ── 3. HEADER THƯƠNG HIỆU & CHIP NGÀY (Z-INDEX 100) ── */
+  #header-bar {
+    position: absolute;
+    top: 22px; left: 40px; right: 40px;
+    height: 74px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 100;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .channel-capsule {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(11, 16, 29, 0.88);
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    border-radius: 999px;
+    padding: 6px 18px 6px 8px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+  }
+
+  .channel-logo {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1.5px solid var(--accent-gold);
+  }
+
+  .channel-name {
+    font-family: var(--font-heading);
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: var(--ink-white);
+  }
+
+  .category-pill {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--accent-cyan);
+    background: rgba(6, 182, 212, 0.12);
+    border: 1px solid rgba(6, 182, 212, 0.35);
+    padding: 6px 14px;
+    border-radius: 8px;
+  }
+
+  /* CHIP NGÀY BẮT BUỘC Ở HEADER */
+  .date-chip {
+    font-family: var(--font-heading);
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: var(--accent-gold);
+    background: rgba(11, 16, 29, 0.90);
+    border: 1px solid rgba(0, 229, 255, 0.45);
+    padding: 6px 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+  }
+
+  /* THANH TIÊU ĐỀ CỐ ĐỊNH CHO CÂU 2..N (1 HÀNG DUY NHẤT, CO FONT DOM TỰ ĐỘNG) */
+  #fixed-headline-bar {
+    display: none;
+    max-width: 1080px;
+    font-family: var(--font-heading);
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1.15;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: var(--ink-white);
+    background: rgba(11, 16, 29, 0.92);
+    border-left: 4px solid var(--accent-gold);
+    border-radius: 0 8px 8px 0;
+    padding: 6px 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+    overflow: hidden;
+  }
+
+  /* ── 4. KHỐI TIÊU ĐỀ LỚN CHO CÂU ĐẦU (HERO TITLE 3S ĐẦU) ── */
+  #hero-title-container {
+    position: absolute;
+    top: 110px; left: 40px; right: 40px;
+    z-index: 90;
+    pointer-events: none;
+  }
+
+  .hero-title-box {
+    display: inline-block;
+    max-width: 1560px;
+    background: linear-gradient(90deg, rgba(6, 9, 17, 0.96) 0%, rgba(11, 16, 29, 0.92) 80%, transparent 100%);
+    border-left: 6px solid var(--accent-gold);
+    border-radius: 0 14px 14px 0;
+    padding: 18px 32px;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.75);
+  }
+
+  .hero-title-text {
+    font-family: var(--font-heading);
+    font-size: 42px;
+    font-weight: 800;
+    line-height: 1.18;
+    color: var(--ink-white);
+    letter-spacing: 0.5px;
+  }
+
+  .title-word {
+    display: inline-block;
+    margin-right: 9px;
+  }
+
+  .title-word.kw-gold {
+    color: var(--accent-gold);
+    text-shadow: 0 0 18px rgba(0, 229, 255, 0.8);
+  }
+
+  /* ── 5. CÁC ĐỊNH DẠNG KHUNG ẢNH (BRACKETS & SHADOW) ── */
+  .photo-frame-styled {
+    position: relative;
+    border-radius: 14px;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.9), 0 0 32px rgba(0, 229, 255, 0.22);
+    border: 1.5px solid rgba(0, 229, 255, 0.35);
+  }
+
+  .corner-bracket {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    border: 2.5px solid var(--accent-gold);
+    pointer-events: none;
+    z-index: 10;
+  }
+  .corner-bracket.top-left { top: -3px; left: -3px; border-right: none; border-bottom: none; }
+  .corner-bracket.top-right { top: -3px; right: -3px; border-left: none; border-bottom: none; }
+  .corner-bracket.bottom-left { bottom: -3px; left: -3px; border-right: none; border-top: none; }
+  .corner-bracket.bottom-right { bottom: -3px; right: -3px; border-left: none; border-top: none; }
+
+  /* ── 5 LAYOUTS CHI TIẾT ── */
+
+  /* LAYOUT 1: FULL IMAGE WITH BLURRED BACKDROP */
+  .layout-full {
+    width: 100%; height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .backdrop-blur {
+    position: absolute;
+    top: -5%; left: -5%; width: 110%; height: 110%;
+    object-fit: cover;
+    filter: blur(34px) brightness(0.38);
+    transform: scale(1.05);
+    will-change: transform;
+  }
+
+  .foreground-frame {
+    position: absolute;
+    top: 105px; bottom: 140px; left: 100px; right: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sharp-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 12px;
+    will-change: transform;
+    display: block;
+  }
+
+  /* LAYOUT 2: SPLIT 2 ẢNH CÂN ĐỐI */
+  .layout-split {
+    width: 100%; height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .split-container {
+    position: absolute;
+    top: 105px; bottom: 140px; left: 80px; right: 80px;
+    display: flex;
+    gap: 36px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .split-panel {
+    flex: 1;
+    height: 100%;
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.85), 0 0 24px rgba(0, 229, 255, 0.18);
+    border: 1.5px solid rgba(0, 229, 255, 0.35);
+  }
+
+  .split-img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    will-change: transform;
+    display: block;
+  }
+
+  /* LAYOUT 3: POLAROID NGHIÊNG 3D */
+  .layout-polaroid {
+    width: 100%; height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .polaroid-wrapper {
+    position: absolute;
+    top: 95px; bottom: 140px; left: 0; right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .polaroid-card {
+    background: #FFFFFF;
+    padding: 16px 16px 42px 16px;
+    border-radius: 12px;
+    box-shadow: 0 32px 76px rgba(0,0,0,0.92), 0 0 30px rgba(0, 229, 255, 0.25);
+    border: 1.5px solid rgba(0, 229, 255, 0.4);
+    transform: rotate(-2.0deg);
+    max-width: 1050px;
+    max-height: 94%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+
+  .polaroid-img {
+    max-width: 1000px;
+    max-height: 620px;
+    object-fit: contain;
+    border-radius: 6px;
+    display: block;
+  }
+
+  .polaroid-caption {
+    font-family: 'Barlow Condensed', 'Be Vietnam Pro', sans-serif !important;
+    font-size: 26px;
+    font-weight: 700;
+    color: #0F172A;
+    margin-top: 14px;
+    letter-spacing: 0.5px;
+  }
+
+  /* LAYOUT 4: CINEMA WIDESCREEN 21:9 LETTERBOX */
+  .layout-cinema {
+    width: 100%; height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cinema-container {
+    position: absolute;
+    top: 110px; bottom: 145px; left: 70px; right: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cinema-frame {
+    width: 100%;
+    height: 92%;
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid rgba(0, 229, 255, 0.45);
+    box-shadow: 0 28px 72px rgba(0,0,0,0.95), 0 0 36px rgba(6, 182, 212, 0.25);
+  }
+
+  .cinema-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .cinema-letterbox-bar {
+    position: absolute;
+    left: 0; right: 0;
+    height: 24px;
+    background: #060911;
+    z-index: 5;
+  }
+  .cinema-letterbox-bar.top { top: 0; }
+  .cinema-letterbox-bar.bottom { bottom: 0; }
+
+  /* LAYOUT 5: TRIPTYCH 3 ẢNH PHỐI HỢP */
+  .layout-triptych {
+    width: 100%; height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .triptych-container {
+    position: absolute;
+    top: 110px; bottom: 145px; left: 60px; right: 60px;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .triptych-panel {
+    height: 100%;
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1.5px solid rgba(0, 229, 255, 0.35);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.85);
+  }
+
+  .triptych-panel.side {
+    flex: 1;
+    opacity: 0.85;
+  }
+
+  .triptych-panel.center {
+    flex: 1.6;
+    border: 2px solid var(--accent-gold);
+    box-shadow: 0 24px 64px rgba(0,0,0,0.92), 0 0 28px rgba(0, 229, 255, 0.3);
+    z-index: 2;
+  }
+
+  .triptych-img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* LAYOUT 6: HERO MOSAIC (1 ẢNH CHÍNH TRÁI 62% + 2 ẢNH PHỤ PHẢI) */
+  .layout-hero_mosaic {
+    width: 100%; height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+  .mosaic-container {
+    position: absolute;
+    top: 108px; bottom: 144px; left: 64px; right: 64px;
+    display: grid;
+    grid-template-columns: 1.65fr 1fr;
+    gap: 22px;
+  }
+  .mosaic-hero {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 2px solid var(--accent-gold);
+    box-shadow: 0 26px 68px rgba(0,0,0,0.92), 0 0 28px rgba(0, 229, 255, 0.25);
+  }
+  .mosaic-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 100%;
+  }
+  .mosaic-sub {
+    flex: 1;
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1.5px solid rgba(0, 229, 255, 0.35);
+    box-shadow: 0 18px 46px rgba(0,0,0,0.85);
+  }
+  .mosaic-img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    will-change: transform;
+  }
+
+  /* LAYOUT 7: FILMSTRIP CAROUSEL (BĂNG CHUYỀN 3–5 ẢNH TRƯỢT NGANG) */
+  .layout-filmstrip_carousel {
+    width: 100%; height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+  .filmstrip-viewport {
+    position: absolute;
+    top: 108px; bottom: 144px; left: 56px; right: 56px;
+    overflow: hidden;
+    border-radius: 16px;
+  }
+  .filmstrip-track {
+    display: flex;
+    gap: 28px;
+    height: 100%;
+    align-items: center;
+    will-change: transform;
+  }
+  .filmstrip-card {
+    flex: 0 0 1080px;
+    height: 96%;
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 2px solid rgba(0, 229, 255, 0.42);
+    box-shadow: 0 24px 64px rgba(0,0,0,0.9), 0 0 24px rgba(0, 229, 255, 0.22);
+  }
+  .filmstrip-img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    will-change: transform;
+  }
+  .filmstrip-index {
+    position: absolute;
+    top: 16px; left: 18px;
+    padding: 5px 14px;
+    border-radius: 999px;
+    background: rgba(6, 9, 17, 0.82);
+    border: 1.5px solid rgba(0, 229, 255, 0.55);
+    color: #00E5FF;
+    font-family: 'Barlow Condensed', sans-serif !important;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    z-index: 6;
+  }
+
+  /* LAYOUT 8: SPOTLIGHT SEQUENCE (CHUỖI 2–5 ẢNH TOÀN KHUNG CHUYỂN CẢNH NHANH) */
+  .layout-spotlight_sequence {
+    width: 100%; height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+  .spotlight-frame {
+    position: absolute;
+    top: 105px; bottom: 140px; left: 84px; right: 84px;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 2px solid rgba(0, 229, 255, 0.45);
+    box-shadow: 0 28px 74px rgba(0,0,0,0.94), 0 0 36px rgba(0, 229, 255, 0.22);
+  }
+  .spotlight-slide {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+  .spotlight-img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    will-change: transform;
+  }
+
+  /* LAYOUT 9: BENTO GRID 2x2 (LƯỚI 4–5 ẢNH HIỆN ĐẠI) */
+  .layout-bento_grid {
+    width: 100%; height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+  .bento-container {
+    position: absolute;
+    top: 108px; bottom: 144px; left: 64px; right: 64px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 20px;
+  }
+  .bento-cell {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1.5px solid rgba(0, 229, 255, 0.38);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.88);
+  }
+  .bento-cell.bento-lead {
+    border: 2px solid var(--accent-gold);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.92), 0 0 26px rgba(0, 229, 255, 0.28);
+  }
+  .bento-img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    will-change: transform;
+  }
+
+  /* BROADCAST HUD: THẺ SỐ LIỆU / TỶ SỐ NỔI GÓC TRÊN PHẢI */
+  .stat-hud-card {
+    position: absolute;
+    top: 124px;
+    right: 84px;
+    z-index: 38;
+    min-width: 220px;
+    max-width: 420px;
+    padding: 14px 22px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(6, 12, 24, 0.92), rgba(10, 24, 44, 0.88));
+    border: 2px solid rgba(0, 229, 255, 0.65);
+    box-shadow: 0 18px 46px rgba(0,0,0,0.85), 0 0 26px rgba(0, 229, 255, 0.28);
+    backdrop-filter: blur(12px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .stat-hud-label {
+    font-family: 'Be Vietnam Pro', sans-serif !important;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: #38BDF8;
+    margin-bottom: 4px;
+  }
+  .stat-hud-value {
+    font-family: 'Barlow Condensed', 'Be Vietnam Pro', sans-serif !important;
+    font-size: 46px;
+    font-weight: 900;
+    line-height: 1.05;
+    color: #FACC15;
+    text-shadow: 0 0 18px rgba(250, 204, 21, 0.35);
+  }
+  .stat-hud-sub {
+    font-family: 'Be Vietnam Pro', sans-serif !important;
+    font-size: 15px;
+    font-weight: 600;
+    color: #E2E8F0;
+    margin-top: 4px;
+  }
+
+  /* ── 6. LOWER-THIRD 2 GÓC: NGUỒN TIN (TRÁI) & NGUỒN ẢNH ĐỘNG (PHẢI) (Z-INDEX 100) ── */
+  #lower-third-bar {
+    position: absolute;
+    bottom: 104px; left: 60px; right: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    pointer-events: none;
+  }
+
+  .lt-source {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    background: rgba(6, 9, 17, 0.90);
+    border-radius: 6px;
+    padding: 5px 14px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+  }
+
+  .lower-third-left .lt-source {
+    color: #38BDF8;
+    border: 1px solid rgba(56, 189, 248, 0.45);
+  }
+
+  .lower-third-right .lt-source {
+    color: #F1F5F9;
+    border: 1px solid rgba(0, 229, 255, 0.45);
+  }
+
+  /* ── 7. HỘP PHỤ ĐỀ KARAOKE TỪNG TỪ (Z-INDEX 100) ── */
+  #karaoke-container {
+    position: absolute;
+    bottom: 40px; left: 0; right: 0;
+    display: flex;
+    justify-content: center;
+    z-index: 100;
+    pointer-events: none;
+  }
+
+  #karaoke-box {
+    max-width: 1720px;
+    min-height: 56px;
+    background: rgba(6, 9, 17, 0.92);
+    border: 1.5px solid rgba(148, 163, 184, 0.32);
+    border-radius: 12px;
+    padding: 8px 32px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px 14px;
+    backdrop-filter: blur(14px);
+    box-shadow: 0 12px 36px rgba(0,0,0,0.75);
+  }
+
+  .k-word {
+    font-family: var(--font-body);
+    font-size: 29px;
+    font-weight: 600;
+    color: #94A3B8;
+    line-height: 1.25;
+    transition: transform 0.08s ease, color 0.05s ease;
+    display: inline-block;
+  }
+
+  .k-word.spoken {
+    color: #FFFFFF;
+  }
+
+  .k-word.active {
+    color: #060911;
+    background: var(--accent-gold);
+    font-weight: 800;
+    border-radius: 6px;
+    padding: 2px 8px;
+    box-shadow: 0 0 18px rgba(0, 229, 255, 0.9);
+    transform: scale(1.06);
+  }
+
+  .k-word.is-keyword {
+    color: var(--accent-gold);
+    font-weight: 700;
+  }
+
+  .k-word.is-keyword.active {
+    color: #060911;
+    background: var(--accent-gold);
+    box-shadow: 0 0 24px rgba(0, 229, 255, 1.0);
+    transform: scale(1.12);
+  }
+
+  /* ── 8. TICKER CHẠY NGANG Ở ĐÁY (16:9 ONLY, Z-INDEX 110) ── */
+  #news-ticker-bar {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 34px;
+    background: rgba(6, 9, 17, 0.96);
+    border-top: 1px solid rgba(0, 229, 255, 0.45);
+    z-index: 110;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .ticker-badge {
+    background: var(--accent-gold);
+    color: #060911;
+    font-family: var(--font-heading);
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    padding: 0 16px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    z-index: 2;
+    box-shadow: 4px 0 12px rgba(0,0,0,0.5);
+  }
+
+  .ticker-track {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .ticker-inner {
+    display: inline-block;
+    white-space: nowrap;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    color: #CBD5E1;
+    letter-spacing: 0.8px;
+    will-change: transform;
+  }
+
+  .ticker-item {
+    margin-right: 48px;
+  }
+
+  .ticker-dot {
+    color: var(--accent-cyan);
+    margin: 0 10px;
+  }
+</style>
+
+<!-- Thư viện GSAP vendored & Lớp hiệu ứng Overlay dùng chung -->
+<script src="../assets/vendor/js/gsap.min.js"></script>
+<script src="../assets/vendor/js/CustomEase.min.js"></script>
+<script src="../assets/overlays/dd_overlay.js"></script>
+</head>
+<body>
+
+<div id="stage-viewport">
+  <!-- Sân khấu nội dung ảnh từng câu (z-index 25) -->
+  <div id="scenes-root"></div>
+
+  <!-- Canvas hiệu ứng hạt & ánh sáng dùng chung (z-index 45: TRÊN ẢNH, DƯỚI TEXT) -->
+  <canvas id="fx-canvas" width="1920" height="1080"></canvas>
+
+  <div class="vignette-top"></div>
+  <div class="vignette-bottom"></div>
+
+  <!-- Header -->
+  <div id="header-bar">
+    <div class="header-left">
+      <div class="channel-capsule">
+        <img class="channel-logo" src="__LOGO__" alt="Logo">
+        <span class="channel-name">ĐIỂM ĐỌC</span>
+      </div>
+      <div class="category-pill" id="cat-pill">BÓNG ĐÁ VIỆT NAM</div>
+      <!-- Chip ngày (tự động ẩn khi video chuyên đề không đề cập ngày) -->
+      <div class="date-chip" id="header-date-chip" style="display: none;"></div>
+      <!-- Thanh tiêu đề cố định sau câu 1 (nguyên văn, co font tự động) -->
+      <div id="fixed-headline-bar"></div>
+    </div>
+  </div>
+
+  <!-- Hero Title cho 3 giây đầu -->
+  <div id="hero-title-container">
+    <div class="hero-title-box">
+      <div class="hero-title-text" id="hero-title-text"></div>
+    </div>
+  </div>
+
+  <!-- Lower-Third 2 góc: Nguồn tin (Góc trái) & Nguồn ảnh động (Góc phải) -->
+  <div id="lower-third-bar">
+    <div class="lower-third-left">
+      <div class="lt-source" id="lt-news-source">📰 NGUỒN: ĐIỂM ĐỌC THỂ THAO</div>
+    </div>
+    <div class="lower-third-right">
+      <div class="lt-source" id="lt-photo-credit">📷 ẢNH: TƯ LIỆU</div>
+    </div>
+  </div>
+
+  <!-- Karaoke Box -->
+  <div id="karaoke-container">
+    <div id="karaoke-box"></div>
+  </div>
+
+  <!-- Ticker đáy 16:9 (nhãn TIN TIẾP THEO) -->
+  <div id="news-ticker-bar">
+    <div class="ticker-badge">TIN TIẾP THEO</div>
+    <div class="ticker-track">
+      <div class="ticker-inner" id="ticker-text"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Dữ liệu được inject bởi engine renderer.py
+// __INJECT_JSON_HERE__
+
+(function() {
+  const data = window.VIDEO_DATA || {};
+  const wordsData = window.WORD_TIMESTAMPS || {};
+  const sentences = data.sentences || [];
+  const karaokeChunks = wordsData.karaoke_chunks || data.karaoke_chunks || [];
+  const fxConfig = data.fx || {};
+  const globalOffsetSec = data.global_offset_sec || 0.0;
+
+  // 1. Render Header, Date Chip & Metadata
+  const dateStr = data.date_chip || data.date_str || "";
+  const dateChipEl = document.getElementById("header-date-chip");
+  if (dateChipEl) {
+    if (data.hide_date_chip || !dateStr || dateStr.trim() === "") {
+      dateChipEl.style.display = "none";
+    } else {
+      dateChipEl.textContent = dateStr;
+      dateChipEl.style.display = "flex";
+    }
+  }
+  document.getElementById("cat-pill").textContent = data.group || "TIN THỂ THAO";
+
+  // 1b. Nguồn tin góc trái (data.news_source hoặc data.source)
+  const newsSourceEl = document.getElementById("lt-news-source");
+  const rawNewsSource = data.news_source || data.source || "";
+  if (newsSourceEl) {
+    if (rawNewsSource && rawNewsSource.trim()) {
+      let cleanSrc = rawNewsSource.replace(/^(nguồn|ảnh|nguon|anh)\s*:\s*/i, "").trim();
+      newsSourceEl.textContent = `📰 NGUỒN: ${cleanSrc.toUpperCase()}`;
+      newsSourceEl.style.display = "block";
+    } else {
+      newsSourceEl.style.display = "none";
+    }
+  }
+
+  // 1c. Nguồn ảnh góc phải
+  const photoCreditEl = document.getElementById("lt-photo-credit");
+  if (photoCreditEl) {
+    if (data.credit && data.credit.trim()) {
+      let cleanCred = data.credit.replace(/^(ảnh|anh|nguồn|nguon)\s*:\s*/i, "").trim();
+      photoCreditEl.textContent = `📷 ẢNH: ${cleanCred.toUpperCase()}`;
+      photoCreditEl.style.display = "block";
+    } else {
+      photoCreditEl.style.display = "none";
+    }
+  }
+
+  // Ticker text (chỉ các tin tiếp theo, không có TIN XX:)
+  const tickerBar = document.getElementById("news-ticker-bar");
+  const tickerEl = document.getElementById("ticker-text");
+  const headlines = data.ticker_headlines || [];
+  if (headlines.length > 0) {
+    const repeatedText = [...headlines, ...headlines].map(h => `<span class="ticker-item"><span class="ticker-dot">●</span> ${h}</span>`).join(" ");
+    tickerEl.innerHTML = repeatedText;
+  } else {
+    tickerBar.style.display = "none";
+  }
+
+  // 2. Chuẩn bị Tiêu đề Hero (3s đầu) & Headline Bar cố định (ẩn hoàn toàn nếu hide_title hoặc title rỗng)
+  const titleText = (data.title || "").trim();
+  const hideTitle = Boolean(data.hide_title || !titleText);
+  const heroTitleContainer = document.getElementById("hero-title-container");
+  const heroTitleEl = document.getElementById("hero-title-text");
+  const fixedHeadlineEl = document.getElementById("fixed-headline-bar");
+
+  if (hideTitle) {
+    if (heroTitleContainer) heroTitleContainer.style.display = "none";
+    if (fixedHeadlineEl) fixedHeadlineEl.style.display = "none";
+  } else {
+    fixedHeadlineEl.textContent = titleText;
+
+    // Trích xuất từ khóa highlight vàng trong Hero Title
+    const titleWords = titleText.split(" ");
+    const kwList = [];
+    sentences.forEach(s => (s.keywords || []).forEach(k => kwList.push(k.toLowerCase())));
+
+    heroTitleEl.innerHTML = titleWords.map(w => {
+      const isKw = kwList.some(k => k.includes(w.toLowerCase()) || w.toLowerCase().includes(k));
+      return `<span class="title-word ${isKw ? 'kw-gold' : ''}">${w}</span>`;
+    }).join(" ");
+  }
+
+  // Hàm co font tự động bằng DOM thật (sàn 20px, luôn đảm bảo nằm đúng 1 HÀNG DUY NHẤT)
+  function fitHeadlineDOM(el, maxLines, minSize, startSize) {
+    el.style.fontSize = startSize + "px";
+    el.style.whiteSpace = "nowrap";
+    const origDisplay = el.style.display;
+    const isHidden = (window.getComputedStyle(el).display === "none");
+    if (isHidden) {
+      el.style.visibility = "hidden";
+      el.style.display = "block";
+      el.style.position = "absolute";
+    }
+    let cur = startSize;
+    while (el.scrollWidth > 1080 && cur > minSize) {
+      cur -= 1;
+      el.style.fontSize = cur + "px";
+    }
+    if (isHidden) {
+      el.style.position = "";
+      el.style.display = origDisplay;
+      el.style.visibility = "";
+    }
+  }
+
+  // 3. Render DOM cho 5 Layouts
+  const root = document.getElementById("scenes-root");
+  root.innerHTML = "";
+
+  sentences.forEach((sent, sIdx) => {
+    const stage = document.createElement("div");
+    stage.className = `sentence-stage stage-${sIdx}`;
+    stage.id = `sent-stage-${sIdx}`;
+
+    const imgs = sent.images || [];
+    const mainImg = imgs.length ? imgs[0].src : "";
+    const img2 = imgs.length > 1 ? imgs[1].src : mainImg;
+    const img3 = imgs.length > 2 ? imgs[2].src : img2;
+    const img4 = imgs.length > 3 ? imgs[3].src : "";
+    const img5 = imgs.length > 4 ? imgs[4].src : "";
+
+    const statHtml = (sent.stat_badge && sent.stat_badge.value) ? `
+      <div class="stat-hud-card" id="stat-hud-${sIdx}">
+        <div class="stat-hud-label">${sent.stat_badge.label || "ĐIỂM NHẤN"}</div>
+        <div class="stat-hud-value">${sent.stat_badge.value}</div>
+        ${sent.stat_badge.sub ? `<div class="stat-hud-sub">${sent.stat_badge.sub}</div>` : ""}
+      </div>
+    ` : "";
+
+    if (sent.layout === "split") {
+      stage.innerHTML = `
+        <div class="layout-split">
+          <img class="backdrop-blur" id="bg-${sIdx}" src="${mainImg}">
+          <div class="split-container">
+            <div class="split-panel">
+              <div class="corner-bracket top-left"></div>
+              <div class="corner-bracket top-right"></div>
+              <div class="corner-bracket bottom-left"></div>
+              <div class="corner-bracket bottom-right"></div>
+              <img class="split-img" id="img-a-${sIdx}" src="${mainImg}">
+            </div>
+            <div class="split-panel">
+              <div class="corner-bracket top-left"></div>
+              <div class="corner-bracket top-right"></div>
+              <div class="corner-bracket bottom-left"></div>
+              <div class="corner-bracket bottom-right"></div>
+              <img class="split-img" id="img-b-${sIdx}" src="${img2}">
+              ${imgs.length > 2 ? `<img class="split-img" id="img-c-${sIdx}" src="${img3}" style="position:absolute;inset:0;opacity:0;">` : ""}
+            </div>
+          </div>
+          ${statHtml}
+        </div>
+      `;
+    } else if (sent.layout === "polaroid") {
+      stage.innerHTML = `
+        <div class="layout-polaroid">
+          <img class="backdrop-blur" id="bg-${sIdx}" src="${mainImg}">
+          <div class="polaroid-wrapper">
+            <div class="polaroid-card" id="polaroid-card-${sIdx}">
+              <div class="corner-bracket top-left" style="border-color:#00E5FF;"></div>
+              <div class="corner-bracket top-right" style="border-color:#00E5FF;"></div>
+              <div class="corner-bracket bottom-left" style="border-color:#00E5FF;"></div>
+              <div class="corner-bracket bottom-right" style="border-color:#00E5FF;"></div>
+              <div style="position:relative;overflow:hidden;border-radius:6px;">
+                <img class="polaroid-img" id="img-a-${sIdx}" src="${mainImg}">
+                ${imgs.length > 1 ? `<img class="polaroid-img" id="img-b-${sIdx}" src="${img2}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;">` : ""}
+              </div>
+              <div class="polaroid-caption">${data.channel_name || "ĐIỂM ĐỌC"} • ${data.group || "TIN NÓNG"}</div>
+            </div>
+          </div>
+          ${statHtml}
+        </div>
+      `;
+    } else if (sent.layout === "cinema") {
+      stage.innerHTML = `
+        <div class="layout-cinema">
+          <img class="backdrop-blur" id="bg-${sIdx}" src="${mainImg}">
+          <div class="cinema-container">
+            <div class="cinema-frame">
+              <div class="cinema-letterbox-bar top"></div>
+              <div class="corner-bracket top-left"></div>
+              <div class="corner-bracket top-right"></div>
+              <div class="corner-bracket bottom-left"></div>
+              <div class="corner-bracket bottom-right"></div>
+              <img class="cinema-img" id="img-a-${sIdx}" src="${mainImg}">
+              ${imgs.length > 1 ? `<img class="cinema-img" id="img-b-${sIdx}" src="${img2}" style="position:absolute;inset:0;opacity:0;">` : ""}
+              <div class="cinema-letterbox-bar bottom"></div>
+            </div>
+          </div>
+          ${statHtml}
+        </div>
+      `;
+    } else if (sent.layout === "triptych") {
+      stage.innerHTML = `
+        <div class="layout-triptych">
+          <img class="backdrop-blur" id="bg-${sIdx}" src="${mainImg}">
+          <div class="triptych-container">
+            <div class="triptych-panel side">
+              <img class="triptych-img" id="img-b-${sIdx}" src="${img2}">
+              ${img4 ? `<img class="triptych-img" id="img-d-${sIdx}" src="${img4}" style="position:absolute;inset:0;opacity:0;">` : ""}
+            </div>
+            <div class="triptych-panel center">
+              <div class="corner-bracket top-left"></div>
+              <div class="corner-bracket top-right"></div>
+              <div class="corner-bracket bottom-left"></div>
+              <div class="corner-bracket bottom-right"></div>
+              <img class="triptych-img" id="img-a-${sIdx}" src="${mainImg}">
+            </div>
+            <div class="triptych-panel side">
+              <img class="triptych-img" id="img-c-${sIdx}" src="${img3}">
+              ${img5 ? `<img class="triptych-img" id="img-e-${sIdx}" src="${img5}" style="position:absolute;inset:0;opacity:0;">` : ""}
+            </div>
+          </div>
+          ${statHtml}
+        </div>
+      `;
+    } else if (sent.layout === "hero_mosaic") {
+      stage.innerHTML = `
+        <div class="layout-hero_mosaic">
+          <img class="backdrop-blur" id="bg-${sIdx}" src="${mainImg}">
+          <div class="mosaic-container">
+            <div class="mosaic-hero">
+              <div class="corner-bracket top-left"></div>
+              <div class="corner-bracket top-right"></div>
+              <div class="corner-bracket bottom-left"></div>
+              <div class="corner-bracket bottom-right"></div>
+              <img class="mosaic-img" id="img-a-${sIdx}" src="${mainImg}">
+            </div>
+            <div class="mosaic-stack">
+              <div class="mosaic-sub">
+                <img class="mosaic-img" id="img-b-${sIdx}" src="${img2}">
+                ${img4 ? `<img class="mosaic-img" id="img-d-${sIdx}" src="${img4}" style="position:absolute;inset:0;opacity:0;">` : ""}
+              </div>
+              <div class="mosaic-sub">
+                <img class="mosaic-img" id="img-c-${sIdx}" src="${img3}">
+                ${img5 ? `<img class="mosaic-img" id="img-e-${sIdx}" src="${img5}" style="position:absolute;inset:0;opacity:0;">` : ""}
+              </div>
+            </div>
+          </div>
+          ${statHtml}
+        </div>
+      `;
+    } else if (sent.layout === "filmstrip_carousel") {
+      const stripCards = imgs.map((im, k) => `
+        <div class="filmstrip-card" id="fs-card-${sIdx}-${k}">
+          <div class="filmstrip-index">${k + 1} / ${imgs.length}</div>
+          <div class="corner-bracket top-left"></div>
+          <div class="corner-bracket top-right"></div>
+          <div class="corner-bracket bottom-left"></div>
+          <div class="corner-bracket bottom-right"></div>
+          <img class="filmstrip-img" id="fs-img-${sIdx}-${k}" src="${im.src}">
+        </div>
+      `).join("");
+      stage.innerHTML = `
+        <div class="layout-filmstrip_carousel">
+          <img class="backdrop-blur" id="bg-${sIdx}" src="${mainImg}">
+          <div class="filmstrip-viewport">
+            <div class="filmstrip-track" id="fs-track-${sIdx}">
+              ${stripCards}
+            </div>
+          </div>
+          ${statHtml}
+        </div>
+      `;
+    } else if (sent.layout === "spotlight_sequence") {
+      const slidesHtml = imgs.map((im, k) => `
+        <div class="spotlight-slide" id="sp-slide-${sIdx}-${k}" style="opacity:${k === 0 ? 1 : 0};z-index:${k + 1};">
+          <img class="spotlight-img" id="sp-img-${sIdx}-${k}" src="${im.src}">
+        </div>
+      `).join("");
+      stage.innerHTML = `
+        <div class="layout-spotlight_sequence">
+          <img class="backdrop-blur" id="bg-${sIdx}" src="${mainImg}">
+          <div class="spotlight-frame">
+            <div class="corner-bracket top-left" style="z-index:20;"></div>
+            <div class="corner-bracket top-right" style="z-index:20;"></div>
+            <div class="corner-bracket bottom-left" style="z-index:20;"></div>
+            <div class="corner-bracket bottom-right" style="z-index:20;"></div>
+            ${slidesHtml}
+          </div>
+          ${statHtml}
+        </div>
+      `;
+    } else if (sent.layout === "bento_grid") {
+      const b4 = img4 || mainImg;
+      stage.innerHTML = `
+        <div class="layout-bento_grid">
+          <img class="backdrop-blur" id="bg-${sIdx}" src="${mainImg}">
+          <div class="bento-container">
+            <div class="bento-cell bento-lead" id="bento-${sIdx}-0">
+              <div class="corner-bracket top-left"></div>
+              <div class="corner-bracket bottom-right"></div>
+              <img class="bento-img" id="img-a-${sIdx}" src="${mainImg}">
+            </div>
+            <div class="bento-cell" id="bento-${sIdx}-1">
+              <img class="bento-img" id="img-b-${sIdx}" src="${img2}">
+            </div>
+            <div class="bento-cell" id="bento-${sIdx}-2">
+              <img class="bento-img" id="img-c-${sIdx}" src="${img3}">
+            </div>
+            <div class="bento-cell" id="bento-${sIdx}-3">
+              <img class="bento-img" id="img-d-${sIdx}" src="${b4}">
+              ${img5 ? `<img class="bento-img" id="img-e-${sIdx}" src="${img5}" style="position:absolute;inset:0;opacity:0;">` : ""}
+            </div>
+          </div>
+          ${statHtml}
+        </div>
+      `;
+    } else { // default: full (hỗ trợ 1 hoặc nhiều ảnh crossfade tuần tự)
+      const extraFull = imgs.slice(1).map((im, idx) =>
+        `<img class="sharp-img img-slot-${idx + 1}" id="full-img-${sIdx}-${idx + 1}" src="${im.src}" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;object-fit:cover;border-radius:inherit;">`
+      ).join("");
+      stage.innerHTML = `
+        <div class="layout-full">
+          <img class="backdrop-blur" id="bg-${sIdx}" src="${mainImg}">
+          <div class="foreground-frame">
+            <div class="photo-frame-styled" id="frame-${sIdx}">
+              <div class="corner-bracket top-left"></div>
+              <div class="corner-bracket top-right"></div>
+              <div class="corner-bracket bottom-left"></div>
+              <div class="corner-bracket bottom-right"></div>
+              <img class="sharp-img img-slot-0" id="img-a-${sIdx}" src="${mainImg}">
+              ${extraFull}
+            </div>
+          </div>
+          ${statHtml}
+        </div>
+      `;
+    }
+    root.appendChild(stage);
+  });
+
+  // 4. XÂY DỰNG GSAP TIMELINE (PAUSED)
+  const tl = gsap.timeline({ paused: true });
+  window.mainTl = tl;
+
+  // Staggered title words reveal in sentence 1 (bỏ qua nếu hideTitle)
+  if (!hideTitle) {
+    tl.fromTo(".title-word", 
+      { opacity: 0, y: 18, scale: 0.94 }, 
+      { opacity: 1, y: 0, scale: 1.0, duration: 0.35, stagger: 0.04, ease: "power2.out" }, 
+      0.1
+    );
+  }
+
+  function _setPhotoCreditAt(t, creditVal) {
+    if (!photoCreditEl) return;
+    const rawC = creditVal || data.credit || "";
+    if (rawC && rawC.trim()) {
+      const cleanC = rawC.replace(/^(ảnh|anh|nguồn|nguon)\s*:\s*/i, "").trim();
+      tl.set(photoCreditEl, { textContent: `📷 ẢNH: ${cleanC.toUpperCase()}`, display: "block" }, t);
+    }
+  }
+
+  const stageTransitions = ["fade", "wipe_left", "slide_up", "zoom_in"];
+
+  sentences.forEach((sent, sIdx) => {
+    const stageId = `#sent-stage-${sIdx}`;
+    const sStart = sent.start;
+    const sDur = sent.duration;
+    const sEnd = sent.end;
+
+    // A. Hiện stage của câu với 4 kiểu chuyển cảnh xoay vòng (deterministic)
+    const trType = sIdx === 0 ? "fade" : (sent.transition || stageTransitions[sIdx % stageTransitions.length]);
+    if (trType === "wipe_left") {
+      tl.fromTo(stageId,
+        { autoAlpha: 1, clipPath: "inset(0 100% 0 0)" },
+        { autoAlpha: 1, clipPath: "inset(0 0% 0 0)", duration: 0.55, ease: "power2.out" },
+        sStart
+      );
+    } else if (trType === "slide_up") {
+      tl.fromTo(stageId,
+        { autoAlpha: 0, y: 34 },
+        { autoAlpha: 1, y: 0, duration: 0.50, ease: "power2.out" },
+        sStart
+      );
+    } else if (trType === "zoom_in") {
+      tl.fromTo(stageId,
+        { autoAlpha: 0, scale: 1.05 },
+        { autoAlpha: 1, scale: 1.0, duration: 0.52, ease: "power2.out" },
+        sStart
+      );
+    } else {
+      tl.fromTo(stageId, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.48, ease: "power1.inOut" }, sStart);
+    }
+
+    // B. Ken Burns + trình diễn đầy đủ 1–5 ảnh theo từng layout
+    const imgs = sent.images || [];
+    if (imgs.length > 0) {
+      _setPhotoCreditAt(sStart, imgs[0].credit);
+    }
+
+    if (sent.layout === "triptych") {
+      tl.fromTo(`#img-a-${sIdx}`, { scale: 1.0 }, { scale: 1.07, duration: sDur, ease: "none" }, sStart);
+      tl.fromTo(`#img-b-${sIdx}`, { scale: 1.06 }, { scale: 1.0, duration: sDur, ease: "none" }, sStart);
+      tl.fromTo(`#img-c-${sIdx}`, { scale: 1.0 }, { scale: 1.06, duration: sDur, ease: "none" }, sStart);
+      if (imgs.length > 3) {
+        const midT = sStart + sDur * 0.48;
+        tl.fromTo(`#img-d-${sIdx}`, { opacity: 0, scale: 1.04 }, { opacity: 1, scale: 1.0, duration: 0.6, ease: "power1.inOut" }, midT);
+        _setPhotoCreditAt(midT, imgs[3].credit);
+      }
+      if (imgs.length > 4) {
+        const midT2 = sStart + sDur * 0.62;
+        tl.fromTo(`#img-e-${sIdx}`, { opacity: 0, scale: 1.04 }, { opacity: 1, scale: 1.0, duration: 0.6, ease: "power1.inOut" }, midT2);
+        _setPhotoCreditAt(midT2, imgs[4].credit);
+      }
+    } else if (sent.layout === "hero_mosaic") {
+      tl.fromTo(`#img-a-${sIdx}`, { scale: 1.0 }, { scale: 1.07, duration: sDur, ease: "none" }, sStart);
+      tl.fromTo(`#img-b-${sIdx}`, { scale: 1.06, yPercent: 1.5 }, { scale: 1.0, yPercent: -1.5, duration: sDur, ease: "none" }, sStart);
+      tl.fromTo(`#img-c-${sIdx}`, { scale: 1.0, yPercent: -1.5 }, { scale: 1.06, yPercent: 1.5, duration: sDur, ease: "none" }, sStart);
+      if (imgs.length > 3) {
+        const t4 = sStart + sDur * 0.45;
+        tl.fromTo(`#img-d-${sIdx}`, { opacity: 0, scale: 1.06 }, { opacity: 1, scale: 1.0, duration: 0.55, ease: "power2.out" }, t4);
+        _setPhotoCreditAt(t4, imgs[3].credit);
+      }
+      if (imgs.length > 4) {
+        const t5 = sStart + sDur * 0.65;
+        tl.fromTo(`#img-e-${sIdx}`, { opacity: 0, scale: 1.06 }, { opacity: 1, scale: 1.0, duration: 0.55, ease: "power2.out" }, t5);
+        _setPhotoCreditAt(t5, imgs[4].credit);
+      }
+    } else if (sent.layout === "filmstrip_carousel") {
+      const nCards = Math.max(1, imgs.length);
+      const cardStride = 1108; // 1080px card + 28px gap
+      const viewportW = 1808;  // 1920 - 56*2
+      const totalTrackW = nCards * cardStride - 28;
+      const startX = Math.max(0, (viewportW - 1080) / 2) * 0.25;
+      const endX = Math.min(0, viewportW - totalTrackW - 40);
+      tl.fromTo(`#fs-track-${sIdx}`, { x: startX }, { x: endX, duration: sDur, ease: "none" }, sStart);
+      imgs.forEach((im, k) => {
+        tl.fromTo(`#fs-img-${sIdx}-${k}`, { scale: 1.0 }, { scale: 1.05, duration: sDur, ease: "none" }, sStart);
+        if (k > 0) {
+          _setPhotoCreditAt(im.start || (sStart + (sDur * k) / nCards), im.credit);
+        }
+      });
+    } else if (sent.layout === "spotlight_sequence") {
+      const nSlides = Math.max(1, imgs.length);
+      const sliceDur = sDur / nSlides;
+      imgs.forEach((im, k) => {
+        const tStart = k === 0 ? sStart : (im.start || (sStart + k * sliceDur));
+        const tEnd = k === nSlides - 1 ? sEnd : (im.end || (sStart + (k + 1) * sliceDur));
+        const d = Math.max(0.4, tEnd - tStart);
+        const dirSign = k % 2 === 0 ? 1 : -1;
+        if (k > 0) {
+          const slideMode = k % 3;
+          if (slideMode === 1) {
+            tl.fromTo(`#sp-slide-${sIdx}-${k}`,
+              { opacity: 1, clipPath: "inset(0 0 0 100%)" },
+              { opacity: 1, clipPath: "inset(0 0 0 0%)", duration: 0.45, ease: "power2.out" },
+              Math.max(sStart, tStart - 0.15)
+            );
+          } else if (slideMode === 2) {
+            tl.fromTo(`#sp-slide-${sIdx}-${k}`,
+              { opacity: 0, y: 40 },
+              { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" },
+              Math.max(sStart, tStart - 0.15)
+            );
+          } else {
+            tl.fromTo(`#sp-slide-${sIdx}-${k}`,
+              { opacity: 0, scale: 1.07 },
+              { opacity: 1, scale: 1.0, duration: 0.45, ease: "power2.out" },
+              Math.max(sStart, tStart - 0.15)
+            );
+          }
+          _setPhotoCreditAt(tStart, im.credit);
+        }
+        tl.fromTo(`#sp-img-${sIdx}-${k}`,
+          { scale: 1.02, xPercent: -1.2 * dirSign },
+          { scale: 1.07, xPercent: 1.2 * dirSign, duration: d, ease: "none" },
+          tStart
+        );
+      });
+    } else if (sent.layout === "bento_grid") {
+      tl.fromTo(`#sent-stage-${sIdx} .bento-cell`,
+        { opacity: 0, y: 22, scale: 0.96 },
+        { opacity: 1, y: 0, scale: 1.0, duration: 0.45, stagger: 0.08, ease: "power2.out" },
+        sStart
+      );
+      tl.fromTo(`#img-a-${sIdx}`, { scale: 1.0 }, { scale: 1.06, duration: sDur, ease: "none" }, sStart);
+      tl.fromTo(`#img-b-${sIdx}`, { scale: 1.06 }, { scale: 1.0, duration: sDur, ease: "none" }, sStart);
+      tl.fromTo(`#img-c-${sIdx}`, { scale: 1.0 }, { scale: 1.06, duration: sDur, ease: "none" }, sStart);
+      tl.fromTo(`#img-d-${sIdx}`, { scale: 1.05 }, { scale: 1.0, duration: sDur, ease: "none" }, sStart);
+      if (imgs.length > 4) {
+        const t5 = sStart + sDur * 0.52;
+        tl.fromTo(`#img-e-${sIdx}`, { opacity: 0, scale: 1.05 }, { opacity: 1, scale: 1.0, duration: 0.55, ease: "power1.inOut" }, t5);
+        _setPhotoCreditAt(t5, imgs[4].credit);
+      }
+    } else if (sent.layout === "split") {
+      tl.fromTo(`#img-a-${sIdx}`, { scale: 1.0 }, { scale: 1.06, duration: sDur, ease: "none" }, sStart);
+      tl.fromTo(`#img-b-${sIdx}`, { scale: 1.06 }, { scale: 1.0, duration: sDur, ease: "none" }, sStart);
+      if (imgs.length > 2) {
+        const t3 = sStart + sDur * 0.52;
+        tl.fromTo(`#img-c-${sIdx}`, { opacity: 0, scale: 1.05 }, { opacity: 1, scale: 1.0, duration: 0.55, ease: "power1.inOut" }, t3);
+        _setPhotoCreditAt(t3, imgs[2].credit);
+      }
+    } else if (sent.layout === "polaroid") {
+      tl.fromTo(`#polaroid-card-${sIdx}`, { rotation: -2.2, scale: 0.96 }, { rotation: 0.4, scale: 1.01, duration: sDur, ease: "none" }, sStart);
+      if (imgs.length > 1) {
+        const t2 = Math.max(sStart + 0.5, imgs[1].start || (sStart + sDur * 0.5));
+        tl.fromTo(`#img-b-${sIdx}`, { opacity: 0 }, { opacity: 1, duration: 0.65, ease: "power1.inOut" }, t2 - 0.3);
+        _setPhotoCreditAt(t2, imgs[1].credit);
+      }
+    } else if (sent.layout === "cinema") {
+      tl.fromTo(`#img-a-${sIdx}`, { scale: 1.06, xPercent: -1.8 }, { scale: 1.09, xPercent: 1.8, duration: sDur, ease: "none" }, sStart);
+      if (imgs.length > 1) {
+        const t2 = Math.max(sStart + 0.5, imgs[1].start || (sStart + sDur * 0.5));
+        tl.fromTo(`#img-b-${sIdx}`, { opacity: 0, scale: 1.08 }, { opacity: 1, scale: 1.03, duration: 0.7, ease: "power1.inOut" }, t2 - 0.35);
+        _setPhotoCreditAt(t2, imgs[1].credit);
+      }
+    } else {
+      // full: hỗ trợ 1 hoặc chuỗi N ảnh crossfade tuần tự
+      if (imgs.length <= 1) {
+        tl.fromTo(`#img-a-${sIdx}`, { scale: 1.0 }, { scale: 1.06, duration: sDur, ease: "none" }, sStart);
+      } else {
+        tl.fromTo(`#img-a-${sIdx}`, { scale: 1.0 }, { scale: 1.04, duration: Math.max(0.5, (imgs[1].start || (sStart + sDur / imgs.length)) - sStart), ease: "none" }, sStart);
+        for (let k = 1; k < imgs.length; k++) {
+          const imk = imgs[k];
+          const transStart = Math.max(sStart + 0.4, imk.start || (sStart + (sDur * k) / imgs.length));
+          const transEnd = k === imgs.length - 1 ? sEnd : (imgs[k + 1].start || (sStart + (sDur * (k + 1)) / imgs.length));
+          tl.fromTo(`#full-img-${sIdx}-${k}`, { opacity: 0, scale: 1.04 }, { opacity: 1, scale: 1.0, duration: 0.65, ease: "power1.inOut" }, transStart - 0.3);
+          tl.to(`#full-img-${sIdx}-${k}`, { scale: 1.05, duration: Math.max(0.4, transEnd - transStart), ease: "none" }, transStart);
+          _setPhotoCreditAt(transStart, imk.credit);
+        }
+      }
+    }
+
+    // B2. Broadcast Stat Callout HUD (nếu câu có số liệu/tỷ số nổi bật)
+    if (sent.stat_badge && sent.stat_badge.value) {
+      const hudIn = sStart + Math.min(0.65, sDur * 0.12);
+      const hudOut = Math.min(sEnd - 0.35, hudIn + 3.8);
+      tl.fromTo(`#stat-hud-${sIdx}`,
+        { autoAlpha: 0, x: 40, scale: 0.92 },
+        { autoAlpha: 1, x: 0, scale: 1.0, duration: 0.42, ease: "back.out(1.4)" },
+        hudIn
+      );
+      if (hudOut > hudIn + 0.6) {
+        tl.to(`#stat-hud-${sIdx}`, { autoAlpha: 0, x: 24, duration: 0.35, ease: "power2.in" }, hudOut);
+      }
+    }
+
+    // C. Ẩn stage khi hết câu (trừ câu cuối) với hiệu ứng fade out
+    if (sIdx < sentences.length - 1) {
+      tl.to(stageId, { autoAlpha: 0, duration: 0.38, ease: "power1.inOut" }, sEnd - 0.18);
+    }
+  });
+
+  // D. Chuyển đổi Tiêu đề Hero sang Headline Bar cố định sau Title stage (chỉ chạy khi có tiêu đề)
+  if (!hideTitle) {
+    const titleStageEnd = (sentences.length > 0 && sentences[0].is_title) ? sentences[0].end : (sentences.length > 0 ? sentences[0].end : 5.0);
+    tl.to("#hero-title-container", { autoAlpha: 0, y: -16, duration: 0.35 }, titleStageEnd - 0.25);
+    tl.set("#fixed-headline-bar", { display: "block" }, titleStageEnd);
+    tl.fromTo("#fixed-headline-bar", { opacity: 0, y: -12 }, { opacity: 1, y: 0, duration: 0.35 }, titleStageEnd);
+
+    // Co font DOM thật
+    fitHeadlineDOM(fixedHeadlineEl, 1, 20, 28);
+    setTimeout(() => {
+      fitHeadlineDOM(fixedHeadlineEl, 1, 20, 28);
+    }, 50);
+  }
+
+  // 5. KHỞI TẠO LỚP OVERLAY DÙNG CHUNG (dd_overlay.js)
+  const canvas = document.getElementById("fx-canvas");
+  if (window.DDOverlay) {
+    window.DDOverlay.init(canvas, {
+      seed: String(data.item_id || "1") + (data.title || "diemdoc"),
+      config: fxConfig
+    });
+
+    // Đăng ký các mốc burst khi từ khóa xuất hiện
+    sentences.forEach(s => {
+      (s.keywords || []).forEach(kw => {
+        for (let ci = 0; ci < karaokeChunks.length; ci++) {
+          const c = karaokeChunks[ci];
+          for (let wi = 0; wi < c.words.length; wi++) {
+            const w = c.words[wi];
+            if (w.word.toLowerCase().includes(kw.toLowerCase()) || kw.toLowerCase().includes(w.word.toLowerCase())) {
+              window.DDOverlay.addBurst(w.start, 1920 / 2, 1080 - 80);
+            }
+          }
+        }
+      });
+    });
+  }
+
+  // 6. ĐỒNG BỘ KARAOKE THEO THỜI GIAN
+  const kBox = document.getElementById("karaoke-box");
+
+  window.updateKaraoke = function(sec) {
+    let curSentIdx = 0;
+    for (let i = 0; i < sentences.length; i++) {
+      if (sec >= sentences[i].start && sec <= sentences[i].end) {
+        curSentIdx = i;
+        break;
+      }
+    }
+
+    let activeChunk = null;
+    for (let i = 0; i < karaokeChunks.length; i++) {
+      const c = karaokeChunks[i];
+      if (sec >= (c.start - 0.08) && sec <= (c.end + 0.15)) {
+        activeChunk = c;
+        break;
+      }
+    }
+
+    if (!activeChunk) {
+      return;
+    }
+
+    const curSent = sentences[curSentIdx];
+    const keywords = (curSent && curSent.keywords) || [];
+
+    kBox.innerHTML = activeChunk.words.map(w => {
+      let cls = "k-word";
+      const isKw = keywords.some(k => k.toLowerCase().includes(w.word.toLowerCase()));
+      if (isKw) cls += " is-keyword";
+
+      if (sec >= (w.start - 0.04) && sec <= (w.end + 0.06)) {
+        cls += " active";
+      } else if (sec > w.end) {
+        cls += " spoken";
+      }
+      return `<span class="${cls}">${w.word}</span>`;
+    }).join("");
+  };
+
+  // 7. MÓC NỐI ĐỒNG HỒ ẢO (VIRTUAL CLOCK HOOK)
+  window.updateAudioTime = function(sec) {
+    if (window.mainTl) {
+      window.mainTl.time(sec);
+    }
+    window.updateKaraoke(sec);
+
+    // Cập nhật Ticker offset (speed: 45px/giây)
+    const tickerTrack = document.getElementById("ticker-text");
+    if (tickerTrack) {
+      const tickerOffset = (sec * 45) % 1800;
+      tickerTrack.style.transform = `translateX(-${tickerOffset}px)`;
+    }
+
+    // Cập nhật lớp hiệu ứng DDOverlay (có offset toàn cục)
+    if (window.DDOverlay) {
+      window.DDOverlay.update(sec, globalOffsetSec);
+    }
+  };
+
+  if (window.__vt) {
+    const origAdv = window.__vt.advanceTo;
+    window.__vt.advanceTo = function(ms) {
+      const vnow = origAdv.call(window.__vt, ms);
+      window.updateAudioTime(vnow / 1000.0);
+      return vnow;
+    };
+  }
+
+  // Khởi động tại giây 0 (luôn 1 hàng duy nhất)
+  fitHeadlineDOM(fixedHeadlineEl, 1, 20, 28);
+  window.updateAudioTime(0.0);
+})();
+</script>
+</body>
+</html>

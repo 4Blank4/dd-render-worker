@@ -1,0 +1,28 @@
+{
+  "id": "male_primary",
+  "name": "Minh Quân Pro",
+  "gender": "male",
+  "region": "Miền Bắc",
+  "sample_index": 15,
+  "provider": "vitts",
+  "mode": "v3turbo",
+  "speed": 1.12,
+  "pitch": 0.93,
+  "temperature": 0.6,
+  "loudnorm": {
+    "target_i": -14,
+    "lra": 11,
+    "tp": -1.0
+  },
+  "style": "Bình luận viên thể thao chuyên sâu, tài liệu điện ảnh",
+  "description": "Giọng nam chính của kênh Điểm Đọc: nhịp 1.12 cuốn hút, pitch 0.93 tạo cảm giác điện ảnh trầm dày, uy lực, temperature 0.6 nhấn nhá kịch tính sinh động.",
+  "recommended_for": [
+    "Video chính 16:9 bản tin thể thao hằng ngày",
+    "Phim tài liệu bóng đá, kỷ lục thể thao",
+    "Bình luận chuyên sâu, chiến thuật, số liệu"
+  ],
+  "sample_files": {
+    "m4a": "sample_15_Minh_Quan_Pro_var15_spd1.12_pch0.93.m4a",
+    "wav": "sample_15_Minh_Quan_Pro_var15_spd1.12_pch0.93.wav"
+  }
+}

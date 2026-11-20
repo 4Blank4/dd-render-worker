@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1920, height=1080, initial-scale=1.0">
+<title>Điểm Đọc — Bản Tin Thể Thao (16:9 Long Sports News)</title>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     BRAND: Cyber-Stadium Cinematic Dark  |  format: long 16:9 (1920x1080)
+     Template chuyên dụng cho Điểm Đọc Thể Thao:
+     - Header bản sắc Điểm Đọc
+     - Tối ưu hóa Photo-card với Ken Burns effect (zoom/pan mượt mà)
+     - Dòng credit nguồn ảnh nổi bật, chuẩn báo chí
+     - Tương thích hoàn toàn với title-banner, quote-card, fact-list,
+       stat-callout, dual-number-clash.
+     ══════════════════════════════════════════════════════════════════════ -->
+
+<style>
+  @font-face { font-family:'Anton'; src:url('__ASSETS__/fonts/Anton/Anton-Regular.ttf'); font-weight:400; font-display:block; }
+  @font-face { font-family:'Oswald'; src:url('__ASSETS__/fonts/Oswald/static/Oswald-Bold.ttf'); font-weight:700; font-display:block; }
+  @font-face { font-family:'Oswald'; src:url('__ASSETS__/fonts/Oswald/static/Oswald-SemiBold.ttf'); font-weight:600; font-display:block; }
+  @font-face { font-family:'Oswald'; src:url('__ASSETS__/fonts/Oswald/static/Oswald-Medium.ttf'); font-weight:500; font-display:block; }
+  @font-face { font-family:'Montserrat'; src:url('__ASSETS__/fonts/Montserrat/static/Montserrat-Bold.ttf'); font-weight:700; font-display:block; }
+  @font-face { font-family:'Montserrat'; src:url('__ASSETS__/fonts/Montserrat/static/Montserrat-SemiBold.ttf'); font-weight:600; font-display:block; }
+  @font-face { font-family:'Montserrat'; src:url('__ASSETS__/fonts/Montserrat/static/Montserrat-Medium.ttf'); font-weight:500; font-display:block; }
+  @font-face { font-family:'PlexMono'; src:url('__ASSETS__/fonts/IBM_Plex_Mono/IBMPlexMono-Bold.ttf'); font-weight:700; font-display:block; }
+  @font-face { font-family:'PlexMono'; src:url('__ASSETS__/fonts/IBM_Plex_Mono/IBMPlexMono-Medium.ttf'); font-weight:500; font-display:block; }
+
+  :root {
+    --vw: 1920px; --vh: 1080px;
+
+    /* Nền Cyber-Stadium */
+    --bg-base: #060911;
+    --bg-alt:  #0B101D;
+
+    --ink-strong:   #F5F8FF;
+    --ink-charcoal: #D8E0F2;
+    --ink-muted:    #98A5C5;
+    --ink-subtle:   #627196;
+
+    --surface-card:   linear-gradient(155deg, rgba(18,26,45,0.78), rgba(8,12,22,0.72));
+    --surface-sunken: linear-gradient(160deg, rgba(18,26,45,0.65), rgba(8,12,22,0.60));
+    --chip-bg:        rgba(6,9,17,0.85);
+
+    --border-card: 1px solid rgba(152,165,197,0.22);
+    --border-soft: 1px solid rgba(152,165,197,0.16);
+
+    --shadow-card: 0 20px 52px rgba(0,0,0,0.52);
+
+    /* Màu Cyber-Stadium: Vàng chiến thuật, Cyan tốc độ, Đỏ cảnh báo */
+    --accent-0: #FFC24D; --accent-0-soft: rgba(255,194,77,0.18); --accent-0-edge: rgba(255,194,77,0.48);
+    --accent-1: #28E0D0; --accent-1-soft: rgba(40,224,208,0.16); --accent-1-edge: rgba(40,224,208,0.46);
+    --accent-2: #FF4A4A; --accent-2-soft: rgba(255,74,74,0.18); --accent-2-edge: rgba(255,74,74,0.48);
+    --accent-3: #58E28F; --accent-3-soft: rgba(88,226,143,0.16); --accent-3-edge: rgba(88,226,143,0.46);
+
+    --accent: var(--accent-0);
+    --accent-soft: var(--accent-0-soft);
+    --accent-edge: var(--accent-0-edge);
+    --accent-ink: #060911;
+
+    --font-hero:    'Anton';
+    --font-heading: 'Oswald';
+    --font-body:    'Montserrat';
+    --font-mono:    'PlexMono';
+
+    --ease: cubic-bezier(.22,1,.36,1);
+    --radius-lg: 18px; --radius-md: 16px;
+    --grid-gap: 18px;
+
+    /* Bố cục 16:9 ngang */
+    --safe: 56px;
+    --header-top: 26px; --header-h: 78px; --header-radius: 16px;
+    --header-display: flex; --header-pad: 0 26px 0 22px;
+    --header-bg: linear-gradient(90deg, rgba(255,194,77,0.10), rgba(11,16,29,0.72) 28%, rgba(11,16,29,0.72) 72%, rgba(40,224,208,0.10));
+    --header-border: 1px solid rgba(152,165,197,0.22);
+    --header-shadow: 0 12px 42px rgba(0,0,0,0.55);
+    --header-blur: blur(8px);
+    --logo-h: 44px; --brand-size: 24px; --brand-track: 3px;
+    --stage-top: 122px; --stage-bottom: 132px;
+    --sub-bottom: 40px; --sub-max: 1680px; --sub-size: 29px;
+
+    --grid-opacity: 0.38;
+    --grid-image:
+      radial-gradient(rgba(255,194,77,0.15) 1.5px, transparent 1.5px),
+      linear-gradient(rgba(152,165,197,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(152,165,197,0.06) 1px, transparent 1px);
+    --grid-size: 40px 40px, 160px 160px, 160px 160px;
+
+    --banner-bg: linear-gradient(92deg, rgba(255,194,77,0.16), rgba(16,24,42,0.82) 36%, rgba(40,224,208,0.12));
+    --banner-size: 32px;
+    --giant-size: 116px;
+    --number-gradient: linear-gradient(180deg, #FFFFFF, var(--accent) 84%);
+    --number-fill: transparent;
+
+    --sub-bg: rgba(6,9,17,0.82);
+    --sub-ink: #CBD4EB;
+    --sub-active: #FFFFFF;
+    --sub-number: #FFC24D;
+
+    --card-pad: 22px 28px;
+    --vignette-display: block;
+    --vignette-shadow: inset 0 0 280px 70px rgba(0,0,0,0.85), inset 0 0 100px 15px rgba(0,0,0,0.60);
+    --blob-display: block;
+  }
+
+  body {
+    background:
+      radial-gradient(1200px 700px at 80% -10%, rgba(255,194,77,0.12), transparent 60%),
+      radial-gradient(1100px 700px at 10% 110%, rgba(40,224,208,0.11), transparent 58%),
+      linear-gradient(160deg, #0B101D 0%, #060911 55%, #030509 100%);
+    color: var(--ink-strong);
+    font-family: var(--font-body), sans-serif;
+  }
+
+  #bg-grid {
+    mask-image: radial-gradient(circle at 50% 45%, #000 45%, transparent 84%);
+    -webkit-mask-image: radial-gradient(circle at 50% 45%, #000 45%, transparent 84%);
+  }
+
+  /* ── ĐIỂM ĐỌC BRANDING TRÊN HEADER ── */
+  .brand-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .brand-logo {
+    height: var(--logo-h);
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.6));
+  }
+  .brand-divider {
+    width: 2px;
+    height: 28px;
+    background: rgba(152,165,197,0.3);
+  }
+  .brand-name {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: var(--brand-size);
+    letter-spacing: var(--brand-track);
+    color: var(--ink-strong);
+    text-transform: uppercase;
+  }
+  .brand-name b {
+    color: var(--accent-0);
+  }
+  .brand-pill-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent-1);
+    background: var(--accent-1-soft);
+    border: 1px solid var(--accent-1-edge);
+    padding: 3px 10px;
+    border-radius: 999px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  /* ── PHOTO CARD TỐI ƯU CHO TIN THỂ THAO & KEN BURNS ── */
+  .card-photo {
+    display: flex;
+    flex-direction: column;
+    padding: 0 !important;
+    overflow: hidden;
+    position: relative;
+    border: var(--border-card);
+    background: var(--surface-card);
+    border-radius: var(--radius-md);
+  }
+
+  .card-photo .ph-img {
+    position: relative;
+    flex: 1;
+    min-height: 240px;
+    overflow: hidden;
+    background: #04060A;
+  }
+
+  /* Ken Burns CSS fallback */
+  @keyframes kenBurnsAnimation {
+    0% {
+      transform: scale(1.0) translate(0, 0);
+    }
+    50% {
+      transform: scale(1.06) translate(-1.2%, -0.8%);
+    }
+    100% {
+      transform: scale(1.03) translate(1.0%, 0.6%);
+    }
+  }
+
+  .card-photo .ph-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transform-origin: center center;
+    animation: kenBurnsAnimation 14s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+
+  /* Hiệu ứng bóng mờ gradient ở đáy ảnh để nối mượt vào meta */
+  .card-photo .ph-img::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(180deg, transparent 0%, rgba(8,12,22,0.85) 100%);
+    pointer-events: none;
+  }
+
+  .card-photo .ph-meta {
+    padding: 16px 22px 18px;
+    background: rgba(8,12,22,0.92);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .card-photo .ph-kicker {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--accent-0);
+    text-transform: uppercase;
+  }
+
+  .card-photo .ph-title {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 1.25;
+    color: var(--ink-strong);
+    margin-top: 2px;
+  }
+
+  .card-photo .ph-num {
+    font-family: var(--font-hero);
+    font-size: 42px;
+    color: var(--accent-0);
+    line-height: 1.0;
+    margin: 4px 0;
+  }
+
+  .card-photo .ph-cap {
+    font-size: 14px;
+    color: var(--ink-charcoal);
+    line-height: 1.45;
+    margin-top: 4px;
+    opacity: 0.95;
+  }
+
+  /* Badge credit nguồn ảnh góc dưới rõ ràng, chuẩn báo chí */
+  .card-photo .ph-credit {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent-1);
+    background: rgba(4, 7, 14, 0.90);
+    border: 1px solid var(--accent-1-edge);
+    border-radius: 5px;
+    padding: 3px 10px;
+    margin-top: 8px;
+    letter-spacing: 0.6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  }
+  .card-photo .ph-credit::before {
+    content: "📷 NGUỒN:";
+    font-size: 10px;
+    color: var(--ink-muted);
+  }
+
+  /* ── PHỤ ĐỀ KARAOKE NỀN ĐẬM RÕ NÉT ── */
+  .subtitle-container {
+    position: fixed;
+    bottom: var(--sub-bottom);
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 900;
+  }
+  .subtitle-container #subtitle-text {
+    max-width: var(--sub-max);
+    background: var(--sub-bg);
+    border: 1px solid rgba(152,165,197,0.25);
+    border-radius: 12px;
+    padding: 12px 28px;
+    font-size: var(--sub-size);
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--sub-ink);
+    text-align: center;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 32px rgba(0,0,0,0.6);
+  }
+  .sub-word.active {
+    color: var(--sub-active);
+    text-shadow: 0 0 14px rgba(255,194,77,0.7);
+  }
+  .sub-word.is-number.active, .sub-word.is-number.spoken {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    color: var(--accent-0);
+    background: var(--accent-0-soft);
+    padding: 2px 10px;
+    border-radius: 7px;
+    border: 1px solid var(--accent-0-edge);
+  }
+
+  /* ── GLOW VÀ TƯƠNG PHẢN ĐỒ THỊ ── */
+  .gt-num, .co-num, .trio-num {
+    filter: drop-shadow(0 6px 26px var(--accent-soft));
+  }
+  .card {
+    backdrop-filter: blur(6px);
+  }
+  .card.just-revealed {
+    box-shadow: var(--shadow-card), 0 0 44px var(--accent-soft);
+  }
+  .bn-pill {
+    box-shadow: 0 4px 20px rgba(255,194,77,0.45);
+  }
+  .card-banner {
+    box-shadow: 0 12px 38px rgba(0,0,0,0.5);
+  }
+
+  /* ── CHỐNG TRÀN KHUNG CHO CÁC THẺ TRONG GRID ĐA HÀNG ── */
+  .card[data-type="fact-list"] {
+    padding: 18px 24px !important;
+  }
+  .card[data-type="fact-list"] .card-title {
+    font-size: 22px;
+    margin-bottom: 8px;
+    flex-shrink: 0;
+  }
+  .card[data-type="fact-list"] .fl-list {
+    flex: 1;
+    min-height: 0;
+    height: auto !important;
+    gap: 8px;
+    justify-content: center;
+  }
+  .card[data-type="fact-list"] .fl-list li {
+    font-size: 19px;
+    line-height: 1.35;
+    padding-left: 24px;
+  }
+  .card[data-type="fact-list"] .fl-list li::before {
+    width: 8px;
+    height: 8px;
+    top: 0.5em;
+  }
+
+  .card[data-type="stat-callout"] {
+    padding: 16px 22px !important;
+  }
+  .card[data-type="stat-callout"] .co-num {
+    font-size: 80px;
+    line-height: 0.95;
+  }
+  .card[data-type="stat-callout"] .co-unit {
+    font-size: 14px;
+    margin-top: 4px;
+  }
+</style>
+
+<link rel="stylesheet" href="_base.css">
+</head>
+<body>
+  <div id="bg-grid"></div>
+  <div class="bg-blob" id="blob-a"></div>
+  <div class="bg-blob" id="blob-b"></div>
+
+  <header class="top-header">
+    <div class="brand-left">
+      <img src="images_ready/logo.png" class="brand-logo" alt=""
+           onerror="this.onerror=null;this.src='__LOGO__'">
+      <div class="brand-divider"></div>
+      <div class="brand-name" id="channel-title">ĐIỂM <b>ĐỌC</b></div>
+      <span class="brand-pill-tag">TIN THỂ THAO</span>
+    </div>
+    <div id="chapter-ribbon"></div>
+    <div class="scene-counter-pill" id="scene-indicator">BẢN TIN 01 / 04</div>
+  </header>
+
+  <main id="scene-layer"></main>
+
+  <div id="wipe"><div class="w1"></div><div class="w2"><span id="wipe-label"></span></div></div>
+  <div id="slit"><div class="sl"></div><div class="sr"></div></div>
+  <div id="iris"></div>
+  <div id="flash"></div>
+  <div id="vignette"></div>
+
+  <script>
+    // __INJECT_JSON_HERE__
+    window.VIDEO_DOMAIN = { vw: 1920, vh: 1080, format: "long" };
+  </script>
+  <script src="_runtime.js"></script>
+  <script src="_cards.js"></script>
+  <script src="_director.js"></script>
+
+  <!-- Hook deterministic Ken Burns cho Playwright Virtual Clock -->
+  <script>
+    (function() {
+      const origUpdate = window.updateAudioTime;
+      window.updateAudioTime = function(sec) {
+        if (typeof origUpdate === "function") {
+          origUpdate(sec);
+        }
+        // Đồng bộ Ken Burns pan/zoom deterministic theo sec của đồng hồ ảo
+        const imgs = document.querySelectorAll(".card-photo .ph-img img");
+        if (!imgs.length) return;
+        imgs.forEach((img, idx) => {
+          const t = sec + idx * 3.5;
+          const scale = 1.02 + 0.045 * Math.sin(t * 0.22);
+          const panX = Math.sin(t * 0.18) * 1.5;
+          const panY = Math.cos(t * 0.15) * 1.0;
+          img.style.transform = `scale(${scale.toFixed(4)}) translate(${panX.toFixed(2)}%, ${panY.toFixed(2)}%)`;
+        });
+      };
+    })();
+  </script>
+</body>
+</html>

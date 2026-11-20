@@ -1,0 +1,53 @@
+{
+  "_comment": "BRAND: Swiss Editorial Light — hệ thị giác chủ lực cho Short-form. Nền giấy ấm, mực đen, nhấn vermilion.",
+  "id": "swiss-light",
+  "name": "Swiss Editorial Light",
+  "defaultFormat": "short",
+
+  "color": {
+    "bg":          { "base": "#F6F5F0", "alt": "#EFECE4" },
+    "surface":     { "card": "#FFFFFF", "sunken": "#EDEAE2" },
+    "ink":         { "strong": "#121418", "charcoal": "#262A33", "muted": "#646A77", "subtle": "#949BA8" },
+    "border":      { "ink": "#121418", "soft": "#D5D2C8" },
+    "accent":      "#FF3B00",
+    "accent2":     "#1D4ED8",
+    "accent3":     "#059669",
+    "accent4":     "#D97706",
+    "accentSoft":  { "accent": "rgba(255,59,0,0.10)", "accent2": "rgba(29,78,216,0.09)", "accent3": "rgba(5,150,105,0.10)", "accent4": "rgba(217,119,6,0.12)" },
+    "subtitle":    { "bg": "rgba(246,245,240,0.92)", "ink": "#646A77", "active": "#121418", "number": "#FF3B00" }
+  },
+
+  "font": {
+    "hero":    "Bebas Neue",
+    "heading": "Space Grotesk",
+    "body":    "Inter",
+    "mono":    "DM Mono"
+  },
+
+  "fontFiles": {
+    "Bebas Neue":   [ { "file": "Bebas_Neue/BebasNeue-Regular.ttf", "weight": 900 } ],
+    "Space Grotesk":[ { "file": "Space_Grotesk/static/SpaceGrotesk-Bold.ttf", "weight": 700 },
+                      { "file": "Space_Grotesk/static/SpaceGrotesk-Medium.ttf", "weight": 500 } ],
+    "Inter":        [ { "file": "Inter/static/Inter_24pt-Bold.ttf", "weight": 700 },
+                      { "file": "Inter/static/Inter_24pt-Medium.ttf", "weight": 500 },
+                      { "file": "Inter/static/Inter_18pt-ExtraBold.ttf", "weight": 800 } ],
+    "DM Mono":      [ { "file": "DM_Mono/DMMono-Medium.ttf", "weight": 500 },
+                      { "file": "DM_Mono/DMMono-Regular.ttf", "weight": 400 } ]
+  },
+
+  "effects": {
+    "shadowCard": "0 7px 0 rgba(18,20,24,0.08)",
+    "shadowLift": "0 12px 0 rgba(18,20,24,0.10)",
+    "borderCard": "2px solid #121418",
+    "borderSoft": "1.5px solid #D5D2C8",
+    "grain": true,
+    "gridPaper": { "dot": "rgba(18,20,24,0.14)", "line": "rgba(18,20,24,0.035)", "size": 36, "majorSize": 108 }
+  },
+
+  "chrome": {
+    "topHeader": { "show": true, "style": "editorial-rule", "logoHeight": 40 },
+    "chapterRibbon": { "show": true },
+    "sceneCounter": { "show": true, "style": "index-tab" },
+    "vignette": { "show": false }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "fps": 30,
+  "formats": {
+    "main": {
+      "w": 1920,
+      "h": 1080,
+      "template": "long_cinematic.html"
+    },
+    "short": {
+      "w": 1080,
+      "h": 1920,
+      "template": "short_cinematic.html"
+    }
+  },
+  "jpeg_quality": 92,
+  "workers": 1,
+  "work_dir": "~/Library/Caches/DiemDoc",
+  "retention_days": 14
+}

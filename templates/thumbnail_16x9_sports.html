@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<!--
+  THUMBNAIL 16:9 — Kênh Điểm Đọc (Bản Tin Thể Thao)
+  Chuẩn YouTube Thumbnail (1920x1080)
+  Bố cục Cinematic Split ngang:
+    - 55% Bên phải: Ảnh chủ đề chất lượng cao, blend bóng tối sang bên trái
+    - 45% Bên trái: Sân khấu Typography khổng lồ, độ tương phản cao, giật tít A/B/C thu hút CTR
+-->
+<style>
+  @font-face { font-family:'Anton'; src:url('__ASSETS__/fonts/Anton/Anton-Regular.ttf'); font-weight:400; font-display:block; }
+  @font-face { font-family:'Oswald'; src:url('__ASSETS__/fonts/Oswald/static/Oswald-Bold.ttf'); font-weight:700; font-display:block; }
+  @font-face { font-family:'Oswald'; src:url('__ASSETS__/fonts/Oswald/static/Oswald-SemiBold.ttf'); font-weight:600; font-display:block; }
+  @font-face { font-family:'Montserrat'; src:url('__ASSETS__/fonts/Montserrat/static/Montserrat-Bold.ttf'); font-weight:700; font-display:block; }
+  @font-face { font-family:'PlexMono'; src:url('__ASSETS__/fonts/IBM_Plex_Mono/IBMPlexMono-Bold.ttf'); font-weight:700; font-display:block; }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body {
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    background: #05070C;
+    color: #FFFFFF;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .container {
+    position: relative;
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    display: flex;
+  }
+
+  /* ── NỬA PHẢI: ẢNH CHỦ ĐỀ HERO VÀ TƯƠNG PHẢN CAO (68%) ── */
+  .hero-visual {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 68%;
+    height: 100%;
+    overflow: hidden;
+    background: #05070C;
+  }
+
+  .hero-visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: __THUMB_OBJ_POS__;
+    filter: __THUMB_FILTER__;
+  }
+
+  /* Gradient rất êm: chỉ mép chuyển giao giữa panel chữ và ảnh (0% - 20%), từ 35% trở đi hoàn toàn trong suốt */
+  .hero-visual::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #05070C 0%, #05070C 10%, rgba(5,7,12,0.85) 20%, rgba(5,7,12,0.0) 35%, transparent 100%);
+    z-index: 2;
+  }
+
+  /* Lưới grid và ambient glow */
+  .bg-glow {
+    position: absolute;
+    top: -100px;
+    left: 200px;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(0,229,255,0.12) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* ── NỬA TRÁI: TYPOGRAPHY VÀ NỘI DUNG GIẬT TÍT (42%) ── */
+  .content-stage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 42%;
+    padding: 70px 35px 70px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 5;
+    background: linear-gradient(90deg, #05070C 0%, #05070C 88%, transparent 100%);
+  }
+
+  /* Header góc trên */
+  .stage-top {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .badge-channel {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 22px;
+    border-radius: 999px;
+    background: rgba(10,14,23,0.92);
+    border: 1.5px solid rgba(0,229,255,0.6);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+  }
+
+  .badge-channel img {
+    height: 32px;
+    width: auto;
+    border-radius: 50%;
+  }
+
+  .badge-channel span {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 3px;
+    color: #00E5FF;
+    text-transform: uppercase;
+  }
+
+  .angle-pill {
+    font-family: 'PlexMono', monospace;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 2px;
+    color: #FFC24D;
+    background: rgba(255,194,77,0.14);
+    border: 1px solid rgba(255,194,77,0.5);
+    padding: 8px 18px;
+    border-radius: 999px;
+    text-transform: uppercase;
+  }
+
+  /* Phần trung tâm: Tiêu đề giật tít mạnh mẽ */
+  .stage-main {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
+  .kicker-text {
+    font-family: 'PlexMono', monospace;
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: 4px;
+    color: #00E5FF;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .kicker-text::before {
+    content: '';
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    background: #00E5FF;
+    border-radius: 3px;
+  }
+
+  .headline {
+    font-family: 'Anton', sans-serif;
+    font-size: 86px;
+    line-height: 0.98;
+    letter-spacing: 1px;
+    color: #FFFFFF;
+    text-transform: uppercase;
+  }
+
+  .headline .highlight,
+  .headline .hl-yellow {
+    color: #FFC24D;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.95);
+  }
+
+  .headline .highlight-cyan,
+  .headline .hl-cyan {
+    color: #00E5FF;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.95), 0 0 25px rgba(0,229,255,0.4);
+  }
+
+  .headline .highlight-red,
+  .headline .hl-red {
+    color: #FF3B3B;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.95);
+  }
+
+  .headline .highlight-white,
+  .headline .hl-white {
+    color: #FFFFFF;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.95);
+  }
+
+  .rule-accent {
+    width: 150px;
+    height: 7px;
+    background: linear-gradient(90deg, #00E5FF 0%, #FFC24D 100%);
+    border-radius: 4px;
+    margin: 22px 0 18px;
+  }
+
+  .subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 23px;
+    line-height: 1.35;
+    color: #D6DDF0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* Chân thumbnail: thông số / tags */
+  .stage-footer {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-family: 'PlexMono', monospace;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #94A0BE;
+  }
+
+  .stage-footer b {
+    color: #00E5FF;
+  }
+
+  .stage-footer .dot {
+    width: 6px;
+    height: 6px;
+    background: rgba(148,160,190,0.4);
+    border-radius: 50%;
+  }
+
+  /* Viền ngoài Cyber-Stadium */
+  .border-frame {
+    position: absolute;
+    inset: 18px;
+    border: 1px solid rgba(148,160,190,0.18);
+    border-radius: 12px;
+    pointer-events: none;
+    z-index: 10;
+  }
+</style>
+</head>
+<body>
+  <div class="border-frame"></div>
+  <div class="bg-glow"></div>
+
+  <div class="container">
+    <div class="content-stage">
+      <div class="stage-top">
+        <div class="badge-channel">
+          <img src="__LOGO_URL__" alt="" onerror="this.style.display='none'">
+          <span>ĐIỂM ĐỌC</span>
+        </div>
+        <div class="angle-pill">__THUMB_BADGE__</div>
+      </div>
+
+      <div class="stage-main">
+        <div class="kicker-text">__THUMB_KICKER__</div>
+        <div class="headline">__THUMB_HEADLINE__</div>
+        <div class="rule-accent"></div>
+        <div class="subtitle">__THUMB_SUBTITLE__</div>
+      </div>
+
+      <div class="stage-footer">
+        <span>ĐIỂM ĐỌC THỂ THAO</span>
+        <div class="dot"></div>
+        <span><b>__THUMB_FOOTER_TAG__</b></span>
+        <div class="dot"></div>
+        <span>CHUẨN 1080P 30FPS</span>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <img src="__THUMB_IMAGE__" alt="">
+    </div>
+  </div>
+</body>
+</html>

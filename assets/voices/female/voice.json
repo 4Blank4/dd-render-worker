@@ -1,0 +1,29 @@
+{
+  "id": "female_secondary",
+  "name": "Ngọc Huyền",
+  "gender": "female",
+  "region": "Miền Bắc",
+  "sample_index": 14,
+  "provider": "vitts",
+  "mode": "v3turbo",
+  "speed": 1.12,
+  "pitch": 1.10,
+  "temperature": 0.5,
+  "loudnorm": {
+    "target_i": -14,
+    "lra": 11,
+    "tp": -1.0
+  },
+  "style": "Thanh cao bay bổng, nữ tính, trong trẻo, giàu năng lượng",
+  "description": "Giọng nữ thứ hai được tuyển chọn cho hệ thống: nâng cao độ 10% (pitch=1.10) tôn bật giọng nữ cao thanh thoát, nhịp 1.12 mạch lạc, không bị the thé hay chói tai.",
+  "recommended_for": [
+    "Mảng nội dung mới (phong cách sống, đời sống, review, giải trí)",
+    "Video chuyên đề phái nữ / thể thao nữ",
+    "Podcast, tản văn, câu chuyện nhân vật truyền cảm hứng",
+    "Video ngắn Shorts 9:16 cần năng lượng tươi sáng"
+  ],
+  "sample_files": {
+    "m4a": "sample_14_Ngoc_Huyen_var14_spd1.12_pch1.10.m4a",
+    "wav": "sample_14_Ngoc_Huyen_var14_spd1.12_pch1.10.wav"
+  }
+}

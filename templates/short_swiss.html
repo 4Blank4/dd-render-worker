@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080, height=1920, initial-scale=1.0">
+<title>Điểm Đọc — Swiss Editorial Light (Short)</title>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     BRAND: Swiss Editorial Light  |  format: short 9:16 (1080x1920)
+     Template này CHỈ khai báo bản sắc thị giác. Toàn bộ cấu trúc & hành vi
+     nằm trong _base.css / _runtime.js / _director.js / _cards.js.
+     ══════════════════════════════════════════════════════════════════════ -->
+
+<style>
+  /* ── FONTS (đường dẫn do renderer thay __ASSETS__) ── */
+  @font-face { font-family:'Bebas Neue'; src:url('__ASSETS__/fonts/Bebas_Neue/BebasNeue-Regular.ttf'); font-weight:900; font-display:block; }
+  @font-face { font-family:'Space Grotesk'; src:url('__ASSETS__/fonts/Space_Grotesk/static/SpaceGrotesk-Bold.ttf'); font-weight:700; font-display:block; }
+  @font-face { font-family:'Space Grotesk'; src:url('__ASSETS__/fonts/Space_Grotesk/static/SpaceGrotesk-Medium.ttf'); font-weight:500; font-display:block; }
+  @font-face { font-family:'Inter'; src:url('__ASSETS__/fonts/Inter/static/Inter_24pt-Bold.ttf'); font-weight:700; font-display:block; }
+  @font-face { font-family:'Inter'; src:url('__ASSETS__/fonts/Inter/static/Inter_24pt-Medium.ttf'); font-weight:500; font-display:block; }
+  @font-face { font-family:'Inter'; src:url('__ASSETS__/fonts/Inter/static/Inter_18pt-ExtraBold.ttf'); font-weight:800; font-display:block; }
+  @font-face { font-family:'DM Mono'; src:url('__ASSETS__/fonts/DM_Mono/DMMono-Medium.ttf'); font-weight:500; font-display:block; }
+  @font-face { font-family:'DM Mono'; src:url('__ASSETS__/fonts/DM_Mono/DMMono-Regular.ttf'); font-weight:400; font-display:block; }
+
+  /* ── DESIGN TOKENS ── */
+  :root {
+    --vw: 1080px; --vh: 1920px;
+
+    --bg-base: #F6F5F0;
+    --bg-alt:  #EFECE4;
+
+    --ink-strong:  #121418;
+    --ink-charcoal:#262A33;
+    --ink-muted:   #646A77;
+    --ink-subtle:  #949BA8;
+
+    --surface-card:   #FFFFFF;
+    --surface-sunken: #F1EFE8;
+    --chip-bg:        rgba(18,20,24,0.06);
+
+    --border-card: 2px solid #121418;
+    --border-soft: 1.5px solid #D5D2C8;
+
+    --shadow-card: 0 7px 0 rgba(18,20,24,0.08);
+
+    --accent-0: #FF3B00; --accent-0-soft: rgba(255,59,0,0.10); --accent-0-edge: rgba(255,59,0,0.40);
+    --accent-1: #1D4ED8; --accent-1-soft: rgba(29,78,216,0.09); --accent-1-edge: rgba(29,78,216,0.38);
+    --accent-2: #059669; --accent-2-soft: rgba(5,150,105,0.10); --accent-2-edge: rgba(5,150,105,0.38);
+    --accent-3: #D97706; --accent-3-soft: rgba(217,119,6,0.12); --accent-3-edge: rgba(217,119,6,0.40);
+
+    --accent: var(--accent-0);
+    --accent-soft: var(--accent-0-soft);
+    --accent-edge: var(--accent-0-edge);
+    --accent-ink: #FFFFFF;
+
+    --accent-soft-solid: rgba(255,59,0,0.30);
+    --accent2-soft-solid: rgba(29,78,216,0.26);
+
+    --font-hero:    'Bebas Neue';
+    --font-heading: 'Space Grotesk';
+    --font-body:    'Inter';
+    --font-mono:    'DM Mono';
+
+    --ease: cubic-bezier(.22,1,.36,1);
+    --radius-lg: 18px; --radius-md: 14px;
+    --grid-gap: 16px;
+
+    /* bố cục dọc */
+    --safe: 56px;
+    --header-top: 44px; --header-h: 92px; --header-radius: 0;
+    --header-display: flex; --header-pad: 0 0 14px 0;
+    --header-bg: transparent; --header-border: none;
+    --header-shadow: none; --header-blur: none;
+    --logo-h: 40px; --brand-size: 22px; --brand-track: 4px;
+    --stage-top: 150px; --stage-bottom: 220px;
+    --sub-bottom: 120px; --sub-max: 960px; --sub-size: 30px;
+
+    --grid-opacity: 1;
+    --grid-image:
+      radial-gradient(rgba(18,20,24,0.14) 1.5px, transparent 1.5px),
+      linear-gradient(to right, rgba(18,20,24,0.035) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(18,20,24,0.035) 1px, transparent 1px);
+    --grid-size: 36px 36px, 108px 108px, 108px 108px;
+
+    --banner-bg: #FFFFFF;
+    --banner-size: 30px;
+    --giant-size: 130px;
+    --number-gradient: none;
+    --number-fill: currentColor;
+    --kinetic-size: 96px;
+
+    --sub-bg: rgba(246,245,240,0.94);
+    --sub-ink: #646A77;
+    --sub-active: #121418;
+    --sub-number: #FF3B00;
+
+    --card-pad: 24px 28px;
+    --card-topline: 0;
+    --vignette-display: none;
+    --blob-display: none;
+    --portrait-display: none;
+  }
+
+  /* ── ĐẶC TRƯNG RIÊNG CỦA BRAND NÀY ── */
+  body {
+    background-image:
+      radial-gradient(circle at 85% 12%, rgba(255,59,0,0.055) 0%, transparent 42%),
+      radial-gradient(circle at 12% 78%, rgba(29,78,216,0.045) 0%, transparent 48%);
+  }
+  #bg-grid { background-image: var(--grid-image); background-size: var(--grid-size); mask-image: radial-gradient(circle at 50% 42%, #000 42%, transparent 84%); -webkit-mask-image: radial-gradient(circle at 50% 42%, #000 42%, transparent 84%); }
+
+  /* header: đường kẻ biên tập kiểu báo in */
+  .top-header { border-bottom: 2px solid #121418; align-items: flex-end; }
+  .scene-counter-pill { border-radius: 3px; background: #121418; color: #F6F5F0; border-color: #121418; font-size: 13px; padding: 6px 12px; }
+  .chap-pill { border-radius: 3px; background: transparent; }
+  .chap-pill.active { background: #FF3B00; color: #FFFFFF; border-color: #FF3B00; }
+  .chap-pill.active .chap-badge { background: #FFFFFF; color: #FF3B00; }
+
+  /* thẻ: viền mực + đổ bóng cứng kiểu Swiss */
+  .card { border-radius: 4px; }
+  .card::before { display: none; }
+  .card.just-revealed { box-shadow: 0 7px 0 rgba(18,20,24,0.08), 0 0 0 3px rgba(255,59,0,0.16); }
+  .card-title { text-transform: uppercase; letter-spacing: 1.5px; font-size: 22px; }
+
+  .gt-num, .co-num, .trio-num, .lu-num, .cmp-val, .rt-val, .mp-res, .sl-val, .bc-val, .ph-num, .pt-stamp-val {
+    font-weight: 900; letter-spacing: -0.01em;
+  }
+  .bn-pill { border-radius: 3px; font-family: var(--font-hero); font-weight: 900; }
+  .card-banner { border-radius: 4px; height: 98px; }
+
+  .trio-cell, .cmp-side, .gm-cell, .rt-row, .sl-rung, .tp-cell, .bc-track { border-radius: 4px; }
+  .fl-list li::before { border-radius: 0; }
+  .subtitle-container #subtitle-text { border-radius: 4px; border: 1.5px solid #D5D2C8; }
+  .sub-word.is-number { font-family: var(--font-mono); font-weight: 500; background: rgba(255,59,0,0.08); padding: 1px 7px; border-radius: 3px; }
+</style>
+
+<link rel="stylesheet" href="_base.css">
+</head>
+<body>
+  <div id="bg-grid"></div>
+  <div class="bg-blob" id="blob-a"></div>
+  <div class="bg-blob" id="blob-b"></div>
+
+  <header class="top-header">
+    <div class="brand-left">
+      <img src="images_ready/logo.png" class="brand-logo" alt=""
+           onerror="this.onerror=null;this.src='__LOGO__'">
+      <div class="brand-divider"></div>
+      <div class="brand-name" id="channel-title">BY THE <b>NUMBERS</b></div>
+    </div>
+    <div id="chapter-ribbon"></div>
+    <div class="scene-counter-pill" id="scene-indicator">SCENE 01 / 05</div>
+  </header>
+
+  <main id="scene-layer"></main>
+
+  <!-- chuyển cảnh -->
+  <div id="wipe"><div class="w1"></div><div class="w2"><span id="wipe-label"></span></div></div>
+  <div id="slit"><div class="sl"></div><div class="sr"></div></div>
+  <div id="iris"></div>
+  <div id="flash"></div>
+  <div id="vignette"></div>
+
+  <script>
+    // __INJECT_JSON_HERE__
+    window.VIDEO_DOMAIN = { vw: 1080, vh: 1920, format: "short" };
+  </script>
+  <script src="_runtime.js"></script>
+  <script src="_cards.js"></script>
+  <script src="_director.js"></script>
+</body>
+</html>

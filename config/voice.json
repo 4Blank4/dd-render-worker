@@ -1,0 +1,34 @@
+{
+  "provider": "vitts",
+  "default_preset": "primary",
+  "voice": "Minh Quân Pro",
+  "mode": "v3turbo",
+  "temperature": 0.6,
+  "speed": 1.12,
+  "pitch": 0.93,
+  "auto_transliterate": false,
+  "presets": {
+    "primary": {
+      "id": "male_15",
+      "gender": "male",
+      "voice": "Minh Quân Pro",
+      "mode": "v3turbo",
+      "speed": 1.12,
+      "pitch": 0.93,
+      "temperature": 0.6,
+      "alias": ["male", "nam", "minh_quan", "15", "default", "primary"],
+      "description": "Giọng nam chính: Minh Quân Pro Mẫu 15 (spd 1.12, pch 0.93, temp 0.6)"
+    },
+    "secondary": {
+      "id": "female_14",
+      "gender": "female",
+      "voice": "Ngọc Huyền",
+      "mode": "v3turbo",
+      "speed": 1.12,
+      "pitch": 1.10,
+      "temperature": 0.5,
+      "alias": ["female", "nu", "ngoc_huyen", "14", "secondary"],
+      "description": "Giọng nữ thứ hai: Ngọc Huyền Mẫu 14 (spd 1.12, pch 1.10, temp 0.5)"
+    }
+  }
+}

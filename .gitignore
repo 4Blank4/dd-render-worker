@@ -1,0 +1,44 @@
+# ============================================================================
+# .gitignore — DD-The-thao (Ephemeral Cloud Render Worker)
+# ============================================================================
+# Ngăn chặn toàn bộ kho lưu trữ outputs/, tài nguyên tham chiếu, bộ nhớ tạm,
+# chỉ cho phép đẩy Engine core + gói công việc tạm thời (_cloud_job/) lên GitHub.
+
+# 1. Kho sản phẩm & Dự án cục bộ (Lưu trên Google Drive, KHÔNG đẩy lên GitHub)
+outputs/
+projects/
+_ref/
+Thamkhao/
+docs/
+
+# 2. Thư mục thư viện & Môi trường cục bộ
+node_modules/
+.agents/
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# 3. Các file hệ điều hành & IDE
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 4. File tạm, log & cache
+*.log
+*.tmp
+_tmp_*
+.cache_*
+.run_state*
+
+# 5. Chỉ cho phép thư mục _cloud_job/ (được quản lý tự động bởi cloud_runner.py)
+!_cloud_job/

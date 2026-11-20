@@ -1,0 +1,26 @@
+{
+  "name": "Điểm Đọc",
+  "tagline": "",
+  "logo": {
+    "primary": "assets/logo/diem-doc-logo-1.png",
+    "alt": "assets/logo/diem-doc-logo-2.png",
+    "fallback_wordmark": "assets/logo/diem-doc-wordmark.svg"
+  },
+  "content_focus": {
+    "primary": "bóng đá",
+    "also": [
+      "thể thao khác"
+    ]
+  },
+  "colors": {
+    "background": "#070B14",
+    "primary_accent": "#00E5FF",
+    "secondary_accent": "#06B6D4",
+    "sky_blue": "#38BDF8",
+    "dark_navy": "#060911"
+  },
+  "end_card": {
+    "enabled": true,
+    "text": "Điểm Đọc — Nhịp đập Thể thao 24/7"
+  }
+}

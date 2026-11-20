@@ -1,0 +1,48 @@
+{
+  "enabled": true,
+  "sparkles": {
+    "enabled": true,
+    "count": 24,
+    "colors": [
+      "#F59E0B",
+      "#06B6D4",
+      "#FFFFFF"
+    ],
+    "size_range": [6.0, 12.0],
+    "speed": 1.0,
+    "opacity": 1.0
+  },
+  "embers": {
+    "enabled": true,
+    "count": 20,
+    "colors": [
+      "#F59E0B",
+      "#06B6D4"
+    ],
+    "size_range": [7.0, 15.0],
+    "speed_y": -22.0,
+    "speed_x": 8.0,
+    "opacity": 0.95
+  },
+  "light_sweep": {
+    "enabled": true,
+    "interval_sec": 7.0,
+    "duration_sec": 1.8,
+    "color": "rgba(245, 158, 11, 0.15)",
+    "angle_deg": 35
+  },
+  "grid_lines": {
+    "enabled": true,
+    "opacity": 0.15,
+    "color": "#06B6D4",
+    "speed": 6.0
+  },
+  "vignette": {
+    "enabled": true,
+    "opacity": 0.65
+  },
+  "film_grain": {
+    "enabled": false,
+    "opacity": 0.035
+  }
+}

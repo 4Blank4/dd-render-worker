@@ -1,0 +1,259 @@
+{
+  "_description": "Từ điển chuẩn hóa phát âm từ viết tắt thể thao & thời sự (Điểm Đọc)",
+  "_version": "1.0",
+  "_updated": "2026-11-02",
+  "abbreviations": [
+    {
+      "display": "Man Utd",
+      "say": "Manchester United",
+      "group": true,
+      "category": "club"
+    },
+    {
+      "display": "MU",
+      "say": "em u",
+      "group": false,
+      "category": "club"
+    },
+    {
+      "display": "VĐQG",
+      "say": "vô địch quốc gia",
+      "group": true,
+      "category": "competition"
+    },
+    {
+      "display": "ĐTQG",
+      "say": "đội tuyển quốc gia",
+      "group": true,
+      "category": "team"
+    },
+    {
+      "display": "ĐT",
+      "say": "đội tuyển",
+      "group": false,
+      "category": "team"
+    },
+    {
+      "display": "BHL",
+      "say": "ban huấn luyện",
+      "group": true,
+      "category": "role"
+    },
+    {
+      "display": "BLV",
+      "say": "bình luận viên",
+      "group": true,
+      "category": "role"
+    },
+    {
+      "display": "BXH",
+      "say": "bảng xếp hạng",
+      "group": true,
+      "category": "term"
+    },
+    {
+      "display": "TTCN",
+      "say": "thị trường chuyển nhượng",
+      "group": true,
+      "category": "term"
+    },
+    {
+      "display": "HCV",
+      "say": "huy chương vàng",
+      "group": true,
+      "category": "medal"
+    },
+    {
+      "display": "HCB",
+      "say": "huy chương bạc",
+      "group": true,
+      "category": "medal"
+    },
+    {
+      "display": "HCĐ",
+      "say": "huy chương đồng",
+      "group": true,
+      "category": "medal"
+    },
+    {
+      "display": "VĐTG",
+      "say": "vô địch thế giới",
+      "group": true,
+      "category": "title"
+    },
+    {
+      "display": "VCK",
+      "say": "vòng chung kết",
+      "group": true,
+      "category": "round"
+    },
+    {
+      "display": "CK",
+      "say": "chung kết",
+      "group": false,
+      "category": "round"
+    },
+    {
+      "display": "BK",
+      "say": "bán kết",
+      "group": false,
+      "category": "round"
+    },
+    {
+      "display": "TK",
+      "say": "tứ kết",
+      "group": false,
+      "category": "round"
+    },
+    {
+      "display": "TM",
+      "say": "thủ môn",
+      "group": false,
+      "category": "position"
+    },
+    {
+      "display": "HV",
+      "say": "hậu vệ",
+      "group": false,
+      "category": "position"
+    },
+    {
+      "display": "TV",
+      "say": "tiền vệ",
+      "group": false,
+      "category": "position"
+    },
+    {
+      "display": "TĐ",
+      "say": "tiền đạo",
+      "group": false,
+      "category": "position"
+    },
+    {
+      "display": "K.O",
+      "say": "nốc ao",
+      "group": false,
+      "category": "term"
+    },
+    {
+      "display": "KO",
+      "say": "nốc ao",
+      "group": false,
+      "category": "term"
+    },
+    {
+      "display": "Cúp QG",
+      "say": "cúp quốc gia",
+      "group": true,
+      "category": "competition"
+    },
+    {
+      "display": "HNQG",
+      "say": "hạng nhất quốc gia",
+      "group": true,
+      "category": "competition"
+    },
+    {
+      "display": "ĐHTT",
+      "say": "đại hội thể thao",
+      "group": true,
+      "category": "event"
+    },
+    {
+      "display": "CAHN",
+      "say": "công an hà nội",
+      "group": true,
+      "category": "club"
+    },
+    {
+      "display": "SLNA",
+      "say": "sông lam nghệ an",
+      "group": true,
+      "category": "club"
+    },
+    {
+      "display": "HAGL",
+      "say": "hoàng anh gia lai",
+      "group": true,
+      "category": "club"
+    },
+    {
+      "display": "WC",
+      "say": "uôn cúp",
+      "group": false,
+      "category": "competition"
+    },
+    {
+      "display": "Man United",
+      "say": "Manchester United",
+      "group": true,
+      "category": "club"
+    },
+    {
+      "display": "CĐV",
+      "say": "cổ động viên",
+      "group": true,
+      "category": "term"
+    },
+    {
+      "display": "HLV",
+      "say": "huấn luyện viên",
+      "group": true,
+      "category": "role"
+    },
+    {
+      "display": "VĐV",
+      "say": "vận động viên",
+      "group": true,
+      "category": "role"
+    },
+    {
+      "display": "BTC",
+      "say": "ban tổ chức",
+      "group": true,
+      "category": "role"
+    },
+    {
+      "display": "USD",
+      "say": "đô",
+      "group": true,
+      "category": "currency"
+    },
+    {
+      "display": "CLB",
+      "say": "câu lạc bộ",
+      "group": true,
+      "category": "club"
+    },
+    {
+      "display": "VFF",
+      "say": "vê ép ép",
+      "group": true,
+      "category": "organization"
+    },
+    {
+      "display": "TP. HCM",
+      "say": "thành phố Hồ Chí Minh",
+      "group": true,
+      "category": "location"
+    },
+    {
+      "display": "TP.HCM",
+      "say": "thành phố Hồ Chí Minh",
+      "group": true,
+      "category": "location"
+    },
+    {
+      "display": "TP HCM",
+      "say": "thành phố Hồ Chí Minh",
+      "group": true,
+      "category": "location"
+    },
+    {
+      "display": "TP.",
+      "say": "thành phố",
+      "group": true,
+      "category": "location"
+    }
+  ]
+}

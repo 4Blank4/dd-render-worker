@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080, height=1920, initial-scale=1.0">
+<title>Điểm Đọc — Cinematic Neon Dark (Short)</title>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     BRAND: Cinematic Neon Dark  |  format: short 9:16 (1080x1920)
+     Sự kết hợp giữa khung hình dọc của Short và bản sắc Cinematic Neon Dark.
+     ══════════════════════════════════════════════════════════════════════ -->
+
+<style>
+  /* ── FONTS (đường dẫn do renderer thay __ASSETS__) ── */
+  @font-face { font-family:'Anton'; src:url('__ASSETS__/fonts/Anton/Anton-Regular.ttf'); font-weight:400; font-display:block; }
+  @font-face { font-family:'Oswald'; src:url('__ASSETS__/fonts/Oswald/static/Oswald-Bold.ttf'); font-weight:700; font-display:block; }
+  @font-face { font-family:'Oswald'; src:url('__ASSETS__/fonts/Oswald/static/Oswald-SemiBold.ttf'); font-weight:600; font-display:block; }
+  @font-face { font-family:'Oswald'; src:url('__ASSETS__/fonts/Oswald/static/Oswald-Medium.ttf'); font-weight:500; font-display:block; }
+  @font-face { font-family:'Montserrat'; src:url('__ASSETS__/fonts/Montserrat/static/Montserrat-Bold.ttf'); font-weight:700; font-display:block; }
+  @font-face { font-family:'Montserrat'; src:url('__ASSETS__/fonts/Montserrat/static/Montserrat-SemiBold.ttf'); font-weight:600; font-display:block; }
+  @font-face { font-family:'Montserrat'; src:url('__ASSETS__/fonts/Montserrat/static/Montserrat-Medium.ttf'); font-weight:500; font-display:block; }
+  @font-face { font-family:'PlexMono'; src:url('__ASSETS__/fonts/IBM_Plex_Mono/IBMPlexMono-Bold.ttf'); font-weight:700; font-display:block; }
+  @font-face { font-family:'PlexMono'; src:url('__ASSETS__/fonts/IBM_Plex_Mono/IBMPlexMono-Medium.ttf'); font-weight:500; font-display:block; }
+
+  /* ── DESIGN TOKENS ── */
+  :root {
+    --vw: 1080px; --vh: 1920px;
+
+    --bg-base: #05070C;
+    --bg-alt:  #0A0E17;
+
+    --ink-strong:  #F3F6FF;
+    --ink-charcoal:#D6DDF0;
+    --ink-muted:   #94A0BE;
+    --ink-subtle:  #5E6B8C;
+
+    --surface-card:   linear-gradient(158deg, rgba(20,28,46,0.78), rgba(9,13,22,0.72));
+    --surface-sunken: linear-gradient(160deg, rgba(20,28,46,0.60), rgba(9,13,22,0.55));
+    --chip-bg:        rgba(5,7,12,0.78);
+
+    --border-card: 1px solid rgba(148,160,190,0.22);
+    --border-soft: 1px solid rgba(148,160,190,0.14);
+
+    --shadow-card: 0 18px 48px rgba(0,0,0,0.55);
+
+    --accent-0: #FFC24D; --accent-0-soft: rgba(255,194,77,0.18); --accent-0-edge: rgba(255,194,77,0.45);
+    --accent-1: #28E0D0; --accent-1-soft: rgba(40,224,208,0.16); --accent-1-edge: rgba(40,224,208,0.45);
+    --accent-2: #FF6B4A; --accent-2-soft: rgba(255,107,74,0.18); --accent-2-edge: rgba(255,107,74,0.45);
+    --accent-3: #7CF3EA; --accent-3-soft: rgba(124,243,234,0.16); --accent-3-edge: rgba(124,243,234,0.45);
+
+    --accent: var(--accent-0);
+    --accent-soft: var(--accent-0-soft);
+    --accent-edge: var(--accent-0-edge);
+    --accent-ink: #0A0E17;
+
+    --accent-soft-solid: rgba(255,194,77,0.34);
+    --accent2-soft-solid: rgba(40,224,208,0.30);
+
+    --font-hero:    'Anton';
+    --font-heading: 'Oswald';
+    --font-body:    'Montserrat';
+    --font-mono:    'PlexMono';
+
+    --ease: cubic-bezier(.22,1,.36,1);
+    --radius-lg: 16px; --radius-md: 12px;
+    --grid-gap: 12px;
+
+    /* bố cục dọc */
+    --safe: 52px;
+    --header-top: 36px; --header-h: 84px; --header-radius: 14px;
+    --header-display: flex; --header-pad: 0 22px;
+    --header-bg: linear-gradient(90deg, rgba(255,194,77,0.10), rgba(10,14,23,0.75) 40%, rgba(40,224,208,0.10));
+    --header-border: 1px solid rgba(148,160,190,0.25);
+    --header-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    --header-blur: blur(8px);
+    --logo-h: 38px; --brand-size: 22px; --brand-track: 4px;
+    --stage-top: 120px; --stage-bottom: 136px;
+    --sub-bottom: 86px; --sub-max: 980px; --sub-size: 30px;
+
+    --grid-opacity: 0.45;
+    --grid-image:
+      radial-gradient(rgba(255,194,77,0.18) 1.5px, transparent 1.5px),
+      linear-gradient(rgba(148,160,190,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148,160,190,0.06) 1px, transparent 1px);
+    --grid-size: 38px 38px, 152px 152px, 152px 152px;
+
+    --banner-bg: linear-gradient(92deg, rgba(255,194,77,0.18), rgba(14,20,34,0.85) 40%, rgba(40,224,208,0.14));
+    --banner-size: 28px;
+    --giant-size: 130px;
+    --number-gradient: linear-gradient(180deg, #FFFFFF 15%, var(--accent) 85%);
+    --number-fill: transparent;
+    --kinetic-size: 92px;
+
+    --sub-bg: rgba(5,7,12,0.88);
+    --sub-ink: #CBD5E1;
+    --sub-active: #FFFFFF;
+    --sub-number: #FFC24D;
+
+    --card-pad: 18px 22px;
+    --card-topline: .9;
+    --vignette-display: block;
+    --vignette-shadow: inset 0 0 280px 80px rgba(0,0,0,0.85), inset 0 0 100px 15px rgba(0,0,0,0.6);
+    --blob-display: block;
+  }
+
+  /* ── ĐIỀU CHỈNH RIÊNG CHO BRAND CINEMATIC DARK ── */
+  body {
+    background: radial-gradient(circle at 50% 30%, #0e1524 0%, #05070C 75%);
+  }
+  .card {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .card.just-revealed {
+    box-shadow: var(--shadow-card), 0 0 50px var(--accent-soft);
+  }
+  .bn-pill {
+    font-family: var(--font-hero);
+    font-size: 36px;
+    padding: 2px 20px;
+    color: #0A0E17;
+    background: var(--accent);
+    box-shadow: 0 0 24px var(--accent-soft);
+  }
+  .subtitle-container #subtitle-text {
+    border-radius: 12px;
+    border: 1px solid rgba(148,160,190,0.22);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 12px 36px rgba(0,0,0,0.6);
+  }
+  .sub-word.is-number {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    color: #FFC24D;
+    background: rgba(255,194,77,0.18);
+    padding: 2px 8px;
+    border-radius: 6px;
+  }
+</style>
+
+<link rel="stylesheet" href="_base.css">
+
+<!-- ── OVERRIDES CHO SHORT MOBILE: TYPOGRAPHY KHỔNG LỒ & HIỆU ỨNG RỰC RỠ ── -->
+<style>
+  /* Cấu trúc lưới */
+  .scene-grid {
+    gap: 16px !important;
+    padding: 0 10px !important;
+  }
+  .row {
+    gap: 16px !important;
+  }
+
+  /* Khung Card */
+  .card {
+    border-radius: 18px !important;
+    padding: 22px 24px !important;
+    border: 1px solid rgba(148, 160, 190, 0.28) !important;
+    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.65) !important;
+  }
+  .card::before {
+    height: 3px !important;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent) !important;
+  }
+  .card.just-revealed {
+    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.65), 0 0 55px var(--accent-soft) !important;
+    border-color: var(--accent) !important;
+  }
+
+  /* Banner trên cùng */
+  .card-banner {
+    height: 104px !important;
+    padding: 0 26px !important;
+    border: 1.5px solid var(--accent-edge) !important;
+    background: linear-gradient(92deg, rgba(255,194,77,0.18), rgba(14,20,34,0.88) 45%, rgba(40,224,208,0.14)) !important;
+  }
+  .bn-kicker {
+    font-size: 20px !important;
+    letter-spacing: 2.2px !important;
+    color: var(--accent) !important;
+    font-weight: 700 !important;
+  }
+  .bn-headline {
+    font-size: 44px !important;
+    line-height: 1.1 !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px !important;
+  }
+  .bn-pill {
+    font-size: 34px !important;
+    padding: 4px 18px !important;
+    border-radius: 8px !important;
+  }
+
+  /* Dual Clash */
+  .cmp-grid {
+    gap: 12px !important;
+  }
+  .cmp-side {
+    padding: 22px 18px !important;
+    gap: 8px !important;
+    border-radius: 16px !important;
+  }
+  .cmp-side.is-hi {
+    border: 2px solid var(--accent) !important;
+    box-shadow: 0 0 35px var(--accent-soft) !important;
+  }
+  .cmp-label {
+    font-size: 20px !important;
+    letter-spacing: 1.8px !important;
+    color: var(--ink-charcoal) !important;
+  }
+  .cmp-val {
+    font-size: 50px !important;
+    line-height: 1.0 !important;
+    color: var(--accent) !important;
+    text-shadow: 0 0 25px var(--accent-soft);
+    white-space: nowrap !important;
+  }
+  .cmp-sub {
+    font-size: 21px !important;
+    line-height: 1.35 !important;
+    color: var(--ink-muted) !important;
+  }
+  .cmp-verdict {
+    font-size: 20px !important;
+    letter-spacing: 1.5px !important;
+    color: var(--accent-1) !important;
+    padding: 4px 8px !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Grid Matrix (4 ô toán học) */
+  .gm-grid {
+    gap: 16px !important;
+  }
+  .gm-cell {
+    padding: 22px 24px !important;
+    gap: 8px !important;
+    border-radius: 16px !important;
+  }
+  .gm-val {
+    font-size: 58px !important;
+    line-height: 1.05 !important;
+    color: var(--accent) !important;
+    font-family: var(--font-heading) !important;
+    font-weight: 700 !important;
+  }
+  .gm-hint {
+    font-size: 22px !important;
+    font-weight: 700 !important;
+    letter-spacing: 1.5px !important;
+    color: var(--accent-1) !important;
+  }
+  .gm-label {
+    font-size: 22px !important;
+    line-height: 1.35 !important;
+    color: var(--ink-charcoal) !important;
+  }
+
+  /* Rank Table (Hằng số tự nhiên Planck) */
+  .card-title {
+    font-size: 28px !important;
+    letter-spacing: 1.5px !important;
+    margin-bottom: 16px !important;
+    color: var(--accent) !important;
+  }
+  .rt-list {
+    gap: 14px !important;
+  }
+  .rt-row {
+    padding: 16px 24px !important;
+    border-radius: 14px !important;
+    grid-template-columns: 80px 1fr auto !important;
+  }
+  .rt-row.is-hi {
+    border: 1.5px solid var(--accent-edge) !important;
+    background: rgba(255,194,77,0.12) !important;
+  }
+  .rt-rank {
+    font-size: 46px !important;
+    font-family: var(--font-hero) !important;
+    color: var(--accent) !important;
+  }
+  .rt-name {
+    font-size: 26px !important;
+    font-family: var(--font-heading) !important;
+    letter-spacing: 1px !important;
+    color: var(--ink-strong) !important;
+  }
+  .rt-val {
+    font-size: 50px !important;
+    font-family: var(--font-hero) !important;
+    color: var(--accent) !important;
+    padding-left: 10px;
+  }
+
+  /* Quote Card (Pythagoras) */
+  .card-quote {
+    padding: 28px 32px !important;
+    border: 1.5px solid var(--accent-edge) !important;
+  }
+  .qt-mark {
+    font-size: 64px !important;
+    color: var(--accent) !important;
+    margin-bottom: 10px !important;
+  }
+  .qt-text {
+    font-size: 38px !important;
+    line-height: 1.35 !important;
+    font-family: var(--font-heading) !important;
+    font-weight: 600 !important;
+    color: var(--ink-strong) !important;
+  }
+  .qt-author {
+    font-size: 24px !important;
+    font-family: var(--font-mono) !important;
+    letter-spacing: 2px !important;
+    color: var(--accent) !important;
+    margin-top: 18px !important;
+  }
+  .qt-role {
+    color: var(--ink-muted) !important;
+    font-size: 18px !important;
+  }
+
+  /* Kinetic Statement (Climax) */
+  .card-kinetic {
+    padding: 36px 24px !important;
+  }
+  .ks-line {
+    font-size: 96px !important;
+    line-height: 1.02 !important;
+    color: var(--ink-strong) !important;
+    text-shadow: 0 0 35px rgba(255,255,255,0.3) !important;
+  }
+  .ks-sub {
+    font-size: 32px !important;
+    font-family: var(--font-heading) !important;
+    letter-spacing: 2px !important;
+    color: var(--accent) !important;
+    margin-top: 24px !important;
+    text-transform: uppercase !important;
+  }
+
+  /* Subtitles / Karaoke Container */
+  .subtitle-container {
+    bottom: 96px !important;
+  }
+  .subtitle-container #subtitle-text {
+    font-size: 34px !important;
+    line-height: 1.3 !important;
+    padding: 16px 30px !important;
+    border-radius: 14px !important;
+    background: rgba(5, 7, 12, 0.92) !important;
+    border: 1px solid rgba(148, 160, 190, 0.3) !important;
+  }
+  .sub-word.active {
+    color: #FFFFFF !important;
+    text-shadow: 0 0 16px rgba(255,255,255,0.8) !important;
+  }
+</style>
+<body>
+  <div id="bg-grid"></div>
+  <div class="bg-blob" id="blob-a"></div>
+  <div class="bg-blob" id="blob-b"></div>
+
+  <header class="top-header">
+    <div class="brand-left">
+      <img src="images_ready/logo.png" class="brand-logo" alt=""
+           onerror="this.onerror=null;this.src='__LOGO__'">
+      <div class="brand-divider"></div>
+      <div class="brand-name" id="channel-title">BY THE <b>NUMBERS</b></div>
+    </div>
+    <div id="chapter-ribbon"></div>
+    <div class="scene-counter-pill" id="scene-indicator">SCENE 01 / 04</div>
+  </header>
+
+  <main id="scene-layer"></main>
+
+  <!-- chuyển cảnh -->
+  <div id="wipe"><div class="w1"></div><div class="w2"><span id="wipe-label"></span></div></div>
+  <div id="slit"><div class="sl"></div><div class="sr"></div></div>
+  <div id="iris"></div>
+  <div id="flash"></div>
+  <div id="vignette"></div>
+
+  <script>
+    // __INJECT_JSON_HERE__
+    window.VIDEO_DOMAIN = { vw: 1080, vh: 1920, format: "short" };
+  </script>
+  <script src="_runtime.js"></script>
+  <script src="_cards.js"></script>
+  <script src="_director.js"></script>
+</body>
+</html>

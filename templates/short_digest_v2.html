@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080, height=1920, initial-scale=1.0">
+<title>Điểm Đọc — Tin Nhanh Thể Thao (9:16 Shorts News v2)</title>
+
+<style>
+  @font-face {
+    font-family: 'Barlow Condensed';
+    src: url('__ASSETS__/fonts/Barlow_Condensed/BarlowCondensed-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-display: block;
+  }
+  @font-face {
+    font-family: 'Barlow Condensed';
+    src: url('__ASSETS__/fonts/Barlow_Condensed/BarlowCondensed-ExtraBold.ttf') format('truetype');
+    font-weight: 800;
+    font-display: block;
+  }
+  @font-face {
+    font-family: 'Be Vietnam Pro';
+    src: url('__ASSETS__/fonts/Be_Vietnam_Pro/BeVietnamPro-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-display: block;
+  }
+  @font-face {
+    font-family: 'Be Vietnam Pro';
+    src: url('__ASSETS__/fonts/Be_Vietnam_Pro/BeVietnamPro-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-display: block;
+  }
+
+  :root {
+    --vw: 1080px;
+    --vh: 1920px;
+
+    /* Bảng màu Cyber-Stadium Electric Cyan */
+    --bg-dark: #060911;
+    --accent-cyan: #00E5FF;
+    --accent-blue: #06B6D4;
+    --accent-red: #EF4444;
+    --ink-white: #FFFFFF;
+    --ink-subtle: #94A3B8;
+
+    --font-heading: 'Barlow Condensed', sans-serif;
+    --font-body: 'Be Vietnam Pro', sans-serif;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    width: var(--vw);
+    height: var(--vh);
+    background-color: var(--bg-dark);
+    color: var(--ink-white);
+    font-family: var(--font-body);
+    overflow: hidden;
+    position: relative;
+    user-select: none;
+  }
+
+  #stage-viewport {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    overflow: hidden;
+    background: radial-gradient(circle at 50% 40%, #0d1527 0%, #060911 85%);
+  }
+
+  /* ── 1. SÂN KHẤU NỘI DUNG ẢNH TRÀN RỘNG (CAO 1430PX, Z-INDEX 25) ── */
+  #scenes-root {
+    position: absolute;
+    top: 245px;
+    bottom: 245px;
+    left: 0;
+    right: 0;
+    width: 1080px;
+    height: 1430px;
+    overflow: hidden;
+    z-index: 25;
+    background: #060911;
+  }
+
+  .digest-item-stage {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden;
+  }
+
+  .pan-photo-wrapper {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    overflow: hidden;
+    background: #060911;
+  }
+
+  /* Gradient viền trên và dưới hòa quyện mượt mà vào header và phụ đề */
+  .pan-photo-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 140px;
+    background: linear-gradient(180deg, rgba(6, 9, 17, 1) 0%, rgba(6, 9, 17, 0.45) 60%, transparent 100%);
+    z-index: 5;
+    pointer-events: none;
+  }
+
+  .pan-photo-wrapper::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0; height: 160px;
+    background: linear-gradient(0deg, rgba(6, 9, 17, 1) 0%, rgba(6, 9, 17, 0.55) 60%, transparent 100%);
+    z-index: 5;
+    pointer-events: none;
+  }
+
+  .pan-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: auto;
+    min-width: 1080px;
+    display: block;
+    will-change: transform, opacity;
+  }
+
+  .pan-img.portrait-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  /* ── 2. LỚP HIỆU ỨNG OVERLAY (Z-INDEX 45) NẰM TRÊN ẢNH, DƯỚI TEXT ── */
+  #fx-canvas {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 45;
+    pointer-events: none;
+  }
+
+  .vignette-top {
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 280px;
+    background: linear-gradient(180deg, rgba(6, 9, 17, 0.98) 0%, rgba(6, 9, 17, 0.70) 65%, transparent 100%);
+    z-index: 50;
+    pointer-events: none;
+  }
+
+  .vignette-bottom {
+    position: absolute;
+    bottom: 0; left: 0; right: 0; height: 320px;
+    background: linear-gradient(0deg, rgba(6, 9, 17, 0.98) 0%, rgba(6, 9, 17, 0.85) 65%, transparent 100%);
+    z-index: 50;
+    pointer-events: none;
+  }
+
+  /* ── 3. HEADER THƯƠNG HIỆU & CHIP NGÀY (Z-INDEX 100) ── */
+  #header-bar {
+    position: absolute;
+    top: 44px; left: 40px; right: 40px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 100;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .channel-capsule {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(11, 16, 29, 0.90);
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    border-radius: 999px;
+    padding: 6px 16px 6px 8px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+  }
+
+  .channel-logo {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1.5px solid var(--accent-cyan);
+  }
+
+  .channel-name {
+    font-family: var(--font-heading);
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: var(--ink-white);
+  }
+
+  .category-pill {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: #060911;
+    background: var(--accent-cyan);
+    padding: 6px 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 229, 255, 0.45);
+    text-transform: uppercase;
+  }
+
+  .date-chip {
+    font-family: var(--font-heading);
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: var(--accent-cyan);
+    background: rgba(11, 16, 29, 0.90);
+    border: 1px solid rgba(0, 229, 255, 0.45);
+    padding: 6px 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+  }
+
+  /* ── 4. THANH TIÊU ĐỀ CỐ ĐỊNH 9:16 (NẰM Ở KHOẢNG TRỐNG PHÍA TRÊN ẢNH) ── */
+  #fixed-headline-container {
+    position: absolute;
+    top: 135px; left: 40px; right: 40px;
+    z-index: 95;
+    pointer-events: none;
+  }
+
+  #fixed-headline-bar {
+    width: 100%;
+    font-family: var(--font-heading);
+    font-size: 42px;
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--ink-white);
+    background: rgba(11, 16, 29, 0.94);
+    border-left: 6px solid var(--accent-cyan);
+    border-radius: 0 12px 12px 0;
+    padding: 10px 20px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.8), 0 0 20px rgba(0, 229, 255, 0.15);
+    overflow: hidden;
+  }
+
+  /* ── 5. LOWER-THIRD 2 GÓC: NGUỒN TIN (TRÁI) & NGUỒN ẢNH (PHẢI) (Z-INDEX 90) ── */
+  #lower-third-bar {
+    position: absolute;
+    bottom: 220px; left: 40px; right: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 90;
+    pointer-events: none;
+  }
+
+  .lt-source {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink-subtle);
+    background: rgba(6, 9, 17, 0.90);
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    border-radius: 6px;
+    padding: 5px 14px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+  }
+
+  .lower-third-left .lt-source {
+    color: #38BDF8;
+    border-color: rgba(56, 189, 248, 0.45);
+  }
+
+  .lower-third-right .lt-source {
+    color: #F1F5F9;
+    border-color: rgba(0, 229, 255, 0.45);
+  }
+
+  /* ── 6. HỘP PHỤ ĐỀ KARAOKE CỠ LỚN ~48PX (NẰM DƯỚI ĐÁY KHUNG, Z-INDEX 100) ── */
+  #karaoke-container {
+    position: absolute;
+    bottom: 45px; left: 36px; right: 36px;
+    min-height: 135px;
+    max-height: 190px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    pointer-events: none;
+  }
+
+  #karaoke-box {
+    width: 100%;
+    min-height: 130px;
+    background: rgba(6, 9, 17, 0.95);
+    border: 2px solid rgba(0, 229, 255, 0.45);
+    border-radius: 18px;
+    padding: 16px 26px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px 14px;
+    backdrop-filter: blur(16px);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.95), 0 0 20px rgba(0, 229, 255, 0.2);
+  }
+
+  .k-word {
+    font-family: var(--font-body);
+    font-size: 48px;
+    font-weight: 700;
+    color: #94A3B8;
+    line-height: 1.25;
+    display: inline-block;
+  }
+
+  .k-word.spoken {
+    color: #FFFFFF;
+    font-weight: 700;
+  }
+
+  .k-word.active {
+    color: #060911 !important;
+    background: var(--accent-cyan);
+    font-weight: 800;
+    border-radius: 8px;
+    padding: 3px 12px;
+    box-shadow: 0 0 18px rgba(0, 229, 255, 0.95);
+    transform: scale(1.06);
+  }
+</style>
+
+<!-- Thư viện GSAP vendored & DDOverlay -->
+<script src="__ASSETS__/vendor/js/gsap.min.js"></script>
+<script src="__ASSETS__/vendor/js/CustomEase.min.js"></script>
+<script src="__ASSETS__/overlays/dd_overlay.js"></script>
+</head>
+<body>
+
+<div id="stage-viewport">
+  <!-- Sân khấu nội dung các tin digest (z-index 25) -->
+  <div id="scenes-root"></div>
+
+  <!-- Canvas hiệu ứng overlay -->
+  <canvas id="fx-canvas" width="1080" height="1920"></canvas>
+
+  <div class="vignette-top"></div>
+  <div class="vignette-bottom"></div>
+
+  <!-- Header 9:16 -->
+  <div id="header-bar">
+    <div class="header-left">
+      <div class="channel-capsule">
+        <img class="channel-logo" src="__LOGO__" alt="Logo">
+        <span class="channel-name">ĐIỂM ĐỌC</span>
+      </div>
+      <div class="category-pill" id="cat-pill">TIN 01/25</div>
+    </div>
+    <div class="date-chip" id="header-date-chip">THỨ HAI · 02.11.2026</div>
+  </div>
+
+  <!-- Thanh tiêu đề cố định 9:16 -->
+  <div id="fixed-headline-container">
+    <div id="fixed-headline-bar"></div>
+  </div>
+
+  <!-- Lower-Third 2 góc: Nguồn tin (Góc trái) & Nguồn ảnh (Góc phải) -->
+  <div id="lower-third-bar">
+    <div class="lower-third-left">
+      <div class="lt-source" id="lt-news-source">📰 NGUỒN: BÁO THỂ THAO</div>
+    </div>
+    <div class="lower-third-right">
+      <div class="lt-source" id="lt-credit">📷 ẢNH: TƯ LIỆU</div>
+    </div>
+  </div>
+
+  <!-- Karaoke Box lớn 9:16 -->
+  <div id="karaoke-container">
+    <div id="karaoke-box"></div>
+  </div>
+</div>
+
+<script>
+// Dữ liệu được inject bởi engine renderer.py
+// __INJECT_JSON_HERE__
+
+(function() {
+  const data = window.VIDEO_DATA || {};
+  const wordsData = window.WORD_TIMESTAMPS || {};
+  const items = data.items || [];
+  const karaokeChunks = wordsData.karaoke_chunks || data.karaoke_chunks || [];
+  const fxConfig = data.fx || {};
+
+  // 1. Header Date
+  const dateStr = data.date_chip || data.date_str || "THỨ HAI · 02.11.2026";
+  const dateChipEl = document.getElementById("header-date-chip");
+  if (dateChipEl) {
+    if (data.hide_date_chip || !dateStr || dateStr.trim() === "") {
+      dateChipEl.style.display = "none";
+    } else {
+      dateChipEl.textContent = dateStr;
+      dateChipEl.style.display = "flex";
+    }
+  }
+
+  // 2. Render DOM các tin digest
+  const scenesRoot = document.getElementById("scenes-root");
+  scenesRoot.innerHTML = "";
+
+  items.forEach((it, idx) => {
+    const stage = document.createElement("div");
+    stage.className = `digest-item-stage stage-${idx}`;
+    stage.id = `sent-stage-${idx}`;
+
+    const imgSrc = it.image || (it.images && it.images[0]) || "";
+    const cls = it.is_portrait ? "pan-img portrait-img" : "pan-img";
+    stage.innerHTML = `
+      <div class="pan-photo-wrapper" id="pan-wrap-${idx}">
+        <img class="${cls}" id="img-${idx}" src="${imgSrc}">
+      </div>
+    `;
+    scenesRoot.appendChild(stage);
+  });
+
+  // Co font tiêu đề DOM
+  const headlineBarEl = document.getElementById("fixed-headline-bar");
+  const catPillEl = document.getElementById("cat-pill");
+
+  function fitHeadlineDOM(el, maxLines, minSize, startSize) {
+    el.style.fontSize = startSize + "px";
+    let cur = startSize;
+    const testLineHeight = startSize * 1.15;
+    const maxHeight = testLineHeight * maxLines + 8;
+    while (el.scrollHeight > maxHeight && cur > minSize) {
+      cur -= 1;
+      el.style.fontSize = cur + "px";
+    }
+  }
+
+  // 3. GSAP Timeline Animation
+  const tl = gsap.timeline({ paused: true });
+  window.mainTl = tl;
+
+  items.forEach((it, idx) => {
+    const stageId = `#sent-stage-${idx}`;
+    const itStart = it.start;
+    const itEnd = it.end;
+    const itDur = it.duration;
+
+    // A. Hiện ảnh tin mượt mà
+    if (idx === 0) {
+      tl.set(stageId, { autoAlpha: 1 }, 0);
+    } else {
+      tl.fromTo(stageId, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.35, ease: "power1.out" }, itStart);
+    }
+    if (idx < items.length - 1) {
+      tl.to(stageId, { autoAlpha: 0, duration: 0.25, ease: "power1.in" }, itEnd);
+    }
+
+    // B. Lia camera ngang quanh trọng tâm nhân vật (focal subject pan / "ảnh chạy")
+    const imgEl = `#img-${idx}`;
+    const motionDur = itDur + 0.4;
+    if (it.is_portrait) {
+      tl.fromTo(
+        imgEl,
+        { scale: 1.03 },
+        { scale: 1.10, duration: motionDur, ease: "none" },
+        itStart
+      );
+    } else {
+      const sx = (it.start_x !== undefined) ? it.start_x : 0;
+      const ex = (it.end_x !== undefined) ? it.end_x : -(it.pan_shift || 400);
+      tl.fromTo(
+        imgEl,
+        { x: sx, y: 0, scale: 1.02 },
+        { x: ex, y: 0, scale: 1.02, duration: motionDur, ease: "none" },
+        itStart
+      );
+    }
+
+    // C. Cập nhật Tiêu đề, Số thứ tự tin và Credit
+    tl.call(() => {
+      if (catPillEl) {
+        catPillEl.textContent = `TIN ${String(idx + 1).padStart(2, '0')}/${String(items.length).padStart(2, '0')}`;
+      }
+      headlineBarEl.textContent = (it.title || "").trim();
+      fitHeadlineDOM(headlineBarEl, 3, 34, 42);
+
+      const nsEl = document.getElementById("lt-news-source");
+      const crEl = document.getElementById("lt-credit");
+      const rawNewsSrc = (it.news_source || it.source || data.news_source || data.source || "ĐIỂM ĐỌC THỂ THAO").trim();
+      const rawCredit = (it.credit || "").trim();
+      if (nsEl) {
+        let cleanNs = rawNewsSrc.replace(/^(nguồn|ảnh|nguon|anh)\s*:\s*/i, "").trim();
+        nsEl.textContent = `📰 NGUỒN: ${(cleanNs || "ĐIỂM ĐỌC THỂ THAO").toUpperCase()}`;
+        nsEl.style.display = "block";
+      }
+      if (crEl) {
+        if (rawCredit) {
+          let cleanCr = rawCredit.replace(/^(ảnh|anh|nguồn|nguon)\s*:\s*/i, "").trim();
+          crEl.textContent = `📷 ẢNH: ${cleanCr.toUpperCase()}`;
+          crEl.style.display = "block";
+        } else {
+          crEl.style.display = "none";
+        }
+      }
+    }, null, itStart);
+  });
+
+  // 4. Khởi tạo FX Overlay
+  const canvas = document.getElementById("fx-canvas");
+  if (window.DDOverlay) {
+    window.DDOverlay.init(canvas, {
+      seed: "digest_shorts_" + String(items.length),
+      config: fxConfig
+    });
+  }
+
+  // 5. Đồng bộ Karaoke (chuẩn 48px, neo đáy 45px, không rỗng giữa các chunk)
+  const kBox = document.getElementById("karaoke-box");
+  window.updateKaraoke = function(sec) {
+    if (!karaokeChunks || !karaokeChunks.length) return;
+
+    let activeChunk = null;
+    for (let i = 0; i < karaokeChunks.length; i++) {
+      const c = karaokeChunks[i];
+      if (sec >= (c.start - 0.08) && sec <= (c.end + 0.20)) {
+        activeChunk = c;
+        break;
+      }
+    }
+
+    // Nếu đang ở khoảng lặng ngắn giữa 2 chunk hoặc đổi câu, lấy chunk gần nhất trước đó
+    if (!activeChunk) {
+      for (let i = karaokeChunks.length - 1; i >= 0; i--) {
+        if (karaokeChunks[i].start <= sec) {
+          activeChunk = karaokeChunks[i];
+          break;
+        }
+      }
+    }
+
+    if (!activeChunk) {
+      activeChunk = karaokeChunks[0];
+    }
+    if (!activeChunk) return;
+
+    kBox.innerHTML = activeChunk.words.map(w => {
+      let cls = "k-word";
+      if (sec >= (w.start - 0.04) && sec <= (w.end + 0.06)) {
+        cls += " active";
+      } else if (sec > w.end) {
+        cls += " spoken";
+      }
+      return `<span class="${cls}">${w.word}</span>`;
+    }).join("");
+  };
+
+  // 6. Hook Virtual Clock
+  const globalOffsetSec = data.global_offset_sec || 0.0;
+  window.updateAudioTime = function(sec) {
+    if (window.mainTl) {
+      window.mainTl.time(sec);
+    }
+    window.updateKaraoke(sec);
+    if (window.DDOverlay) {
+      window.DDOverlay.update(sec, globalOffsetSec);
+    }
+  };
+
+  if (window.__vt) {
+    const origAdv = window.__vt.advanceTo;
+    window.__vt.advanceTo = function(ms) {
+      const vnow = origAdv.call(window.__vt, ms);
+      window.updateAudioTime(vnow / 1000.0);
+      return vnow;
+    };
+  }
+
+  // Khởi động tin đầu tiên
+  if (items.length > 0) {
+    if (catPillEl) {
+      catPillEl.textContent = `TIN 01/${String(items.length).padStart(2, '0')}`;
+    }
+    headlineBarEl.textContent = (items[0].title || "").trim();
+    fitHeadlineDOM(headlineBarEl, 3, 34, 42);
+    const nsEl = document.getElementById("lt-news-source");
+    const crEl = document.getElementById("lt-credit");
+    const rawNewsSrc = (items[0].news_source || items[0].source || data.news_source || data.source || "ĐIỂM ĐỌC THỂ THAO").trim();
+    const rawCredit = (items[0].credit || "").trim();
+    if (nsEl) {
+      let cleanNs = rawNewsSrc.replace(/^(nguồn|ảnh|nguon|anh)\s*:\s*/i, "").trim();
+      nsEl.textContent = `📰 NGUỒN: ${(cleanNs || "ĐIỂM ĐỌC THỂ THAO").toUpperCase()}`;
+      nsEl.style.display = "block";
+    }
+    if (crEl) {
+      if (rawCredit) {
+        let cleanCr = rawCredit.replace(/^(ảnh|anh|nguồn|nguon)\s*:\s*/i, "").trim();
+        crEl.textContent = `📷 ẢNH: ${cleanCr.toUpperCase()}`;
+        crEl.style.display = "block";
+      } else {
+        crEl.style.display = "none";
+      }
+    }
+  }
+
+})();
+</script>
+</body>
+</html>

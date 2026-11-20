@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080, height=1920, initial-scale=1.0">
+<title>Điểm Đọc — Short Outro 3: Kinetic Slam</title>
+<style>
+  @font-face {
+    font-family: 'Anton';
+    src: url('__ASSETS__/fonts/Anton/Anton-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-display: block;
+  }
+  @font-face {
+    font-family: 'Barlow Condensed';
+    src: url('__ASSETS__/fonts/Barlow_Condensed/BarlowCondensed-ExtraBold.ttf') format('truetype');
+    font-weight: 800;
+    font-display: block;
+  }
+  @font-face {
+    font-family: 'Be Vietnam Pro';
+    src: url('__ASSETS__/fonts/Be_Vietnam_Pro/BeVietnamPro-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-display: block;
+  }
+  @font-face {
+    font-family: 'IBM Plex Mono';
+    src: url('__ASSETS__/fonts/IBM_Plex_Mono/IBMPlexMono-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-display: block;
+  }
+
+  :root {
+    --vw: 1080px;
+    --vh: 1920px;
+    --bg: #05070E;
+    --cyan: #00E5FF;
+    --rose: #F43F5E;
+    --amber: #F59E0B;
+    --ink: #FFFFFF;
+    --muted: #94A3B8;
+    --font-display: 'Anton', sans-serif;
+    --font-heading: 'Barlow Condensed', sans-serif;
+    --font-body: 'Be Vietnam Pro', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: var(--vw);
+    height: var(--vh);
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    overflow: hidden;
+    position: relative;
+    user-select: none;
+  }
+
+  #stage {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 48%, #0d1d3a 0%, #05070E 74%);
+    overflow: hidden;
+  }
+
+  /* Nền chấm halftone tinh tế kiểu poster thể thao */
+  .halftone-bg {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(0, 229, 255, 0.14) 1.5px, transparent 1.5px);
+    background-size: 28px 28px;
+    mask-image: radial-gradient(circle at 50% 48%, rgba(0,0,0,0.8) 10%, transparent 72%);
+    -webkit-mask-image: radial-gradient(circle at 50% 48%, rgba(0,0,0,0.8) 10%, transparent 72%);
+    pointer-events: none;
+  }
+
+  #fx-canvas {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    pointer-events: none;
+  }
+
+  #flash-layer {
+    position: absolute;
+    inset: 0;
+    background: var(--cyan);
+    opacity: 0;
+    z-index: 50;
+    pointer-events: none;
+  }
+
+  /* Vùng an toàn trung tâm */
+  .kinetic-center {
+    position: absolute;
+    left: 60px;
+    right: 110px;
+    top: 260px;
+    bottom: 320px;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .beat-panel {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  /* ── BEAT 1: THẤY HAY? ── */
+  .k-big {
+    font-family: var(--font-display);
+    font-size: 168px;
+    line-height: 0.96;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-shadow: 0 18px 50px rgba(0, 0, 0, 0.9);
+  }
+
+  .k-accent {
+    color: var(--cyan);
+    text-shadow: 0 0 42px rgba(0, 229, 255, 0.72);
+  }
+
+  .k-sub-tag {
+    margin-top: 26px;
+    font-family: var(--font-mono);
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: var(--cyan);
+    background: rgba(0, 229, 255, 0.12);
+    border: 1.5px solid rgba(0, 229, 255, 0.45);
+    padding: 10px 24px;
+    border-radius: 999px;
+    text-transform: uppercase;
+  }
+
+  /* ── BEAT 2: THẢ TIM! ── */
+  .heart-burst-wrap {
+    position: relative;
+    width: 190px;
+    height: 190px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+
+  .heart-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 5px solid var(--rose);
+    opacity: 0;
+  }
+
+  .heart-svg {
+    width: 148px;
+    height: 148px;
+    filter: drop-shadow(0 0 36px rgba(244, 63, 94, 0.85));
+  }
+
+  .k-rose {
+    color: #FB7185;
+    text-shadow: 0 0 38px rgba(244, 63, 94, 0.65);
+  }
+
+  /* ── BEAT 3: BẤM THEO DÕI ── */
+  .sub-action-pill {
+    margin-top: 38px;
+    background: linear-gradient(135deg, #00E5FF 0%, #38BDF8 100%);
+    color: #050812;
+    font-family: var(--font-heading);
+    font-size: 68px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    padding: 22px 58px;
+    border-radius: 999px;
+    box-shadow: 0 0 46px rgba(0, 229, 255, 0.72), 0 18px 40px rgba(0, 0, 0, 0.8);
+    display: inline-flex;
+    align-items: center;
+    gap: 18px;
+    text-transform: uppercase;
+  }
+
+  /* ── BEAT 4: LOCKUP CUỐI ── */
+  .final-logo-wrap {
+    position: relative;
+    width: 240px;
+    height: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 36px;
+  }
+
+  .final-glow {
+    position: absolute;
+    inset: -34px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 229, 255, 0.42) 0%, transparent 70%);
+    filter: blur(10px);
+  }
+
+  .final-ring {
+    position: absolute;
+    inset: -16px;
+    border-radius: 50%;
+    border: 2.5px solid rgba(0, 229, 255, 0.3);
+    border-top-color: var(--cyan);
+    border-right-color: var(--amber);
+  }
+
+  .final-logo {
+    width: 215px;
+    height: 215px;
+    border-radius: 50%;
+    border: 4px solid var(--cyan);
+    box-shadow: 0 0 46px rgba(0, 229, 255, 0.55);
+    object-fit: cover;
+    position: relative;
+    z-index: 2;
+  }
+
+  .final-wordmark {
+    font-family: var(--font-display);
+    font-size: 138px;
+    letter-spacing: 5px;
+    line-height: 1.0;
+    color: var(--ink);
+    text-shadow: 0 0 32px rgba(0, 229, 255, 0.4);
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .final-tagline {
+    margin-top: 24px;
+    font-family: var(--font-mono);
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 3.5px;
+    color: var(--cyan);
+    text-transform: uppercase;
+  }
+
+  .final-cta-mini {
+    margin-top: 38px;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    background: rgba(15, 23, 42, 0.9);
+    border: 2px solid rgba(245, 158, 11, 0.8);
+    border-radius: 999px;
+    padding: 14px 36px;
+    font-family: var(--font-heading);
+    font-size: 38px;
+    font-weight: 800;
+    color: #FBBF24;
+    letter-spacing: 1.5px;
+    box-shadow: 0 0 26px rgba(245, 158, 11, 0.28);
+  }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="halftone-bg" id="halftone-bg"></div>
+  <canvas id="fx-canvas" width="1080" height="1920"></canvas>
+  <div id="flash-layer"></div>
+
+  <div class="kinetic-center">
+    <!-- BEAT 1 -->
+    <div class="beat-panel" id="beat-1" style="opacity:1; visibility:visible;">
+      <div class="k-big" id="b1-w1">THẤY</div>
+      <div class="k-big k-accent" id="b1-w2">HAY?</div>
+      <div class="k-sub-tag" id="b1-tag">ĐIỂM ĐỌC SHORTS</div>
+    </div>
+
+    <!-- BEAT 2 -->
+    <div class="beat-panel" id="beat-2">
+      <div class="heart-burst-wrap" id="heart-wrap">
+        <div class="heart-ring" id="heart-ring"></div>
+        <svg class="heart-svg" id="heart-svg" viewBox="0 0 24 24" fill="#F43F5E">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+      </div>
+      <div class="k-big">THẢ <span class="k-rose">TIM!</span></div>
+    </div>
+
+    <!-- BEAT 3 -->
+    <div class="beat-panel" id="beat-3">
+      <div class="k-big">BẤM</div>
+      <div class="k-big k-accent">THEO DÕI</div>
+      <div class="sub-action-pill" id="b3-pill">
+        <span>ĐĂNG KÝ KÊNH</span>
+        <span>🔔</span>
+      </div>
+    </div>
+
+    <!-- BEAT 4 -->
+    <div class="beat-panel" id="beat-4">
+      <div class="final-logo-wrap" id="final-logo-wrap">
+        <div class="final-glow" id="final-glow"></div>
+        <div class="final-ring" id="final-ring"></div>
+        <img class="final-logo" src="__LOGO__" alt="Điểm Đọc">
+      </div>
+      <div class="final-wordmark" id="final-wordmark">ĐIỂM ĐỌC</div>
+      <div class="final-tagline" id="final-tagline">TIN NHANH • CHÍNH XÁC • MỖI NGÀY</div>
+      <div class="final-cta-mini" id="final-cta-mini">🔔 HẸN GẶP LẠI Ở TIN SAU</div>
+    </div>
+  </div>
+</div>
+
+<script src="__ASSETS__/vendor/js/gsap.min.js"></script>
+<script src="__ASSETS__/overlays/dd_overlay.js"></script>
+<script>
+// __INJECT_JSON_HERE__
+(() => {
+  const DURATION = (window.VIDEO_DATA && window.VIDEO_DATA.duration) || 5.40;
+  const canvas = document.getElementById("fx-canvas");
+  if (window.DDOverlay) {
+    window.DDOverlay.init(canvas, {
+      seed: "short_outro_3_kinetic_slam",
+      config: {
+        sparkles: { count: 32, speed: 1.4, size_range: [5, 12] },
+        embers: { count: 24, speed_y: -35, size_range: [6, 13] },
+        light_sweep: { enabled: true },
+        grid_lines: { enabled: false }
+      }
+    });
+    window.DDOverlay.addBurst(0.95, 540, 820);
+    window.DDOverlay.addBurst(1.90, 540, 960);
+    window.DDOverlay.addBurst(2.90, 540, 760);
+  }
+
+  const tl = gsap.timeline({ paused: true });
+  window.mainTl = tl;
+
+  // Halftone background drift
+  tl.fromTo("#halftone-bg", { scale: 1.0 }, { scale: 1.08, duration: DURATION, ease: "none" }, 0);
+
+  // BEAT 1 (0.00s - 0.95s): THẤY HAY? (bắt đầu ngay frame 0 không để khung trống)
+  tl.set("#beat-1", { autoAlpha: 1 }, 0);
+  tl.fromTo("#b1-w1", { scale: 1.65, opacity: 0.45 }, { scale: 1.0, opacity: 1, duration: 0.22, ease: "expo.out" }, 0.0);
+  tl.fromTo("#b1-w2", { scale: 1.9, opacity: 0.2 }, { scale: 1.0, opacity: 1, duration: 0.24, ease: "expo.out" }, 0.14);
+  tl.fromTo("#b1-tag", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.22, ease: "power2.out" }, 0.28);
+  tl.to("#beat-1", { y: -140, opacity: 0, duration: 0.14, ease: "power2.in" }, 0.82);
+  tl.set("#beat-1", { autoAlpha: 0 }, 0.96);
+
+  // BEAT 2 (0.94s - 1.88s): THẢ TIM!
+  tl.set("#beat-2", { autoAlpha: 1 }, 0.94);
+  tl.fromTo("#beat-2", { y: 120, scale: 0.9, opacity: 0 }, { y: 0, scale: 1.0, opacity: 1, duration: 0.20, ease: "expo.out" }, 0.94);
+  tl.fromTo("#heart-svg", { scale: 0.5 }, { scale: 1.18, duration: 0.20, ease: "back.out(2.2)" }, 1.02)
+    .to("#heart-svg", { scale: 1.0, duration: 0.16, ease: "power2.out" }, 1.22)
+    .to("#heart-svg", { scale: 1.12, duration: 0.14, ease: "power2.out" }, 1.42)
+    .to("#heart-svg", { scale: 1.0, duration: 0.18, ease: "power2.out" }, 1.56);
+  tl.fromTo("#heart-ring", { scale: 0.4, opacity: 0.95 }, { scale: 2.1, opacity: 0, duration: 0.50, ease: "power3.out" }, 1.06);
+  tl.to("#beat-2", { scale: 0.82, opacity: 0, duration: 0.14, ease: "power2.in" }, 1.74);
+  tl.set("#beat-2", { autoAlpha: 0 }, 1.88);
+
+  // Flash cut into BEAT 3 (1.86s - 2.90s): BẤM THEO DÕI + ĐĂNG KÝ KÊNH
+  tl.fromTo("#flash-layer", { opacity: 0.35 }, { opacity: 0, duration: 0.20, ease: "power2.out" }, 1.86);
+  tl.set("#beat-3", { autoAlpha: 1 }, 1.86);
+  tl.fromTo("#beat-3", { scale: 1.35, opacity: 0 }, { scale: 1.0, opacity: 1, duration: 0.24, ease: "expo.out" }, 1.86);
+  tl.fromTo("#b3-pill", { y: 40, scale: 0.85, opacity: 0 }, { y: 0, scale: 1.0, opacity: 1, duration: 0.26, ease: "back.out(1.6)" }, 2.06);
+  tl.to("#b3-pill", { scale: 1.06, duration: 0.12, ease: "power2.out" }, 2.40)
+    .to("#b3-pill", { scale: 1.0, duration: 0.16, ease: "power2.out" }, 2.52);
+  tl.to("#beat-3", { y: -110, opacity: 0, duration: 0.14, ease: "power2.in" }, 2.76);
+  tl.set("#beat-3", { autoAlpha: 0 }, 2.90);
+
+  // BEAT 4 (2.88s - 5.40s): FINAL LOGO SLAM (motionmaxxing Law 7)
+  tl.fromTo("#flash-layer", { opacity: 0.28 }, { opacity: 0, duration: 0.18, ease: "power2.out" }, 2.88);
+  tl.set("#beat-4", { autoAlpha: 1 }, 2.88);
+  tl.fromTo("#final-logo-wrap", { scale: 2.8, opacity: 0 }, { scale: 1.0, opacity: 1, duration: 0.42, ease: "expo.out" }, 2.88);
+  tl.fromTo("#final-ring", { rotation: 0 }, { rotation: 240, duration: DURATION - 2.88, ease: "none" }, 2.88);
+  tl.fromTo("#final-wordmark", { y: 44, opacity: 0 }, { y: 0, opacity: 1, duration: 0.34, ease: "power3.out" }, 3.08);
+  tl.fromTo("#final-tagline", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.30, ease: "power2.out" }, 3.34);
+  tl.fromTo("#final-cta-mini", { y: 22, scale: 0.92, opacity: 0 }, { y: 0, scale: 1.0, opacity: 1, duration: 0.32, ease: "back.out(1.4)" }, 3.60);
+  // Living motion on final beat until end
+  tl.fromTo("#beat-4", { scale: 1.0 }, { scale: 1.03, duration: DURATION - 3.30, ease: "none" }, 3.30);
+  tl.to("#final-glow", { scale: 1.2, opacity: 0.95, duration: 0.9, ease: "sine.inOut" }, 3.40)
+    .to("#final-glow", { scale: 1.0, opacity: 0.72, duration: 0.9, ease: "sine.inOut" }, 4.30);
+
+  window.updateAudioTime = function(sec) {
+    tl.time(Math.min(DURATION, Math.max(0, sec)));
+    if (window.DDOverlay) window.DDOverlay.update(sec, 0.0);
+  };
+
+  if (window.__vt) {
+    const origAdv = window.__vt.advanceTo;
+    window.__vt.advanceTo = function(ms) {
+      const vnow = origAdv.call(window.__vt, ms);
+      window.updateAudioTime(vnow / 1000.0);
+      return vnow;
+    };
+  }
+  window.updateAudioTime(0.0);
+})();
+</script>
+</body>
+</html>

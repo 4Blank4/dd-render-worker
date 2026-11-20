@@ -1,0 +1,61 @@
+{
+  "loudness": {
+    "I": -14.0,
+    "TP": -1.4,
+    "LRA": 11.0,
+    "target_range_I": [-14.8, -13.2],
+    "max_TP": -1.0,
+    "min_separation_db": 18.0,
+    "two_pass": true
+  },
+  "ducking": {
+    "threshold": 0.04,
+    "ratio": 12.0,
+    "attack": 25.0,
+    "release": 400.0,
+    "bgm_base_volume": 0.05
+  },
+  "sfx": {
+    "volume": 0.20,
+    "min_gap_sec": 0.25,
+    "max_density_per_min": 14,
+    "default_sfx": "whoosh"
+  },
+  "bgm_pools": {
+    "sports_modern": [
+      "bgm_electronic_driver.mp3",
+      "bgm_minimal_techno.mp3",
+      "bgm_pulse_dark_full.mp3",
+      "bgm_upbeat_blaze.mp3"
+    ],
+    "sports_hype": [
+      "bgm_upbeat_blaze.mp3",
+      "bgm_countdown_dramatic.mp3",
+      "bgm_tension_ready_result.mp3",
+      "bgm_pulse_dark_full.mp3"
+    ],
+    "tactical_analysis": [
+      "bgm_ticking_against_clock.mp3",
+      "bgm_lofi_tactical_pause.mp3",
+      "bgm_editorial.mp3",
+      "bgm_editorial_4_investigative.mp3"
+    ],
+    "chill_story": [
+      "bgm_lofi_vibes.mp3",
+      "bgm_soft_warm_ambient.mp3",
+      "bgm_lofi_chill_full.mp3",
+      "bgm_lofi_driving_home.mp3"
+    ],
+    "ambient_long": [
+      "bgm_ambient_shiny_star.mp3",
+      "bgm_soft_clean_pad.mp3",
+      "bgm_minimal_ambient.mp3"
+    ]
+  },
+  "bgm_transition": {
+    "acrossfade_sec": 3.0,
+    "fade_in_sec": 1.5,
+    "fade_out_sec": 3.0,
+    "default_pool": "sports_modern"
+  }
+}

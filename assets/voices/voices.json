@@ -1,0 +1,25 @@
+{
+  "system": "Điểm Đọc — Voice System",
+  "engine": "ViTTS v3turbo (Local Offline)",
+  "active_default": "male",
+  "voices": {
+    "male": {
+      "role": "primary",
+      "name": "Minh Quân Pro",
+      "alias": ["nam", "minh_quan", "15", "default", "chinh", "primary"],
+      "config_file": "male/voice.json",
+      "speed": 1.12,
+      "pitch": 0.93,
+      "temperature": 0.6
+    },
+    "female": {
+      "role": "secondary",
+      "name": "Ngọc Huyền",
+      "alias": ["nu", "ngoc_huyen", "14", "phu", "secondary", "female"],
+      "config_file": "female/voice.json",
+      "speed": 1.12,
+      "pitch": 1.10,
+      "temperature": 0.5
+    }
+  }
+}

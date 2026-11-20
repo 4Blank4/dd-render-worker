@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none;">
+  <!-- 1. Icon Lá Chắn Bảo Vệ (Shield Check) -->
+  <symbol id="icon-shield" viewBox="0 0 64 64">
+    <path d="M32 6 L54 14 V30 C54 45 44 54 32 58 C20 54 10 45 10 30 V14 Z" fill="#FFF5F2" stroke="#1A1A1A" stroke-width="3"/>
+    <path d="M23 32 L29 38 L42 25" fill="none" stroke="#D94E34" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+
+  <!-- 2. Icon Cảnh Báo Kỹ Thuật (Warning Triangle) -->
+  <symbol id="icon-warning" viewBox="0 0 64 64">
+    <polygon points="32,8 58,54 6,54" fill="#FFF5F2" stroke="#D94E34" stroke-width="3.5" stroke-linejoin="round"/>
+    <line x1="32" y1="24" x2="32" y2="39" stroke="#D94E34" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="32" cy="47" r="2.5" fill="#D94E34"/>
+  </symbol>
+
+  <!-- 3. Icon Đầu Cốt Kim Rỗng (Wire Ferrule) -->
+  <symbol id="icon-ferrule" viewBox="0 0 120 60">
+    <polygon points="15,12 45,18 45,42 15,48" fill="#D94E34" stroke="#1A1A1A" stroke-width="2.5" stroke-linejoin="round"/>
+    <rect x="45" y="21" width="55" height="18" fill="#E5E7EB" stroke="#1A1A1A" stroke-width="2.5"/>
+    <line x1="58" y1="21" x2="58" y2="39" stroke="#1A1A1A" stroke-width="1.5" stroke-dasharray="3,2"/>
+    <line x1="75" y1="21" x2="75" y2="39" stroke="#1A1A1A" stroke-width="1.5" stroke-dasharray="3,2"/>
+  </symbol>
+
+  <!-- 4. Icon Tủ Bảng Điện Công Nghiệp (Electrical Cabinet) -->
+  <symbol id="icon-cabinet" viewBox="0 0 64 80">
+    <rect x="10" y="6" width="44" height="68" rx="4" fill="#181C24" stroke="#1A1A1A" stroke-width="3"/>
+    <rect x="16" y="14" width="14" height="10" fill="#D94E34"/>
+    <rect x="34" y="14" width="14" height="10" fill="#38BDF8"/>
+    <rect x="16" y="30" width="32" height="6" fill="#4B5563"/>
+    <rect x="16" y="42" width="32" height="6" fill="#4B5563"/>
+    <circle cx="48" cy="58" r="2.5" fill="#10B981"/>
+  </symbol>
+</svg>

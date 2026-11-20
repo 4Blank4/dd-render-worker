@@ -1,0 +1,11 @@
+{
+  "github_owner": "4Blank4",
+  "repo_name": "dd-render-worker",
+  "visibility": "public",
+  "branch": "main",
+  "workflow_file": "cloud_render.yml",
+  "default_shards_daily": 8,
+  "default_shards_short": 3,
+  "workers_per_shard": 2,
+  "auto_cleanup_github": true
+}

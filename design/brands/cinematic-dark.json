@@ -1,0 +1,57 @@
+{
+  "_comment": "BRAND: Cinematic Neon Dark — hệ thị giác cho Long-form. Nền navy đen, neon gold/teal/ember, vignette điện ảnh.",
+  "id": "cinematic-dark",
+  "name": "Cinematic Neon Dark",
+  "defaultFormat": "long",
+
+  "color": {
+    "bg":          { "base": "#05070C", "alt": "#0A0E17", "panel": "#0E1422", "panelSolid": "#0D1420" },
+    "surface":     { "card": "rgba(16,23,38,0.62)", "sunken": "rgba(9,13,22,0.60)" },
+    "ink":         { "strong": "#F3F6FF", "charcoal": "#D6DDF0", "muted": "#94A0BE", "subtle": "#5E6B8C" },
+    "border":      { "ink": "rgba(148,160,190,0.18)", "soft": "rgba(148,160,190,0.12)" },
+    "accent":      "#FFC24D",
+    "accent2":     "#28E0D0",
+    "accent3":     "#FF6B4A",
+    "accent4":     "#7CF3EA",
+    "accentSoft":  { "accent": "rgba(255,194,77,0.16)", "accent2": "rgba(40,224,208,0.15)", "accent3": "rgba(255,107,74,0.16)", "accent4": "rgba(124,243,234,0.15)" },
+    "accentEdge":  { "accent": "rgba(255,194,77,0.42)", "accent2": "rgba(40,224,208,0.42)", "accent3": "rgba(255,107,74,0.42)", "accent4": "rgba(124,243,234,0.42)" },
+    "subtitle":    { "bg": "rgba(5,7,12,0.72)", "ink": "#B9C2DA", "active": "#FFFFFF", "number": "#FFC24D" }
+  },
+
+  "font": {
+    "hero":    "Anton",
+    "heading": "Oswald",
+    "body":    "Montserrat",
+    "mono":    "PlexMono"
+  },
+
+  "fontFiles": {
+    "Anton":     [ { "file": "Anton/Anton-Regular.ttf", "weight": 400 } ],
+    "Oswald":    [ { "file": "Oswald/static/Oswald-Bold.ttf", "weight": 700 },
+                   { "file": "Oswald/static/Oswald-SemiBold.ttf", "weight": 600 },
+                   { "file": "Oswald/static/Oswald-Medium.ttf", "weight": 500 } ],
+    "Montserrat":[ { "file": "Montserrat/static/Montserrat-Bold.ttf", "weight": 700 },
+                   { "file": "Montserrat/static/Montserrat-SemiBold.ttf", "weight": 600 },
+                   { "file": "Montserrat/static/Montserrat-Medium.ttf", "weight": 500 } ],
+    "PlexMono":  [ { "file": "IBM_Plex_Mono/IBMPlexMono-Bold.ttf", "weight": 700 },
+                   { "file": "IBM_Plex_Mono/IBMPlexMono-Medium.ttf", "weight": 500 } ]
+  },
+
+  "effects": {
+    "shadowCard": "0 18px 48px rgba(0,0,0,0.45)",
+    "shadowLift": "0 24px 60px rgba(0,0,0,0.60)",
+    "borderCard": "1px solid rgba(148,160,190,0.18)",
+    "borderSoft": "1px solid rgba(148,160,190,0.12)",
+    "grain": false,
+    "ambientBlobs": true,
+    "gradientNumber": { "from": "#FFFFFF", "to": "accent" }
+  },
+
+  "chrome": {
+    "topHeader": { "show": true, "style": "glass-capsule", "logoHeight": 44 },
+    "chapterRibbon": { "show": true },
+    "sceneCounter": { "show": true, "style": "mono-pill" },
+    "vignette": { "show": true, "inset": "0 0 260px 60px rgba(0,0,0,0.82)" },
+    "portraitColumn": { "show": true, "width": 452 }
+  }
+}

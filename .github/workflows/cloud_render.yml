@@ -1,0 +1,157 @@
+name: Cloud Render Matrix (DD-The-thao)
+
+on:
+  workflow_dispatch:
+    inputs:
+      total_shards:
+        description: "So luong may ao Matrix chay song song (1 - 15)"
+        required: true
+        default: "6"
+      workers_per_shard:
+        description: "So luong Playwright workers tren moi may ao"
+        required: false
+        default: "2"
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  prepare-matrix:
+    name: "Khoi tao danh sach Shards"
+    runs-on: ubuntu-latest
+    outputs:
+      shards: ${{ steps.set-matrix.outputs.shards }}
+      total_shards: ${{ steps.set-matrix.outputs.total_shards }}
+    steps:
+      - name: Generate Shard Array
+        id: set-matrix
+        run: |
+          N="${{ github.event.inputs.total_shards || '6' }}"
+          python3 -c "import json; n=max(1, min(20, int('$N'))); print('shards=' + json.dumps(list(range(n))))" >> $GITHUB_OUTPUT
+          echo "total_shards=$N" >> $GITHUB_OUTPUT
+
+  render-shards:
+    name: "Shard #${{ matrix.shard }} (TTS + HTML v2 Render)"
+    needs: prepare-matrix
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJson(needs.prepare-matrix.outputs.shards) }}
+    steps:
+      - name: Checkout Engine & Payload
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: requirements-cloud.txt
+
+      - name: Cache AI Weights (ViTTS v3turbo + Whisper) & Playwright Chromium
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/huggingface/hub
+            ~/.cache/whisper
+            ~/.cache/ms-playwright
+          key: dd-ai-models-v2-${{ runner.os }}
+          restore-keys: |
+            dd-ai-models-v2-
+            dd-ai-models-
+
+      - name: Install System Packages (FFmpeg + Rubberband + Chromium Libs) & Python Deps
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y ffmpeg librubberband-dev rubberband-cli libsndfile1 fonts-liberation
+          pip install --upgrade pip
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install -r requirements-cloud.txt
+          playwright install --with-deps chromium
+
+      - name: Pre-warm Whisper Base & ViTTS ONNX Weights
+        run: |
+          python3 -B -c "
+          import sys; sys.path.insert(0, 'core/vendor'); sys.path.insert(0, 'core')
+          import whisper; whisper.load_model('base')
+          from vieneu import Vieneu; Vieneu(mode='v3turbo')
+          print('AI Models ready!')
+          "
+
+      - name: Execute Cloud Worker (Role = shard)
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: |
+          python3 -B core/cloud_worker.py \
+            --job-dir _cloud_job \
+            --role shard \
+            --shard-index ${{ matrix.shard }} \
+            --total-shards ${{ needs.prepare-matrix.outputs.total_shards }} \
+            --workers ${{ github.event.inputs.workers_per_shard || '2' }} \
+            --out-dir _cloud_out_shard_${{ matrix.shard }}
+
+      - name: Upload Shard Output
+        uses: actions/upload-artifact@v4
+        with:
+          name: shard-${{ matrix.shard }}
+          path: _cloud_out_shard_${{ matrix.shard }}/
+          retention-days: 1
+          if-no-files-found: ignore
+
+  compose-master:
+    name: "Compose Master Video & Audio (-14 LUFS)"
+    needs: [prepare-matrix, render-shards]
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout Engine & Payload
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: requirements-cloud.txt
+
+      - name: Cache Playwright Chromium
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: dd-ai-models-v2-${{ runner.os }}
+          restore-keys: |
+            dd-ai-models-v2-
+
+      - name: Install FFmpeg & Python Packages
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y ffmpeg librubberband-dev rubberband-cli libsndfile1
+          pip install --upgrade pip
+          pip install -r requirements-cloud.txt
+          playwright install --with-deps chromium
+
+      - name: Download All Shard Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: _cloud_shards
+          pattern: shard-*
+
+      - name: Execute Cloud Worker (Role = compose)
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: |
+          python3 -B core/cloud_worker.py \
+            --job-dir _cloud_job \
+            --role compose \
+            --shards-dir _cloud_shards \
+            --out-dir _cloud_final_output
+
+      - name: Upload Final Master Deliverable
+        uses: actions/upload-artifact@v4
+        with:
+          name: dd-final-deliverable
+          path: _cloud_final_output/
+          retention-days: 1
