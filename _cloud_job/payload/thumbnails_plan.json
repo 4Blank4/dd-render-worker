@@ -1,0 +1,35 @@
+[
+  {
+    "suffix": "_A",
+    "badge": "BẢN TIN 20.11.2026",
+    "kicker": "SHOPEE CUP & U17 WORLD CUP",
+    "headline": "CAHN THUA NGƯỢC JDT<br>U17 VN ĐẠI CHIẾN BỈ",
+    "subtitle": "Dội cột dọc 3 lần tại Hàng Đẫy • Nuno Gomes tiếp lửa U17 VN",
+    "footer_tag": "ĐIỂM ĐỌC THỂ THAO • 20.11",
+    "image_file": "Tin_01_1.jpg",
+    "obj_pos": "center 25%",
+    "filter": "contrast(1.06) saturate(1.1)"
+  },
+  {
+    "suffix": "_B",
+    "badge": "TÂM ĐIỂM CHÂU ÂU",
+    "kicker": "MAN UTD • LIONEL MESSI",
+    "headline": "FLYCAM LỘ SƠ ĐỒ M.U<br>MESSI DẪN ĐẦU LƯƠNG",
+    "subtitle": "Pochettino thử nghiệm 3-2-5 • U17 Úc thắng sốc Argentina",
+    "footer_tag": "ĐIỂM ĐỌC THỂ THAO • 20.11",
+    "image_file": "Tin_08_1.jpg",
+    "obj_pos": "center center",
+    "filter": "contrast(1.06) saturate(1.08)"
+  },
+  {
+    "suffix": "_C",
+    "badge": "21 TIN NÓNG THỂ THAO",
+    "kicker": "BÓNG ĐÁ VN & QUỐC TẾ",
+    "headline": "NUNO GOMES THĂM U17<br>REAL GIA HẠN TRỤ CỘT",
+    "subtitle": "Thử thách Xander Dierckx • Tchouameni ký mới 6 năm",
+    "footer_tag": "ĐIỂM ĐỌC THỂ THAO • 20.11",
+    "image_file": "Tin_05_1.jpg",
+    "obj_pos": "center 22%",
+    "filter": "contrast(1.06) saturate(1.1)"
+  }
+]
