@@ -6,7 +6,9 @@ Tài liệu này là bộ quy tắc cốt lõi bắt buộc cho mọi AI Agent t
 
 ## 0. Quy Tắc Tra Cứu Nhanh & Duy Trì `SYSTEM_MAP.md`
 
-- **Bắt đầu phiên mới**: Agent **chỉ đọc 2 file**: `AGENTS.md` (file này) + `SYSTEM_MAP.md`. Tuyệt đối không quét thư mục tràn lan.
+- **Bắt đầu phiên mới & Trước mỗi yêu cầu mới**:
+  1. Agent **chỉ đọc 2 file**: `AGENTS.md` (file này) + `SYSTEM_MAP.md`. Tuyệt đối không quét thư mục tràn lan.
+  2. **★ BẮT BUỘC DỌN SẠCH CACHE TẠM TRƯỚC KHI LÀM VIỆC**: Mỗi ngày hoặc ngay khi nhận được yêu cầu mới từ Chủ kênh, Agent **bắt buộc kiểm tra và dọn dẹp toàn bộ dữ liệu lưu tạm** trong `~/Library/Caches/DiemDoc/` (chạy `python3 -B core/clean.py --all --apply` để chuyển vào `~/.Trash`, không cần chờ 2 ngày hay 14 ngày) nhằm giải phóng dung lượng ổ cứng trước khi chạy tác vụ mới.
 - **★ Đọc MAP trước khi mở code**: Mỗi thư mục con đều có file `MAP.md` mô tả từng file bên trong. Hãy đọc `MAP.md` thay vì mở trực tiếp mã nguồn để tiết kiệm ngữ cảnh:
   - `spec/MAP.md`: Timeline schema, component cards, hợp đồng dữ liệu.
   - `core/MAP.md`: Bộ công cụ pipeline (`m0` đến `m7`), run, doctor, clean.
@@ -36,6 +38,7 @@ Tài liệu này là bộ quy tắc cốt lõi bắt buộc cho mọi AI Agent t
 - **Không sinh rác trên Drive**:
   - Tuyệt đối cấm tạo file nhị phân `.pyc` và thư mục `__pycache__` trên Google Drive. Mọi script/entrypoint phải thiết lập `sys.dont_write_bytecode = True` ngay đầu file (hoặc chạy với cờ `python3 -B`).
   - Thư mục làm việc tạm (`WORK`), file render JPEG, video tạm thời bắt buộc đặt ngoài Google Drive: mặc định tại `~/Library/Caches/DiemDoc`. Chỉ file sản phẩm cuối cùng mới xuất vào `outputs/`.
+  - **Dọn dẹp tức thì trước & sau mỗi tác vụ**: Agent bắt buộc chạy `python3 -B core/clean.py --all --apply` ngay khi nhận yêu cầu mới và tự động dọn sạch các file video chunk trung gian trong `~/Library/Caches/DiemDoc` ngay sau khi ghép xong video thành phẩm vào `outputs/`.
 - **An toàn đường dẫn tiếng Việt & khoảng trắng**:
   - Thư mục gốc nằm trong đường dẫn có dấu tiếng Việt và khoảng trắng (`Drive của tôi`). Mọi URL nạp vào Playwright phải qua hàm `paths.file_url()` (đã percent-encode qua `pathname2url`).
   - Mọi lệnh gọi `subprocess` bắt buộc truyền mảng tham số (`list`), tuyệt đối không nối chuỗi `shell=True`.
@@ -117,9 +120,20 @@ Hệ thống sản xuất thống nhất **3 Loại Video chính thức**:
 - **★ QUY CHUẨN VIẾT HOA TIẾNG VIỆT (Sentence Case — Bắt buộc)**:
   - Mọi tiêu đề video YouTube, tiêu đề cảnh, tên nhóm và mô tả phải tuân thủ chuẩn chính tả tiếng Việt (Sentence Case): chỉ viết hoa chữ cái đầu câu, danh từ riêng (tên người, câu lạc bộ, giải đấu, quốc gia) và từ viết tắt (CLB, VĐQG, VAR, CAHN...).
   - Tuyệt đối cấm viết hoa chữ cái đầu mọi từ theo kiểu tiếng Anh (Title Case / "In Đậm Ký Tự Đầu").
-- **★ QUY CHUẨN TIÊU ĐỀ & MÔ TẢ YOUTUBE (`mota.txt` & `*_mota.txt`)**:
-  - Độ dài tiêu đề bắt buộc $\le 100$ ký tự (chuẩn tối ưu 75–90 ký tự).
-  - Cấu trúc file mô tả `mota.txt` tinh gọn chỉ gồm 2 phần: `=== TIÊU ĐỀ YOUTUBE ===` (3 options A/B/C cho 16:9 hoặc 1 tiêu đề kèm `#Shorts` cho 9:16) và `=== MÔ TẢ VIDEO ===` (lời dẫn + điểm nhấn nếu có + `⏱️ MỐC THỜI GIAN (CHAPTERS):` + nguồn báo + lời kêu gọi đăng ký + dòng hashtag cuối).
+- **★ QUY CHUẨN TIÊU ĐỀ & MÔ TẢ ĐA NỀN TẢNG (`mota.txt` & `*_mota.txt` — Cập nhật 20.11.2026)**:
+  - Độ dài tiêu đề bắt buộc $\le 100$ ký tự (chuẩn tối ưu 75–95 ký tự), tuân thủ Sentence Case.
+  - **1. Đối với Video Dài 16:9 (`mota.txt` — Mặc định chỉ đăng YouTube)**:
+    + Gồm 2 phần: `=== TIÊU ĐỀ YOUTUBE (ĐỘ DÀI CHUẨN <= 100 KÝ TỰ) ===` (3 phương án Option A/B/C) và `=== MÔ TẢ VIDEO ===` (Lời dẫn + Điểm nhấn + `⏱️ MỐC THỜI GIAN (CHAPTERS):` + Nguồn báo + Lời kêu gọi đăng ký + Dòng hashtag `#DiemDoc...` cuối).
+    + **Thống nhất hậu tố thương hiệu (Brand Suffix) ở cuối cả 3 Option tiêu đề**:
+      * Bản tin hằng ngày (`daily_digest`): `<Tiêu đề chính> | Điểm Đọc DD/MM` (VD: `... | Điểm Đọc 20/11`).
+      * Bản tin tổng hợp tuần (`weekly_digest`): `<Tiêu đề chính> | Điểm Đọc Tuần`.
+      * Video chuyên đề / dữ liệu (`thematic_long`): `<Tiêu đề chính> | Điểm Đọc`.
+  - **2. Đối với Video Short 9:16 (`*_mota.txt` — Đăng cả YouTube Shorts, Facebook Reels và TikTok)**:
+    + Chỉ dùng **1 tiêu đề duy nhất** trong mục `=== TIÊU ĐỀ YOUTUBE (ĐỘ DÀI CHUẨN <= 100 KÝ TỰ) ===` có hậu tố `| Điểm Đọc #Shorts`.
+    + Phần `=== MÔ TẢ VIDEO ===` bắt buộc tách sẵn **3 khối nội dung cho 3 mạng xã hội** để copy-paste trực tiếp:
+      * `[1. YOUTUBE SHORTS — MÔ TẢ]`: Tóm tắt + `⏱️ MỐC THỜI GIAN (CHAPTERS):` (nếu gộp nhiều tin) + Nguồn + CTA Đăng ký YouTube + `#Shorts #DiemDoc...`.
+      * `[2. FACEBOOK REELS — CHỈ MÔ TẢ / CAPTION]`: Dòng Hook nổi bật + Tóm tắt / gạch đầu dòng nội dung (không dùng mốc giờ `00:00`) + Nguồn + CTA Theo dõi fanpage + `#DiemDoc... #Reels` (không gắn `#Shorts`).
+      * `[3. TIKTOK — CHỈ MÔ TẢ / CAPTION]`: Tóm tắt ngắn gọn 1–2 câu chuẩn SEO tìm kiếm + Câu hỏi gợi bình luận tương tác + `#DiemDoc #TinTheThao #BongDa #TheThao247 #XuHuong...` (không gắn `#Shorts`).
   - **CẤM TUYỆT ĐỐI dữ liệu "rác" kỹ thuật nội bộ** xuất hiện trong tiêu đề, lời mô tả hoặc danh sách chapters công khai: không ghi `[Nam]`, `[Nữ]`, `[Nu]`, `[TIN 01]`, `[01]`, `(Mẫu 14)`, `(Mẫu 15)`, tên giọng đọc TTS (`Minh Quân Pro`, `Ngọc Huyền`), chú thích giọng đọc hậu trường, cụm phi thời sự `"thước phim phân tích"` hay phần thừa `=== HASHTAGS ===`. Mọi hàm xuất bản đều phải qua lớp lọc `sanitize_chapter_label()` & `sanitize_public_text()` trong `core/diemdoc/publisher.py`.
 - **★ QUY CHUẨN NGÔN TỪ BÁO CHÍ TỰ NHIÊN (Cấm ngôn từ máy móc & hậu trường — Bắt buộc vĩnh viễn, cập nhật 19.11.2026)**:
   - Tuyệt đối **KHÔNG đưa các từ, cụm từ hoặc chi tiết mang tính "máy móc", kỹ thuật sản xuất hay hậu trường** vào lời thoại video, chữ trên thumbnail, tiêu đề và mô tả (`mota.txt` / `*_mota.txt`):
@@ -179,9 +193,9 @@ Hệ thống sản xuất thống nhất **3 Loại Video chính thức**:
 # Kiểm tra sức khỏe toàn diện hệ thống (bắt buộc ALL PASS trước khi làm việc)
 python3 core/doctor.py
 
-# Dọn dẹp cache bộ nhớ đệm an toàn vào Trash
-python3 core/clean.py --dry-run
-python3 core/clean.py --apply
+# Dọn dẹp toàn bộ cache bộ nhớ đệm an toàn vào Trash (bắt buộc chạy trước mỗi yêu cầu mới)
+python3 -B core/clean.py --dry-run
+python3 -B core/clean.py --all --apply
 
 # 1. Soạn thảo & chuẩn hoá timeline
 python3 core/m2_timeline_builder.py <project> --normalize

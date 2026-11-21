@@ -15,13 +15,34 @@ import json
 import os
 import re
 import sys
+import time
 import unicodedata
-from typing import List, Dict, Any, Tuple
+from typing import List, Dict, Any, Tuple, Optional
 
 from .log import log, warn
 from .paths import DATA
 
 sys.dont_write_bytecode = True
+
+_PRON_DICT_CACHE: Dict[str, List[Dict[str, Any]]] = {}
+_ABBR_DICT_CACHE: Dict[str, List[Dict[str, Any]]] = {}
+
+
+def _read_json_with_retry(path: str, retries: int = 3, delay: float = 0.3) -> Any:
+    """Đọc file JSON trên Google Drive với cơ chế retry chống lỗi Errno 89 / file rỗng thoáng qua."""
+    last_err: Optional[Exception] = None
+    for attempt in range(retries):
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                raw = f.read().strip()
+            if not raw:
+                raise ValueError("Empty content during Drive sync")
+            return json.loads(raw)
+        except Exception as e:
+            last_err = e
+            if attempt + 1 < retries:
+                time.sleep(delay * (attempt + 1))
+    raise last_err if last_err else RuntimeError(f"Failed to read {path}")
 
 CHAR_MAP = {
     'a': '[aàáảãạăằắẳẵặâầấẩẫậäåæáàã]',
@@ -57,13 +78,14 @@ def load_pronunciation_dict(dict_path: str | None = None) -> List[Dict[str, Any]
     Trả về danh sách phẳng các entry được chuẩn hóa.
     """
     path = dict_path or os.path.join(DATA, "pronunciation_sports.json")
+    if path in _PRON_DICT_CACHE:
+        return _PRON_DICT_CACHE[path]
     if not os.path.exists(path):
         warn(f"Không tìm thấy file từ điển tại: {path}")
         return []
 
     try:
-        with open(path, "r", encoding="utf-8") as f:
-            data = json.load(f)
+        data = _read_json_with_retry(path)
     except Exception as e:
         warn(f"Lỗi đọc từ điển phát âm {path}: {e}")
         return []
@@ -90,22 +112,24 @@ def load_pronunciation_dict(dict_path: str | None = None) -> List[Dict[str, Any]
                 item_copy["is_foreign_name"] = True
                 entries.append(item_copy)
 
+    _PRON_DICT_CACHE[path] = entries
     return entries
 
 
 def load_abbreviations_dict(dict_path: str | None = None) -> List[Dict[str, Any]]:
     """
-    Nạp từ điển viết tắt thể thao & thời sự từ data/abbreviations_map.json.
+    Nạp từ điển viết tắt thể thao & thời sự từ data/abbreviations_map.json (có cache RAM & retry Drive).
     Các từ viết tắt này (VĐQG, ĐTQG, Cúp QG, CAHN, SLNA, BXH...) luôn được áp dụng
     để mô hình ViTTS đọc thành tiếng rõ ràng, trong khi trên màn hình vẫn giữ
     nguyên dạng chữ viết tắt gọn gàng.
     """
     path = dict_path or os.path.join(DATA, "abbreviations_map.json")
+    if path in _ABBR_DICT_CACHE:
+        return _ABBR_DICT_CACHE[path]
     if not os.path.exists(path):
         return []
     try:
-        with open(path, "r", encoding="utf-8") as f:
-            data = json.load(f)
+        data = _read_json_with_retry(path)
         abbrs = data.get("abbreviations", [])
         seen = set()
         deduped = []
@@ -117,6 +141,7 @@ def load_abbreviations_dict(dict_path: str | None = None) -> List[Dict[str, Any]
                     item = dict(e)
                     item["is_abbreviation"] = True
                     deduped.append(item)
+        _ABBR_DICT_CACHE[path] = deduped
         return deduped
     except Exception as e:
         warn(f"Lỗi đọc từ điển viết tắt {path}: {e}")

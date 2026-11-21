@@ -36,8 +36,17 @@ def render_thumbnails(day_str: str = DEFAULT_DAY_STR):
     if not os.path.exists(plan_path):
         raise FileNotFoundError(f"Không tìm thấy file kế hoạch: {plan_path}")
 
-    with open(plan_path, "r", encoding="utf-8") as f:
-        variants = json.load(f)
+    variants = None
+    for attempt in range(3):
+        try:
+            with open(plan_path, "r", encoding="utf-8") as f:
+                variants = json.loads(f.read())
+            break
+        except Exception as e:
+            if attempt == 2:
+                raise e
+            import time
+            time.sleep(0.35 * (attempt + 1))
 
     with open(TPL_PATH, "r", encoding="utf-8") as f:
         tpl_code = f.read()
@@ -61,9 +70,13 @@ def render_thumbnails(day_str: str = DEFAULT_DAY_STR):
         page = br.new_page(viewport={"width": w, "height": h}, device_scale_factor=1)
 
         for var in variants:
-            sfx = var["suffix"]
+            sfx = str(var["suffix"]).lstrip("_")
             img_rel = var.get("image_file", "")
             img_abs = os.path.join(_ROOT, img_rel) if not os.path.isabs(img_rel) else img_rel
+            if not os.path.exists(img_abs):
+                alt_abs = os.path.join(day_dir, "images", os.path.basename(img_rel))
+                if os.path.exists(alt_abs):
+                    img_abs = alt_abs
 
             if not os.path.exists(img_abs):
                 raise FileNotFoundError(f"Không tìm thấy ảnh: {img_abs}")

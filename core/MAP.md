@@ -404,3 +404,16 @@ Không module nào tự viết lại logic đã có ở đây.
     + Dựng Video Short Bản Tin Nhanh (Digest Short < 3 phút): `python3 -B core/cloud_runner.py --day 20.11.2026 --mode digest_short`
     + Dọn sạch dữ liệu tạm trên GitHub: `python3 -B core/cloud_runner.py --cleanup-only`
 - **`cloud_worker.py`**: Worker thực thi bên trong máy ảo Ubuntu của GitHub Actions (`.github/workflows/cloud_render.yml`), xử lý phân mảnh (`--role shard`) và ghép nối tổng thành (`--role compose`) cho cả 3 chế độ `daily_long`, `short_batch` và `digest_short`.
+
+### Bộ Công Cụ Sản Xuất Bản Tin Ngày 20.11.2026 (`daily_20_11_data.py`, `prepare_daily_20_11.py`, `apply_qa_fixes_20_11.py`, `build_mota_20_11.py`) — Mới 20.11.2026
+- **`daily_20_11_data.py`**: Dữ liệu kịch bản & kế hoạch ảnh từng câu cho **Intro song giọng (`id=0`, `hide_title=True`) + 21 bản tin chọn lọc (`01..21`)** từ 12:00 19/11 đến sáng 20/11/2026, gán sẵn `stat_badges` tùy biến và phân bổ `1–5` slot ảnh/câu để kích hoạt đủ 9 layout.
+- **`prepare_daily_20_11.py`**: Thu thập ảnh HD sạch (`W>=800, H>=450, W/H>=1.18`), gỡ `/thumb_w/\d+/` trên Tuổi Trẻ & Thanh Niên lấy ảnh gốc, giữ `stat_badges` trong JSON, xuất `outputs/20.11.2026/{intro_hook.json, thethao.json, image_plan.json, image_credits.json, thethao.txt, kich_ban_tung_cau.txt}` và dựng 22 bảng QA Contact Sheet + Overview (`qa/`).
+- **`apply_qa_fixes_20_11.py`**: Áp dụng kết quả kiểm duyệt thị giác thủ công (thay `82` ảnh qua kiểm chứng Wikimedia/Bing/VnExpress/Tuổi Trẻ, cắt viền logo sát mép `22` ảnh, đảm bảo `0` ảnh thiếu và `0` trùng lặp liên tiếp), cập nhật lại JSON và tái dựng toàn bộ Contact Sheets.
+- **`build_mota_20_11.py`**: Đọc `outputs/20.11.2026/_preview_v2/chapters_20_11.json` (22 chapters) và xuất `outputs/20.11.2026/mota.txt` chuẩn đuôi `| Điểm Đọc 20/11` qua `publisher.write_mota_16x9()`, đồng thời đồng bộ `Short_Tin_Nhanh_21_Tin_mota.txt` sang chuẩn 3 mạng xã hội (YouTube Shorts, Facebook Reels, TikTok).
+- **`diemdoc/image_curator.py`**: Bộ máy thu thập và lọc ảnh HD sạch dùng chung (Wikimedia Commons API + Bing lọc từ khóa chủ thể bắt buộc + gỡ `/thumb_w/` + cắt viền logo mép).
+- **Cập nhật lõi đi kèm (`clean.py`, `diemdoc/publisher.py`, `diemdoc/tts_text.py`, `qa_precheck.py`, `build_thumbnails_09_11.py`, `m1b_llm_writer.py`, `m8_news_bridge.py`, `daily_runner.py`)**:
+  + `clean.py`: Mặc định `--days 0` (`--all --apply`) dọn sạch toàn bộ `~/Library/Caches/DiemDoc/` trước và sau mỗi tác vụ.
+  + `diemdoc/publisher.py`: Chuẩn hóa hậu tố `| Điểm Đọc DD/MM` (hoặc `| Điểm Đọc Tuần`, `| Điểm Đọc`) cho Video Dài và 3 khối mô tả đa nền tảng (YouTube Shorts, Facebook Reels, TikTok) cho Video Short; bổ sung `compute_16x9_hero_font_size()`.
+  + `diemdoc/tts_text.py` & `build_thumbnails_09_11.py`: Cache RAM từ điển viết tắt/phát âm và retry 3 lần chống lỗi Google Drive `Errno 89`.
+  + `qa_precheck.py`: Phân biệt ảnh xen kẽ hợp lệ với lỗi trùng ảnh liên tiếp (`Adjacent Duplicate -> [FAIL]`), kiểm tra hậu tố `| Điểm Đọc` và 3 khối MXH.
+  + `daily_runner.py` & `engines/html/renderer.py`: Giới hạn bitrate `h264_videotoolbox` (`-b:v 2600k -maxrate 3600k`) giúp video dài ~18 phút chỉ nặng `~360 MB` thay vì `2.2 GB`; bổ sung `--step mota`, `--step clean` và tự động dọn cache sau khi ghép video.

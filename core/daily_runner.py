@@ -49,10 +49,11 @@ engines_html = os.path.join(_ROOT, "engines", "html")
 if engines_html not in sys.path:
     sys.path.insert(0, engines_html)
 
+from clean import clean_work_dir, send_to_trash
 from diemdoc import paths
 from diemdoc.audio import apply_voice_standard, build_sfx_track, measure_loudness, two_pass_loudnorm
 from diemdoc.log import banner, die, log, ok, step, warn
-from diemdoc.publisher import load_voice_preset
+from diemdoc.publisher import load_voice_preset, write_mota_16x9
 from diemdoc.tts_text import prepare
 from m3_voice import build_chunks_from_text, render_chunk_vitts, trim_segment_silence
 from m8_news_bridge import compute_daily_plan, export_bridge_project
@@ -289,7 +290,7 @@ def run_video_step(day_str: str, workers: int = 3, force: bool = False) -> None:
     bumper_v_parts: Dict[str, Tuple[Path, Path, float]] = {}
     target_timescale = "15360"
     use_hw = _has_videotoolbox()
-    v_enc_args = ["-c:v", "h264_videotoolbox", "-q:v", "68", "-pix_fmt", "yuv420p"] if use_hw else [
+    v_enc_args = ["-c:v", "h264_videotoolbox", "-b:v", "2600k", "-maxrate", "3600k", "-bufsize", "5400k", "-pix_fmt", "yuv420p"] if use_hw else [
         "-c:v", "libx264", "-preset", "fast", "-crf", "18", "-pix_fmt", "yuv420p"
     ]
 
@@ -463,17 +464,57 @@ def run_video_step(day_str: str, workers: int = 3, force: bool = False) -> None:
     if drift_ms > 33.3:
         die(f"LỆCH A/V VƯỢT NGƯỠNG CHO PHÉP: {drift_ms:.2f}ms > 33.3ms")
 
+    # Tự động dọn thư mục đệm render video (~2-10 GB) sau khi đã xuất thành phẩm đạt chuẩn
+    if work_dir.exists():
+        if send_to_trash(str(work_dir)):
+            ok(f"Đã tự động dọn thư mục đệm render vào Trash: {work_dir.name}")
+
+
+def run_mota_step(day_str: str) -> Path:
+    day_dir = ROOT / "outputs" / day_str
+    dd_mm = "-".join(day_str.split(".")[:2])
+    ch_path = day_dir / "_preview_v2" / f"chapters_{dd_mm.replace('-', '_')}.json"
+    chapters = []
+    if ch_path.exists():
+        raw_ch = json.loads(ch_path.read_text(encoding="utf-8"))
+        chapters = [(c["time"], c["label"]) for c in raw_ch.get("chapters", [])]
+
+    th_path = day_dir / "thethao.json"
+    items = json.loads(th_path.read_text(encoding="utf-8")) if th_path.exists() else []
+    top_titles = [it.get("title", "").strip() for it in items[:5] if it.get("title")]
+
+    t_a = top_titles[0] if len(top_titles) >= 1 else f"Tổng hợp tin tức thể thao nóng nhất ngày {day_str}"
+    t_b = top_titles[1] if len(top_titles) >= 2 else t_a
+    t_c = top_titles[2] if len(top_titles) >= 3 else t_a
+    bullets = [it.get("title", "").strip() for it in items[:5] if it.get("title")]
+
+    out_mota = write_mota_16x9(
+        out_path=day_dir / "mota.txt",
+        titles_abc=[t_a, t_b, t_c],
+        chapters=chapters,
+        video_type="daily_digest",
+        highlight_bullets=bullets,
+        sources_line="📰 Nguồn tổng hợp & đối chiếu: VnExpress, Tuổi Trẻ, Thanh Niên, Dân Trí, Bóng Đá Plus, AFC, FIFA.",
+        day_str=day_str,
+    )
+    ok(f"Đã xuất mô tả chuẩn YouTube (| Điểm Đọc): {paths.rel_to_root(str(out_mota))}")
+    return out_mota
+
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Bộ điều phối sản xuất bản tin hằng ngày Điểm Đọc")
     parser.add_argument("--day", required=True, help="Ngày định dạng DD.MM.YYYY")
-    parser.add_argument("--step", choices=["qa", "tts", "video", "thumbs", "all"], default="all")
+    parser.add_argument("--step", choices=["qa", "tts", "video", "thumbs", "mota", "clean", "all"], default="all")
     parser.add_argument("--workers", type=int, default=3, help="Số worker render song song (mặc định: 3)")
     parser.add_argument("--force", action="store_true", help="Tạo lại kể cả khi đã có cache/file đầu ra")
     parser.add_argument("--cloud", action="store_true", help="Đẩy phần việc nặng (TTS + Render Video) lên GitHub Actions Matrix")
     parser.add_argument("--local", action="store_true", help="Ép buộc chạy 100% trực tiếp trên máy Mac")
     parser.add_argument("--shards", type=int, default=8, help="Số máy ảo GitHub chạy song song khi bật --cloud (mặc định: 8)")
     args = parser.parse_args()
+
+    if args.step == "clean":
+        clean_work_dir(days=0.0, apply=True, quiet=False)
+        return
 
     if args.step in ("qa", "all"):
         errs, _ = run_qa(args.day)
@@ -500,6 +541,8 @@ def main() -> None:
         run_video_step(args.day, workers=args.workers, force=args.force)
     if args.step in ("thumbs", "all"):
         subprocess.run([sys.executable, "-B", str(ROOT / "core" / "build_thumbnails_09_11.py"), "--day", args.day], check=True)
+    if args.step in ("mota", "all"):
+        run_mota_step(args.day)
 
 
 if __name__ == "__main__":

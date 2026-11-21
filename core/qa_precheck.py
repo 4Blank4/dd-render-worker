@@ -124,14 +124,17 @@ def run_qa(day_str: str) -> Tuple[int, int]:
                     warnings += 1
                 hv = _ahash(im)
                 prev_list = scene_hashes.setdefault(sc_id, [])
-                for prev_fn, prev_h in prev_list:
-                    if _hamming(hv, prev_h) <= 4:
-                        print(f"[WARN] Ảnh gần trùng trong Scene {sc_id:02d}: {fn} ~ {prev_fn}")
-                        dup_cnt += 1
-                        warnings += 1
-                        break
+                if prev_list and _hamming(hv, prev_list[-1][1]) <= 4:
+                    print(f"[FAIL] Ảnh trùng lặp liên tiếp (Adjacent Duplicate) trong Scene {sc_id:02d}: {fn} == {prev_list[-1][0]}")
+                    errors += 1
+                    dup_cnt += 1
+                else:
+                    for prev_fn, prev_h in prev_list[:-1]:
+                        if _hamming(hv, prev_h) <= 4:
+                            dup_cnt += 1
+                            break
                 prev_list.append((fn, hv))
-        ok(f"Ảnh image_plan.json: {len(records)} ảnh | thiếu={missing_cnt} | thấp={lowres_cnt} | gần trùng={dup_cnt}")
+        ok(f"Ảnh image_plan.json: {len(records)} ảnh | thiếu={missing_cnt} | thấp={lowres_cnt} | xen kẽ hợp lệ={dup_cnt}")
 
     # 3. Kiểm tra thumbnails_plan.json
     tp = day_dir / "thumbnails_plan.json"
@@ -172,6 +175,14 @@ def run_qa(day_str: str) -> Tuple[int, int]:
                 if len(title_part) > 100:
                     print(f"[FAIL] {mf.name} tiêu đề vượt 100 ký tự ({len(title_part)}): {title_part}")
                     errors += 1
+                if not re.search(r"\|\s*Điểm\s*Đọc(?:\s+Tuần|\s+\d{1,2}/\d{1,2})?\s*$", title_part):
+                    print(f"[WARN] {mf.name} tiêu đề chưa có hậu tố chuẩn '| Điểm Đọc ...': {title_part}")
+                    warnings += 1
+        if mf.name.endswith("_mota.txt"):
+            for req_sec in ("[1. YOUTUBE SHORTS", "[2. FACEBOOK REELS", "[3. TIKTOK"):
+                if req_sec not in txt:
+                    print(f"[WARN] {mf.name} thiếu khối mô tả đa nền tảng '{req_sec}'")
+                    warnings += 1
         ok(f"Đã kiểm tra mô tả SEO: {mf.name}")
 
     print("-" * 70)

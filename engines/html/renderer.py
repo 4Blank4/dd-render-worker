@@ -303,7 +303,7 @@ def render_html_engine(project_dir: str, template: str | None, scene_number: int
     if not reused_video:
         use_hw = bool(hw_encode and not preview and _has_videotoolbox())
         if use_hw:
-            enc_codec = ["-c:v", "h264_videotoolbox", "-q:v", "68", "-pix_fmt", "yuv420p"]
+            enc_codec = ["-c:v", "h264_videotoolbox", "-b:v", "2600k", "-maxrate", "3600k", "-bufsize", "5400k", "-pix_fmt", "yuv420p"]
         else:
             enc_codec = ["-c:v", "libx264", "-preset", "fast", "-crf", "26" if preview else "18", "-pix_fmt", "yuv420p"]
 

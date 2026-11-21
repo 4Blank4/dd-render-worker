@@ -404,7 +404,7 @@ def run_daily_long_compose(day_dir: Path, day_str: str, shards_root: Path, final
     outro_bumper = ROOT / "logo" / "Outro.mp4"
     target_timescale = "15360"
     use_hw = _has_videotoolbox()
-    v_enc_args = ["-c:v", "h264_videotoolbox", "-q:v", "68", "-pix_fmt", "yuv420p"] if use_hw else [
+    v_enc_args = ["-c:v", "h264_videotoolbox", "-b:v", "2600k", "-maxrate", "3600k", "-bufsize", "5400k", "-pix_fmt", "yuv420p"] if use_hw else [
         "-c:v", "libx264", "-preset", "fast", "-crf", "18", "-pix_fmt", "yuv420p"
     ]
 

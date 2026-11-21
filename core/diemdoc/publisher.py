@@ -156,6 +156,64 @@ def clean_seo_title(title: str, max_len: int = 100) -> str:
     return t
 
 
+def _extract_dd_mm(day_str: str) -> str:
+    m = re.match(r"^(\d{1,2})[./\-](\d{1,2})", (day_str or "").strip())
+    if m:
+        return f"{int(m.group(1)):02d}/{int(m.group(2)):02d}"
+    return ""
+
+
+def format_long_title_with_suffix(
+    title: str,
+    video_type: str = "weekly_digest",
+    day_str: str = "",
+    brand_suffix: Optional[str] = None,
+    max_len: int = 100,
+) -> str:
+    """
+    Chuẩn hóa tiêu đề Video Dài 16:9 (Sentence Case <= 100 ký tự) kèm hậu tố thương hiệu thống nhất:
+      - daily_digest  -> "| Điểm Đọc DD/MM"
+      - weekly_digest -> "| Điểm Đọc Tuần"
+      - thematic_long -> "| Điểm Đọc"
+    """
+    t = sanitize_chapter_label(sanitize_public_text(title))
+    # Gỡ hậu tố "| Điểm Đọc..." cũ nếu có để tránh lặp
+    t = re.sub(r"\s*[\|–\-]\s*Điểm\s*Đọc(?:\s+Tuần|\s+\d{1,2}[/.\-]\d{1,2})?\s*$", "", t, flags=re.IGNORECASE).strip()
+
+    if brand_suffix is not None:
+        sfx = brand_suffix.strip()
+    else:
+        dd_mm = _extract_dd_mm(day_str)
+        if video_type == "daily_digest" and dd_mm:
+            sfx = f"| Điểm Đọc {dd_mm}"
+        elif video_type == "weekly_digest":
+            sfx = "| Điểm Đọc Tuần"
+        elif video_type == "thematic_long":
+            sfx = "| Điểm Đọc"
+        else:
+            sfx = f"| Điểm Đọc {dd_mm}" if dd_mm else "| Điểm Đọc"
+
+    if not sfx:
+        return clean_seo_title(t, max_len)
+
+    # Nếu tiêu đề bắt đầu bằng "Tin thể thao DD/MM:" hoặc "Bản tin thể thao DD/MM:" và bị vượt 100 ký tự khi gắn đuôi "| Điểm Đọc DD/MM",
+    # tự động rút gọn tiền tố lặp ngày để giữ trọn nội dung chính.
+    if len(f"{t} {sfx}") > max_len:
+        t_trimmed = re.sub(
+            r"^(?:Bản\s+tin\s+thể\s+thao|Tin\s+thể\s+thao|Điểm\s+Đọc\s+thể\s+thao)\s+\d{1,2}[/.\-]\d{1,2}(?:/\d{2,4})?\s*:\s*",
+            "",
+            t,
+            flags=re.IGNORECASE,
+        ).strip()
+        if t_trimmed:
+            t = t_trimmed[0].upper() + t_trimmed[1:]
+
+    avail = max_len - len(sfx) - 1
+    if len(t) > avail:
+        t = t[: avail - 1].rsplit(" ", 1)[0].rstrip(",;:-") + "…"
+    return f"{t} {sfx}"
+
+
 def write_mota_16x9(
     out_path: Path,
     titles_abc: List[str],
@@ -166,18 +224,27 @@ def write_mota_16x9(
     sources_line: Optional[str] = None,
     hashtags: Optional[List[str]] = None,
     day_str: str = "",
+    brand_suffix: Optional[str] = None,
 ) -> Path:
     """
-    Xuất file `mota.txt` chuẩn thống nhất cho Video 16:9 (cả Loại 1: Bản tin tổng hợp & Loại 2: Chuyên đề riêng).
+    Xuất file `mota.txt` chuẩn thống nhất cho Video 16:9 (chỉ đăng YouTube):
+      - `daily_digest`  : Đuôi `| Điểm Đọc DD/MM`
+      - `weekly_digest` : Đuôi `| Điểm Đọc Tuần`
+      - `thematic_long` : Đuôi `| Điểm Đọc`
     Cấu trúc bắt buộc chỉ gồm 2 phần:
-      1. `=== TIÊU ĐỀ YOUTUBE (ĐỘ DÀI CHUẨN <= 100 KÝ TỰ) ===` (3 phương án A/B/C Sentence Case)
-      2. `=== MÔ TẢ VIDEO ===` (Lời dẫn + Điểm nhấn / Thông tin + `⏱️ MỐC THỜI GIAN (CHAPTERS):` + Lời kêu gọi + Dòng `#DiemDoc...` cuối)
-    Tuyệt đối không có mục `=== HASHTAGS ===` rời rạc hay từ ngữ phi thời sự.
+      1. `=== TIÊU ĐỀ YOUTUBE (ĐỘ DÀI CHUẨN <= 100 KÝ TỰ) ===` (3 phương án A/B/C Sentence Case có hậu tố thương hiệu)
+      2. `=== MÔ TẢ VIDEO ===` (Lời dẫn + Điểm nhấn + `⏱️ MỐC THỜI GIAN (CHAPTERS):` + Nguồn + Lời kêu gọi + Dòng `#DiemDoc...` cuối)
     """
-    clean_titles = [clean_seo_title(t, 100) for t in (titles_abc or []) if t and t.strip()]
+    raw_titles = [t for t in (titles_abc or []) if t and t.strip()]
+    clean_titles = [
+        format_long_title_with_suffix(t, video_type=video_type, day_str=day_str, brand_suffix=brand_suffix, max_len=100)
+        for t in raw_titles
+    ]
     while len(clean_titles) < 3:
-        fallback = clean_titles[0] if clean_titles else f"Điểm Đọc thể thao {day_str}: Toàn cảnh sự kiện bóng đá và thể thao đáng chú ý"
-        clean_titles.append(clean_seo_title(fallback, 100))
+        fallback = raw_titles[0] if raw_titles else "Toàn cảnh sự kiện bóng đá và thể thao đáng chú ý"
+        clean_titles.append(
+            format_long_title_with_suffix(fallback, video_type=video_type, day_str=day_str, brand_suffix=brand_suffix, max_len=100)
+        )
 
     lines: List[str] = [
         "=== TIÊU ĐỀ YOUTUBE (ĐỘ DÀI CHUẨN <= 100 KÝ TỰ) ===",
@@ -195,7 +262,14 @@ def write_mota_16x9(
                 lines.append(p_clean)
                 lines.append("")
     else:
-        if video_type == "weekly_digest":
+        if video_type == "daily_digest":
+            d_label = f" ngày {day_str}" if day_str else ""
+            lines.append(
+                f"Bản tin Điểm Đọc Thể Thao{d_label} tổng hợp những diễn biến nóng nhất của thể thao Việt Nam "
+                "và quốc tế trong ngày với đầy đủ số liệu, kết quả thi đấu và phân tích chuyên môn."
+            )
+            lines.append("")
+        elif video_type == "weekly_digest":
             d_label = f" ngày {day_str}" if day_str else ""
             lines.append(
                 f"Bản tin Điểm Đọc Thể Thao{d_label} tổng hợp những chuyển động nóng nhất của thể thao Việt Nam "
@@ -210,7 +284,11 @@ def write_mota_16x9(
             lines.append("")
 
     if highlight_bullets:
-        header_bullet = "🔥 Tâm điểm đáng chú ý trong video:" if video_type == "weekly_digest" else "📊 Nội dung trọng tâm trong video:"
+        header_bullet = (
+            "🔥 Tâm điểm đáng chú ý trong video:"
+            if video_type in ("weekly_digest", "daily_digest")
+            else "📊 Nội dung trọng tâm trong video:"
+        )
         lines.append(header_bullet)
         for b in highlight_bullets:
             b_str = sanitize_public_text(b)
@@ -252,36 +330,61 @@ def write_mota_9x16(
     chapters: Optional[List[Tuple[str, str]]] = None,
     sources_line: Optional[str] = None,
     hashtags: Optional[List[str]] = None,
+    tiktok_caption: Optional[str] = None,
+    fb_hook: Optional[str] = None,
 ) -> Path:
     """
-    Xuất file `_mota.txt` chuẩn thống nhất cho Video Shorts 9:16 (Loại 3: Tin ngắn hằng ngày, Focus Short 2-5 tin, Digest Short).
-    Cấu trúc bắt buộc gồm 2 phần:
-      1. `=== TIÊU ĐỀ YOUTUBE (ĐỘ DÀI CHUẨN <= 100 KÝ TỰ) ===` (1 dòng tiêu đề Sentence Case kèm `#Shorts`)
-      2. `=== MÔ TẢ VIDEO ===` (Đoạn tóm tắt + `⏱️ MỐC THỜI GIAN:` nếu gộp nhiều tin + Nguồn + Lời kêu gọi + Dòng `#Shorts #DiemDoc...`)
+    Xuất file `_mota.txt` chuẩn thống nhất Đa Nền Tảng cho Video Shorts 9:16:
+      - Chỉ dùng 1 Tiêu đề chuẩn Sentence Case (<= 100 ký tự) cho YouTube Shorts.
+      - Tách sẵn nội dung mô tả/caption tối ưu riêng cho cả 3 mạng xã hội:
+        1. `=== 1. YOUTUBE SHORTS (TIÊU ĐỀ + MÔ TẢ) ===`
+        2. `=== 2. FACEBOOK REELS (CHỈ MÔ TẢ / CAPTION) ===`
+        3. `=== 3. TIKTOK (CHỈ MÔ TẢ / CAPTION TỐI ƯU TÌM KIẾM) ===`
     """
-    t = clean_seo_title(seo_title, 100)
-    if "#shorts" not in t.lower() and len(t) <= 92:
-        t = f"{t} #Shorts"
+    base_title = sanitize_chapter_label(sanitize_public_text(seo_title))
+    base_title_no_tag = re.sub(r"\s*#shorts\b", "", base_title, flags=re.IGNORECASE).strip()
+    base_title_no_tag = re.sub(r"\s*[\|–\-]\s*Điểm\s*Đọc.*$", "", base_title_no_tag, flags=re.IGNORECASE).strip()
 
+    yt_suffix = "| Điểm Đọc #Shorts"
+    if len(f"{base_title_no_tag} {yt_suffix}") <= 100:
+        yt_title = f"{base_title_no_tag} {yt_suffix}"
+    elif len(f"{base_title_no_tag} #Shorts") <= 100:
+        yt_title = f"{base_title_no_tag} #Shorts"
+    else:
+        avail = 100 - len(" #Shorts")
+        trimmed = base_title_no_tag[: avail - 1].rsplit(" ", 1)[0].rstrip(",;:-") + "…"
+        yt_title = f"{trimmed} #Shorts"
+
+    clean_paras = [sanitize_public_text(p) for p in (description_paragraphs or []) if sanitize_public_text(p)]
+    clean_chapters: List[Tuple[str, str]] = []
+    for ts, ch_title in (chapters or []):
+        c_lbl = sanitize_chapter_label(ch_title)
+        if c_lbl:
+            clean_chapters.append((ts, c_lbl))
+
+    raw_tags = [x if x.startswith("#") else f"#{x}" for x in (hashtags or ["#DiemDoc", "#DiemDocTheThao", "#TinTheThao", "#BongDa"])]
+    core_tags = [x for x in raw_tags if x.lower() not in ("#shorts", "#reels", "#tiktok", "#xuhuong")]
+
+    yt_tags = ["#Shorts"] + [x for x in core_tags if x.lower() != "#shorts"]
+    fb_tags = list(dict.fromkeys(core_tags + ["#Reels", "#TheThaoVietNam"]))
+    tt_tags = list(dict.fromkeys(core_tags + ["#TheThao247", "#XuHuong"]))
+
+    # ── 1. Khối YouTube Shorts ──
     lines: List[str] = [
         "=== TIÊU ĐỀ YOUTUBE (ĐỘ DÀI CHUẨN <= 100 KÝ TỰ) ===",
-        t,
+        yt_title,
         "",
         "=== MÔ TẢ VIDEO ===",
+        "[1. YOUTUBE SHORTS — MÔ TẢ]",
     ]
+    for p in clean_paras:
+        lines.append(p)
+        lines.append("")
 
-    for p in (description_paragraphs or []):
-        p_clean = sanitize_public_text(p)
-        if p_clean:
-            lines.append(p_clean)
-            lines.append("")
-
-    if chapters:
+    if clean_chapters:
         lines.append("⏱️ MỐC THỜI GIAN (CHAPTERS):")
-        for ts, ch_title in chapters:
-            clean_ch = sanitize_chapter_label(ch_title)
-            if clean_ch:
-                lines.append(f"{ts} {clean_ch}")
+        for ts, c_lbl in clean_chapters:
+            lines.append(f"{ts} {c_lbl}")
         lines.append("")
 
     if sources_line and sources_line.strip():
@@ -289,13 +392,48 @@ def write_mota_9x16(
         lines.append("")
 
     lines.append("🔔 Nhấn LIKE và ĐĂNG KÝ kênh ĐIỂM ĐỌC để cập nhật tin nóng thể thao mỗi ngày!")
+    lines.append(" ".join(yt_tags))
     lines.append("")
 
-    default_tags = ["#Shorts", "#DiemDoc", "#DiemDocTheThao", "#TinTheThao", "#BongDa"]
-    tag_list = hashtags if hashtags else default_tags
-    if not any(x.lower() == "#shorts" for x in tag_list):
-        tag_list = ["#Shorts"] + list(tag_list)
-    lines.append(" ".join(x if x.startswith("#") else f"#{x}" for x in tag_list))
+    # ── 2. Khối Facebook Reels (Chỉ Mô Tả / Caption, không dùng mốc 00:00 & không gắn #Shorts) ──
+    lines.append("-" * 70)
+    lines.append("[2. FACEBOOK REELS — CHỈ MÔ TẢ / CAPTION]")
+    hook_line = sanitize_public_text(fb_hook) if fb_hook else f"🔥 {base_title_no_tag}"
+    lines.append(hook_line)
+    lines.append("")
+    for p in clean_paras:
+        lines.append(p)
+        lines.append("")
+
+    if len(clean_chapters) > 1:
+        lines.append("📌 Các nội dung chính trong video:")
+        for _, c_lbl in clean_chapters:
+            if c_lbl.lower().startswith("mở đầu"):
+                continue
+            lines.append(f"• {c_lbl}")
+        lines.append("")
+
+    if sources_line and sources_line.strip():
+        lines.append(sources_line.strip())
+        lines.append("")
+
+    lines.append("👉 Theo dõi fanpage ĐIỂM ĐỌC để không bỏ lỡ nhịp đập thể thao mỗi ngày!")
+    lines.append(" ".join(fb_tags))
+    lines.append("")
+
+    # ── 3. Khối TikTok (Chỉ Mô Tả / Caption gọn tối ưu tìm kiếm & gợi tương tác) ──
+    lines.append("-" * 70)
+    lines.append("[3. TIKTOK — CHỈ MÔ TẢ / CAPTION]")
+    if tiktok_caption and sanitize_public_text(tiktok_caption):
+        tt_body = sanitize_public_text(tiktok_caption)
+    elif clean_paras:
+        tt_body = clean_paras[0]
+    else:
+        tt_body = base_title_no_tag
+    lines.append(tt_body)
+    lines.append("💬 Bạn ấn tượng nhất với thông tin nào? Cùng để lại bình luận bên dưới nhé!")
+    lines.append("")
+    lines.append(" ".join(tt_tags))
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
@@ -305,6 +443,25 @@ def write_mota_9x16(
 # ─────────────────────────────────────────────────────────────────────────────
 # 3. RENDER ẢNH BÌA CHUẨN THỐNG NHẤT (16:9 & 9:16) QUA PLAYWRIGHT
 # ─────────────────────────────────────────────────────────────────────────────
+
+def compute_16x9_hero_font_size(hero_html: str) -> str:
+    """
+    Tự động tính cỡ chữ Anton tối ưu (số nguyên, không kèm 'px') cho Thumbnail 16:9
+    nhằm tránh rớt chữ lẻ sang dòng phụ khi có các chữ cái rộng (M, U, N, G, Đ).
+    """
+    parts = re.split(r"<br\s*/?>", hero_html or "", flags=re.IGNORECASE)
+    plain_lines = [re.sub(r"<[^>]+>", "", p).strip() for p in parts if p.strip()]
+    max_chars = max((len(line) for line in plain_lines), default=12)
+    if max_chars <= 13:
+        return "88"
+    if max_chars <= 16:
+        return "82"
+    if max_chars <= 18:
+        return "74"
+    if max_chars <= 21:
+        return "66"
+    return "58"
+
 
 def compute_9x16_hero_font_size(hero_html: str) -> str:
     """
@@ -437,7 +594,9 @@ def render_thumbnail_16x9_single(
     logo_url = paths.file_url(str(logo_file))
     img_p = Path(image_path) if image_path else None
     photo_url = paths.file_url(str(img_p)) if img_p and img_p.exists() else ""
-    clean_size = str(hero_size).replace("px", "")
+    auto_sz = compute_16x9_hero_font_size(hero_html)
+    raw_sz = str(hero_size or auto_sz).replace("px", "")
+    clean_size = str(min(int(raw_sz), int(auto_sz))) if raw_sz.isdigit() and auto_sz.isdigit() else auto_sz
 
     html = (
         tpl_html.replace("__ASSETS__", assets_url)

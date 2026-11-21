@@ -137,6 +137,34 @@ DD-The-thao/
 
 ## 3. Nhật Ký Nâng Cấp Hệ Thống (Changelog)
 
+- **2026-11-20 (Chuẩn Hóa Mô Tả Đa Nền Tảng, Quy Tắc Dọn Sạch Cache Tức Thì `30.5 GB`, Tối Ưu Bitrate VideoToolbox & 6 Hạng Mục Cứng Hóa Hệ Thống)**:
+  - **Quy tắc bắt buộc dọn sạch `~/Library/Caches/DiemDoc/` trước & sau mỗi tác vụ (`AGENTS.md` & `core/clean.py`)**:
+    + Cập nhật `core/clean.py` mặc định `--days 0` (`--all --apply`), dọn sạch toàn bộ `177` mục tạm (`~30.48 GB`) khỏi `~/Library/Caches/DiemDoc/` vào `~/.Trash`.
+    + Tích hợp tự động dọn thư mục đệm render video vào cuối `run_video_step()` trong `core/daily_runner.py` và bổ sung cờ `--step clean`.
+  - **Khắc phục triệt để lỗi phình dung lượng `h264_videotoolbox` (từ `2.2 GB` xuống `~360 MB`)**:
+    + Nguyên nhân video 20.11 ban đầu nặng `2.2 GB` (`16.77 Mbps`) trong khi 19.11 chỉ `344 MB` (`2.57 Mbps`): Cờ `-q:v 68` của `h264_videotoolbox` trên macOS không giới hạn trần bitrate. Đã chuyển sang `-b:v 2600k -maxrate 3600k -bufsize 5400k` trong `engines/html/renderer.py`, `core/daily_runner.py`, `core/cloud_worker.py` và nén lại `outputs/20.11.2026/Tin-The-Thao-20-11.mp4` xuống `~360 MB` (giữ nguyên 100% chất lượng 1080p30 và audio `-14.03 LUFS`).
+  - **Chuẩn hóa Mô tả Video Dài (YouTube) & Video Short (3 Mạng Xã Hội: YouTube, Facebook Reels, TikTok) trong `core/diemdoc/publisher.py`**:
+    + `write_mota_16x9()`: Tự động gắn hậu tố thương hiệu thống nhất cho cả 3 Option tiêu đề (`| Điểm Đọc DD/MM` cho bản tin ngày, `| Điểm Đọc Tuần` cho bản tin tuần, `| Điểm Đọc` cho chuyên đề).
+    + `write_mota_9x16()`: Chỉ dùng 1 tiêu đề (`| Điểm Đọc #Shorts`) và xuất sẵn 3 khối mô tả riêng biệt (`[1. YOUTUBE SHORTS — MÔ TẢ]`, `[2. FACEBOOK REELS — CHỈ MÔ TẢ / CAPTION]`, `[3. TIKTOK — CHỈ MÔ TẢ / CAPTION]`).
+  - **Hoàn thiện 6 hạng mục nâng cấp kỹ thuật**:
+    + Module thu thập ảnh dùng chung `core/diemdoc/image_curator.py` (Wikimedia Commons API + Bing lọc từ khóa chủ thể bắt buộc + gỡ `/thumb_w/` + cắt viền logo).
+    + Cache RAM (`_PRON_DICT_CACHE`, `_ABBR_DICT_CACHE`) & retry 3 lần chống lỗi Google Drive `Errno 89` trong `core/diemdoc/tts_text.py` và `core/build_thumbnails_09_11.py`.
+    + Tự động tính cỡ chữ `compute_16x9_hero_font_size()` cho Thumbnail 16:9 và tích hợp `--step mota` vào `core/daily_runner.py`.
+    + Nâng cấp `core/qa_precheck.py`: Chặn lỗi `[FAIL]` nếu có 2 ảnh trùng đứng sát nhau liên tiếp (`Adjacent Duplicate`), kiểm tra hậu tố `| Điểm Đọc` và kiểm tra đủ 3 khối MXH cho Short.
+
+- **2026-11-20 (Hoàn Tất Video Bản Tin Thể Thao 16:9 Ngày 20.11.2026 — 21 Bản Tin Động, Đủ 9 Layout & Kiểm Duyệt Ảnh Nghiêm Ngặt)**:
+  - **Tổng hợp động theo ngày (loại bỏ cố định 18/24 tin)**: Rà soát và gỡ bỏ mô tả cứng `"24 tin"` tại `core/m1b_llm_writer.py`; sản xuất bản tin ngày 20.11 gồm **Intro song giọng (00) + 21 bản tin (01–21)** qua `core/daily_20_11_data.py` & `core/prepare_daily_20_11.py` (~18 phút 23 giây).
+  - **Kích hoạt trọn bộ 9 Layout, 4 chuyển cảnh & Stat Callout HUD**: Cập nhật `core/m8_news_bridge.py` (`_pick_smart_layout()` cân bằng đếm đều cả 9 layout gồm `full`, `split`, `polaroid`, `cinema`, `triptych`, `hero_mosaic`, `filmstrip_carousel`, `spotlight_sequence`, `bento_grid` với biến thiên `1–5` ảnh/câu; nạp `intro_hook.json` cho `id=0` và ưu tiên `stat_badges` tùy biến từ kịch bản).
+  - **Khắc phục & cứng hóa pipeline `core/daily_runner.py` và `engines/html/renderer.py`**: Sửa import `export_bridge_project` + `build_chunks_from_text`, truyền đủ SFX/BGM/two-pass loudnorm/cut-concat khớp từng frame, nâng `page.goto` timeout Playwright lên `90s` để chống nghẽn ảnh độ phân giải 3K trên Google Drive.
+  - **Kiểm duyệt thị giác 2 lớp & 0 lỗi ảnh**: Quét toàn bộ `303` ảnh trên 22 Contact Sheet QA (`outputs/20.11.2026/qa/`), thực thi `core/apply_qa_fixes_20_11.py` thay thế sạch `82` ảnh sai/dính banner/thiếu và cắt gọn `22` viền logo góc sát mép (`0` ảnh thiếu, `0` ảnh trùng lặp liên tiếp).
+  - **Sản phẩm xuất bản tại `outputs/20.11.2026/`**:
+    + Video chính 16:9 `Tin-The-Thao-20-11.mp4` (`1920x1080 @ 30fps`, `1103.17s` ≈ `18 phút 23 giây`, `2.2 GB`, `I = -14.03 LUFS`, `TP = -1.08 dBTP`, **A/V Drift `0.66 ms`**, `419` SFX, kiểm tra thực tế qua 12 khung hình `qa/video_qa_frames.jpg`).
+    + Bộ 3 Thumbnail 16:9 Cyber-Stadium cân 2 dòng tiêu đề (`thumbnail_A/B/C.jpg` + `thumbnail.jpg`) và mô tả SEO 2 phần (`mota.txt` gồm 3 Option tiêu đề Sentence Case ≤ 90 ký tự + 22 chapters từ `00:00` đến `17:26`).
+
+- **2026-11-20 (Thử Nghiệm Thành Công Video Short Bản Tin Nhanh 21 Tin Trên GitHub Cloud — `Short_Tin_Nhanh_21_Tin.mp4`)**:
+  - **Sản phẩm hoàn thiện (`outputs/20.11.2026/shorts/`)**: [Short_Tin_Nhanh_21_Tin.mp4](file:///Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive%20cu%CC%89a%20to%CC%82i/2026/Agent/DD-The-thao/outputs/20.11.2026/shorts/Short_Tin_Nhanh_21_Tin.mp4) (`1080x1920 @ 30fps`, thời lượng **`132.60s`** = `2 phút 12,6 giây < 180s` gồm Outro Nữ, dung lượng **`65.9 MB`**, **`I = -14.01 LUFS`**, **`TP = -3.75 dBTP`**, **A/V Drift `14.0 ms <= 33.3 ms`**).
+  - **Sản xuất 100% trên GitHub Actions (`4Blank4/dd-render-worker`)**: Gói payload gửi lên chỉ **`9.00 MB`** (chỉ gồm `digest_specs.json` + 21 ảnh chọn lọc), hoàn thành tổng hợp ViTTS v3turbo song giọng (Việt Nam: Nữ Ngọc Huyền / Quốc tế: Nam Minh Quân Pro), render `short_digest_v2.html`, ghép Outro 9:16, xuất Thumbnail 9:16 (`Short_Tin_Nhanh_21_Tin_thumbnail.jpg`), mô tả SEO (`Short_Tin_Nhanh_21_Tin_mota.txt`) và Contact Sheet QA (`qa/contact_digest_20_11.jpg`), tải về Google Drive và tự động xóa sạch dữ liệu & Run/Artifacts trên GitHub (0% tải CPU/RAM máy Mac, không ảnh hưởng tiến trình Video Long đang chạy).
+
 - **2026-11-20 (Tích Hợp Trạm Render Đám Mây Tạm Thời GitHub Actions Matrix — Zero-RAM Local & Tự Xóa Dữ Liệu 100%)**:
   - **Kiến trúc Hybrid Local + GitHub Matrix (`.github/workflows/cloud_render.yml`, `core/cloud_runner.py`, `core/cloud_worker.py`, `config/cloud.json`, `requirements-cloud.txt`, `.gitignore`)**:
     + Giữ nguyên 100% cấu trúc và quy trình local hiện tại (`daily_runner.py`, `short_batch.py`), bổ sung khả năng đẩy riêng 2 khâu nặng nhất (**ViTTS v3turbo + Whisper + Playwright HTML v2 Render**) lên dàn máy ảo GitHub Actions (`4Blank4/dd-render-worker`, Public repo = **miễn phí không giới hạn số phút chạy**, huy động tới **8–15 máy ảo x 16 GB RAM** chạy song song).
