@@ -342,44 +342,91 @@ def trigger_and_wait_workflow(cfg: Dict[str, Any], shards: int, workers_per_shar
     return run_id
 
 
-def download_and_merge_deliverable(cfg: Dict[str, Any], run_id: str, day_dir: Path, mode: str = "daily_long") -> None:
+def _list_run_artifacts(cfg: Dict[str, Any], run_id: str) -> Dict[str, float]:
+    """Trả về map {tên_artifact: size_mb} của một GitHub Actions Run."""
+    full_repo = f"{cfg['github_owner']}/{cfg['repo_name']}"
+    res = _run_cmd([
+        "gh", "api", f"repos/{full_repo}/actions/runs/{run_id}/artifacts",
+        "--jq", ".artifacts[] | [.name, .size_in_bytes] | @tsv",
+    ], check=False)
+    out: Dict[str, float] = {}
+    if res.returncode == 0 and res.stdout:
+        for line in res.stdout.splitlines():
+            parts = line.strip().split("\t")
+            if len(parts) == 2:
+                try:
+                    out[parts[0]] = int(parts[1]) / (1024.0 * 1024.0)
+                except Exception:
+                    out[parts[0]] = 0.0
+    return out
+
+
+def _copy_extracted_tier(src_dir: Path, day_dir: Path, mode: str) -> List[str]:
+    copied: List[str] = []
+    for item in src_dir.rglob("*"):
+        if not item.is_file() or item.name == ".tier_root":
+            continue
+        rel = item.relative_to(src_dir)
+        dest = day_dir / rel
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(item, dest)
+        copied.append(str(rel))
+
+    if mode != "digest_short":
+        for jf in ("thethao.json", "intro_hook.json"):
+            jp = day_dir / jf
+            if jp.exists() and jf in copied:
+                data = json.loads(jp.read_text(encoding="utf-8"))
+                from cloud_worker import _fix_day_paths
+                data = _fix_day_paths(data, day_dir)
+                jp.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    return copied
+
+
+def download_and_merge_deliverable(
+    cfg: Dict[str, Any], run_id: str, day_dir: Path, mode: str = "daily_long", skip_extras: bool = False
+) -> None:
     full_repo = f"{cfg['github_owner']}/{cfg['repo_name']}"
     dl_tmp = Path(paths.WORK) / f"cloud_dl_{run_id}"
     _safe_trash(dl_tmp)
     dl_tmp.mkdir(parents=True, exist_ok=True)
 
-    step(f"Tải thành phẩm từ GitHub Artifact (Run #{run_id}) về Google Drive...")
-    _run_cmd([
-        "gh", "run", "download", run_id,
-        "--repo", full_repo,
-        "-n", "dd-final-deliverable",
-        "-D", str(dl_tmp),
-    ])
+    avail = _list_run_artifacts(cfg, run_id)
+    tiers: List[Tuple[str, str]] = []
+    if "dd-meta-thumbs" in avail or "dd-video-deliverable" in avail:
+        if "dd-meta-thumbs" in avail:
+            tiers.append(("dd-meta-thumbs", "[1/3] Ưu tiên 1: Ảnh Thumbnail, Mô tả SEO & Metadata"))
+        if "dd-video-deliverable" in avail:
+            tiers.append(("dd-video-deliverable", "[2/3] Ưu tiên 2: Video thành phẩm (.mp4)"))
+        if "dd-audio-extras" in avail:
+            if skip_extras:
+                warn(f"Bỏ qua tải dd-audio-extras ({avail['dd-audio-extras']:.2f} MB) theo cờ --skip-extras.")
+            else:
+                tiers.append(("dd-audio-extras", "[3/3] Phần phụ: Âm thanh thô (.wav)"))
+    elif "dd-final-deliverable" in avail or not avail:
+        tiers.append(("dd-final-deliverable", "Tải toàn bộ thành phẩm (legacy single artifact)"))
 
     copied_files: List[str] = []
-    for item in dl_tmp.rglob("*"):
-        if item.is_file():
-            rel = item.relative_to(dl_tmp)
-            dest = day_dir / rel
-            dest.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(item, dest)
-            copied_files.append(str(rel))
-
-    # Chỉ chuẩn hóa đường dẫn thethao.json / intro_hook.json nếu không phải mode digest_short (tránh đụng file của video dài đang chạy)
-    if mode != "digest_short":
-        for jf in ("thethao.json", "intro_hook.json"):
-            jp = day_dir / jf
-            if jp.exists():
-                data = json.loads(jp.read_text(encoding="utf-8"))
-                from cloud_worker import _fix_day_paths
-                data = _fix_day_paths(data, day_dir)
-                jp.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    for art_name, label in tiers:
+        sz_mb = avail.get(art_name, 0.0)
+        tier_tmp = dl_tmp / art_name
+        tier_tmp.mkdir(parents=True, exist_ok=True)
+        step(f"{label} ({sz_mb:.2f} MB) từ Run #{run_id}...")
+        _run_cmd([
+            "gh", "run", "download", run_id,
+            "--repo", full_repo,
+            "-n", art_name,
+            "-D", str(tier_tmp),
+        ])
+        tier_copied = _copy_extracted_tier(tier_tmp, day_dir, mode=mode)
+        copied_files.extend(tier_copied)
+        ok(f"Xong {label}: đã lưu {len(tier_copied)} file vào {paths.rel_to_root(str(day_dir))}")
+        for cf in sorted(tier_copied):
+            if cf.endswith((".mp4", ".jpg", ".txt", ".json")):
+                log(f"  + {cf}")
 
     _safe_trash(dl_tmp)
-    ok(f"Đã lưu {len(copied_files)} file thành phẩm vào: {paths.rel_to_root(str(day_dir))}")
-    for cf in sorted(copied_files):
-        if cf.endswith((".mp4", ".jpg", ".txt", ".json")):
-            log(f"  + {cf}")
+    ok(f"Hoàn tất tải theo thứ tự ưu tiên ({len(copied_files)} file) -> {paths.rel_to_root(str(day_dir))}")
 
 
 def main() -> None:
@@ -393,6 +440,7 @@ def main() -> None:
     parser.add_argument("--shards", type=int, default=0, help="Số máy ảo GitHub chạy song song (mặc định: 8 cho daily_long, 3 cho short_batch, 1 cho digest_short)")
     parser.add_argument("--workers", type=int, default=2, help="Số luồng Playwright trên mỗi máy ảo GitHub (mặc định: 2)")
     parser.add_argument("--skip-qa", action="store_true", help="Bỏ qua bước kiểm tra qa_precheck.py trên máy trước khi gửi")
+    parser.add_argument("--skip-extras", action="store_true", help="Chỉ tải Thumbnail/Mô tả và Video chính (.mp4), bỏ qua tải file âm thanh thô (.wav)")
     parser.add_argument("--keep-cloud-data", action="store_true", help="Không tự xóa Artifact sau khi tải về (dùng khi cần debug)")
     args = parser.parse_args()
 
@@ -436,7 +484,7 @@ def main() -> None:
     run_id = trigger_and_wait_workflow(cfg, shards=shards, workers_per_shard=args.workers)
 
     try:
-        download_and_merge_deliverable(cfg, run_id, day_dir, mode=args.mode)
+        download_and_merge_deliverable(cfg, run_id, day_dir, mode=args.mode, skip_extras=args.skip_extras)
     finally:
         if cfg.get("auto_cleanup_github", True) and not args.keep_cloud_data:
             cleanup_github_job_and_runs(cfg, run_id=run_id)

@@ -137,6 +137,16 @@ DD-The-thao/
 
 ## 3. Nhật Ký Nâng Cấp Hệ Thống (Changelog)
 
+- **2026-11-21 (Hoàn Tất Video Bản Tin Thể Thao 16:9 Ngày 21.11.2026 Qua GitHub Cloud Matrix — Intro Song Giọng, 19 Tin Độc Lập & Mục Tin Bên Lề Giọng Nữ)**:
+  - **Cấu trúc nội dung tinh chỉnh theo yêu cầu Chủ kênh (`core/daily_21_11_data.py`, `core/prepare_daily_21_11.py`)**:
+    + Tuyệt đối **1 vấn đề/tin** (không gộp tin rời rạc như luật việt vị Wenger với vụ kiện Man City), bổ sung mục **`20. CÁC TIN THỂ THAO KHÁC`** (`voice_preset: "secondary"` — 100% giọng Nữ Ngọc Huyền điểm nhanh 9 tin bên lề trước Outro).
+    + Intro song giọng (`00`, `hide_title: true`) + 19 tin chính (`01–19` luân phiên Nam/Nữ) + Mục tin bên lề (`20`) tổng hợp tin từ `12:00 20/11` đến sáng `21/11/2026`.
+  - **Kiểm duyệt thị giác nghiêm ngặt 262 ảnh (`outputs/21.11.2026/qa/` + `qa_precheck.py`)**:
+    + Thu thập & soi từng ảnh trên toàn bộ 22 bảng Contact Sheet: thay thế dứt điểm các ảnh fallback sai chủ đề (Tin #11 Free Fire World Series), cắt/loại ảnh dính dải ZNews & watermark `dpa/picture-alliance` (Tin #14 Bayern Munich), thay ảnh trùng kề (Tin #09 Vovinam, Tin #17 Man City) và thay card đồ họa bằng ảnh trận đấu thực tế `beIN SPORTS` (Tin #20 Ligue 1). Đạt `262/262` ảnh sạch, `0` lỗi nghiêm trọng, `0` cảnh báo nhẹ.
+  - **Sản xuất ViTTS v3turbo + Render HTML v2 trên GitHub Cloud (`4Blank4/dd-render-worker`, 8 shards song song, Run #44858282960 -> đã tự động xóa sạch)**:
+    + Video chính 16:9 [Tin-The-Thao-21-11.mp4](file:///Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive%20cu%CC%89a%20to%CC%82i/2026/Agent/DD-The-thao/outputs/21.11.2026/Tin-The-Thao-21-11.mp4): `1920x1080 @ 30fps`, `h264`, thời lượng **`988.994s`** (`16 phút 29 giây`), dung lượng **`797.61 MB`**, **`I = -14.03 LUFS`**, **`TP = -1.08 dBTP`**, **A/V Drift `0.15 ms`**.
+    + Đầy đủ ấn phẩm đi kèm tại `outputs/21.11.2026/`: Bộ 3 Thumbnail A/B Test cùng xoay quanh cụm tin nóng nhất (`thumbnail_A/B/C.jpg` + `thumbnail.jpg`) và mô tả SEO 2 phần (`mota.txt` do `core/build_mota_21_11.py` xuất với 21 chapters từ `00:00` đến `14:42`, đuôi tiêu đề `| Điểm Đọc 21/11`). Dọn sạch `54.9 MB` cache tạm vào `~/.Trash`.
+
 - **2026-11-20 (Chuẩn Hóa Mô Tả Đa Nền Tảng, Quy Tắc Dọn Sạch Cache Tức Thì `30.5 GB`, Tối Ưu Bitrate VideoToolbox & 6 Hạng Mục Cứng Hóa Hệ Thống)**:
   - **Quy tắc bắt buộc dọn sạch `~/Library/Caches/DiemDoc/` trước & sau mỗi tác vụ (`AGENTS.md` & `core/clean.py`)**:
     + Cập nhật `core/clean.py` mặc định `--days 0` (`--all --apply`), dọn sạch toàn bộ `177` mục tạm (`~30.48 GB`) khỏi `~/Library/Caches/DiemDoc/` vào `~/.Trash`.

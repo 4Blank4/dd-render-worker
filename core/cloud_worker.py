@@ -405,7 +405,7 @@ def run_daily_long_compose(day_dir: Path, day_str: str, shards_root: Path, final
     target_timescale = "15360"
     use_hw = _has_videotoolbox()
     v_enc_args = ["-c:v", "h264_videotoolbox", "-b:v", "2600k", "-maxrate", "3600k", "-bufsize", "5400k", "-pix_fmt", "yuv420p"] if use_hw else [
-        "-c:v", "libx264", "-preset", "fast", "-crf", "18", "-pix_fmt", "yuv420p"
+        "-c:v", "libx264", "-preset", "fast", "-crf", "20", "-maxrate", "3600k", "-bufsize", "5400k", "-pix_fmt", "yuv420p"
     ]
 
     def _prep_bumper(bp: Path, name: str) -> Optional[Tuple[Path, Path, float]]:
@@ -962,6 +962,8 @@ def run_digest_short_cloud(day_dir: Path, day_str: str, final_out_dir: Path) -> 
             chapters=chapters_list,
             sources_line=cfg.get("sources_line", "📰 Nguồn tin: VnExpress, Thanh Niên, Tuổi Trẻ, Dân Trí, Reuters, AP."),
             hashtags=cfg.get("hashtags", ["#Shorts", "#TinNhanh", "#DiemDoc"]),
+            tiktok_caption=cfg.get("tiktok_caption"),
+            fb_hook=cfg.get("fb_hook"),
         )
 
     final_out_dir.mkdir(parents=True, exist_ok=True)

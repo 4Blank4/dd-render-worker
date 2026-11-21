@@ -149,9 +149,59 @@ jobs:
             --shards-dir _cloud_shards \
             --out-dir _cloud_final_output
 
-      - name: Upload Final Master Deliverable
+      - name: Split Output By Download Priority (Meta/Thumbs -> Video -> Audio Extras)
+        run: |
+          python3 -B -c "
+          import os, shutil
+          from pathlib import Path
+
+          src = Path('_cloud_final_output')
+          t_meta = Path('_cloud_tier_meta')
+          t_video = Path('_cloud_tier_video')
+          t_extras = Path('_cloud_tier_extras')
+          for d in (t_meta, t_video, t_extras):
+              d.mkdir(parents=True, exist_ok=True)
+              (d / '.tier_root').write_text('', encoding='utf-8')
+
+          for f in src.rglob('*'):
+              if not f.is_file():
+                  continue
+              rel = f.relative_to(src)
+              parts = rel.parts
+              is_audio_extra = (
+                  parts[0] in ('audio', 'audio-title')
+                  or (len(parts) >= 2 and parts[0] == 'shorts' and parts[1] == 'digest_audio')
+              )
+              if f.suffix.lower() == '.mp4':
+                  dest = t_video / rel
+              elif is_audio_extra:
+                  dest = t_extras / rel
+              else:
+                  dest = t_meta / rel
+              dest.parent.mkdir(parents=True, exist_ok=True)
+              shutil.copy2(f, dest)
+          "
+
+      - name: Upload Priority 1 - Thumbnails, Metadata & SEO
         uses: actions/upload-artifact@v4
         with:
-          name: dd-final-deliverable
-          path: _cloud_final_output/
+          name: dd-meta-thumbs
+          path: _cloud_tier_meta/
           retention-days: 1
+          if-no-files-found: ignore
+
+      - name: Upload Priority 2 - Master Video (.mp4)
+        uses: actions/upload-artifact@v4
+        with:
+          name: dd-video-deliverable
+          path: _cloud_tier_video/
+          retention-days: 1
+          if-no-files-found: ignore
+
+      - name: Upload Priority 3 - Auxiliary Audio (.wav)
+        uses: actions/upload-artifact@v4
+        with:
+          name: dd-audio-extras
+          path: _cloud_tier_extras/
+          retention-days: 1
+          if-no-files-found: ignore

@@ -417,3 +417,8 @@ Không module nào tự viết lại logic đã có ở đây.
   + `diemdoc/tts_text.py` & `build_thumbnails_09_11.py`: Cache RAM từ điển viết tắt/phát âm và retry 3 lần chống lỗi Google Drive `Errno 89`.
   + `qa_precheck.py`: Phân biệt ảnh xen kẽ hợp lệ với lỗi trùng ảnh liên tiếp (`Adjacent Duplicate -> [FAIL]`), kiểm tra hậu tố `| Điểm Đọc` và 3 khối MXH.
   + `daily_runner.py` & `engines/html/renderer.py`: Giới hạn bitrate `h264_videotoolbox` (`-b:v 2600k -maxrate 3600k`) giúp video dài ~18 phút chỉ nặng `~360 MB` thay vì `2.2 GB`; bổ sung `--step mota`, `--step clean` và tự động dọn cache sau khi ghép video.
+
+### Bộ Công Cụ Sản Xuất Bản Tin Ngày 21.11.2026 (`daily_21_11_data.py`, `prepare_daily_21_11.py`, `build_mota_21_11.py`) — Mới 21.11.2026
+- **`daily_21_11_data.py`**: Dữ liệu kịch bản & 262 slot ảnh HD sạch cho **Intro song giọng (`id=0`, `hide_title=True`) + 19 tin chính độc lập (`01..19`) + Mục `20. CÁC TIN THỂ THAO KHÁC` (`voice_preset="secondary"`, 100% giọng Nữ Ngọc Huyền điểm 9 tin bên lề)**.
+- **`prepare_daily_21_11.py`**: Thu thập ảnh từ `image_curator.py`, kiểm định và xuất bộ JSON đầu vào, `thumbnails_plan.json` A/B Test và 22 bảng QA Contact Sheet (`outputs/21.11.2026/qa/`).
+- **`build_mota_21_11.py`**: Đọc `outputs/21.11.2026/_preview_v2/chapters_21_11.json` (21 chapters từ `00:00` đến `14:42`) và xuất `outputs/21.11.2026/mota.txt` chuẩn đuôi `| Điểm Đọc 21/11` qua `publisher.write_mota_16x9()`.

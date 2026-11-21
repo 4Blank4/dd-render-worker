@@ -305,7 +305,7 @@ def render_html_engine(project_dir: str, template: str | None, scene_number: int
         if use_hw:
             enc_codec = ["-c:v", "h264_videotoolbox", "-b:v", "2600k", "-maxrate", "3600k", "-bufsize", "5400k", "-pix_fmt", "yuv420p"]
         else:
-            enc_codec = ["-c:v", "libx264", "-preset", "fast", "-crf", "26" if preview else "18", "-pix_fmt", "yuv420p"]
+            enc_codec = ["-c:v", "libx264", "-preset", "fast", "-crf", "26" if preview else "20", "-maxrate", "3600k", "-bufsize", "5400k", "-pix_fmt", "yuv420p"]
 
         enc = subprocess.Popen(
             ["ffmpeg", "-y", "-loglevel", "error",
