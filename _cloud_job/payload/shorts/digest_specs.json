@@ -1,0 +1,211 @@
+{
+  "day": "21.11.2026",
+  "title": "TIN NHANH THỂ THAO 21.11",
+  "hide_date_chip": false,
+  "out_video_name": "Short_Tin_Nhanh_19_Tin.mp4",
+  "gap_ms": 220,
+  "seo_title": "Tin nhanh 21/11: U17 Việt Nam ghi 2 siêu phẩm vào lưới Bỉ, Ronaldo hỏng 11m & Kane nghỉ hết năm",
+  "description": [
+    "Điểm đọc nhanh 19 tin tức thể thao nóng nhất ngày 21/11/2026 từ U17 World Cup, bóng đá Việt Nam, Đại hội Thể thao toàn quốc 2026 tới các giải đấu quốc tế.",
+    "Nổi bật hai siêu phẩm lịch sử của Lê Sỹ Bách và Chu Ngọc Nguyễn Lực trước U17 Bỉ, tranh cãi công nghệ VFS, Thanh Hóa phá dớp 8 năm hạ HAGL, Ronaldo ghi bàn 986 rồi sút hỏng 11m, Harry Kane rách dây chằng cổ chân và bán kết ATP Finals Turin."
+  ],
+  "fb_hook": "🔥 19 TIN THỂ THAO NÓNG NHẤT 21/11 TRONG CHƯA ĐẦY 3 PHÚT!",
+  "tiktok_caption": "Điểm nhanh 19 tin nóng thể thao 21/11: Hai siêu phẩm để đời của U17 Việt Nam trước U17 Bỉ, tranh cãi thẻ xanh VFS, Ronaldo hỏng 11m ở cột mốc 986 bàn và Harry Kane nghỉ hết năm!",
+  "sources_line": "📰 Nguồn tin: Thanh Niên, VnExpress, Tuổi Trẻ, Dân Trí, Bóng đá Plus, FIFA, AFC, UEFA, ATP Tour.",
+  "hashtags": [
+    "#Shorts",
+    "#TinNhanh",
+    "#DiemDoc",
+    "#DiemDocTheThao",
+    "#U17VietNam",
+    "#U17WorldCup",
+    "#VLeague",
+    "#CristianoRonaldo",
+    "#HarryKane",
+    "#ATPFinals"
+  ],
+  "thumb": {
+    "image": "Tin_01_1.jpg",
+    "kicker": "ĐIỂM NHANH 19 TIN THỂ THAO 21.11",
+    "hero_html": "<span class=\"hl-cyan\">19 TIN NHANH!</span><br><span class=\"hl-white\">U17 VN LẬP SIÊU PHẨM</span><br><span class=\"hl-yellow\">CR7 HỎNG 11M!</span>",
+    "subtitle": "U17 WORLD CUP • V-LEAGUE • ĐẠI HỘI 2026 • BUNDESLIGA",
+    "badge": "19 TIN NHANH",
+    "tag_a": "VN & QUỐC TẾ",
+    "tag_b": "21.11.2026",
+    "hero_size": "76",
+    "obj_pos": "center 22%"
+  },
+  "items": [
+    {
+      "id": 1,
+      "region": "Việt Nam",
+      "voice_preset": "secondary",
+      "voice_gender": "Nữ",
+      "image_file": "Tin_01_1.jpg",
+      "title": "U17 Việt Nam thua Bỉ 2-3 với hai siêu phẩm lịch sử",
+      "digest_line": "U17 Việt Nam thua sát nút Bỉ 2-3 ở trận mở màn World Cup dù Sỹ Bách đánh gót mở tỷ số và Nguyễn Lực đá phạt góc thành bàn."
+    },
+    {
+      "id": 2,
+      "region": "Việt Nam",
+      "voice_preset": "secondary",
+      "voice_gender": "Nữ",
+      "image_file": "Tin_02_2.jpg",
+      "title": "FIFA, AFC và báo Bỉ thán phục U17 Việt Nam",
+      "digest_line": "FIFA, AFC cùng truyền thông Bỉ đồng loạt ca ngợi màn trình diễn quả cảm và hai siêu phẩm đẳng cấp của thầy trò Cristiano Roland."
+    },
+    {
+      "id": 3,
+      "region": "Việt Nam",
+      "voice_preset": "secondary",
+      "voice_gender": "Nữ",
+      "image_file": "Tin_03_1.jpg",
+      "title": "Công nghệ thẻ xanh VFS thay VAR gây tranh cãi",
+      "digest_line": "Tổ trọng tài toàn nữ Brazil áp dụng công nghệ VFS mới tại trận gặp Bỉ và từ chối một quả phạt đền cho U17 Việt Nam."
+    },
+    {
+      "id": 4,
+      "region": "Việt Nam",
+      "voice_preset": "secondary",
+      "voice_gender": "Nữ",
+      "image_file": "Tin_04_1.jpg",
+      "title": "Bảng G U17 World Cup: Mali thắng đậm New Zealand 3-0",
+      "digest_line": "Mali đè bẹp New Zealand 3-0 để tạm dẫn đầu bảng G, buộc U17 Việt Nam phải đánh bại New Zealand ở lượt tới."
+    },
+    {
+      "id": 5,
+      "region": "Quốc tế",
+      "voice_preset": "primary",
+      "voice_gender": "Nam",
+      "image_file": "Tin_05_1.jpg",
+      "title": "Chốt 16 đội dự U17 châu Á 2027: Thái Lan và Malaysia bị loại",
+      "digest_line": "Thái Lan thua Iraq 1-2 và Malaysia hòa Ấn Độ 0-0 nên cùng bị loại khỏi U17 châu Á 2027, chỉ còn Việt Nam và Indonesia."
+    },
+    {
+      "id": 6,
+      "region": "Việt Nam",
+      "voice_preset": "secondary",
+      "voice_gender": "Nữ",
+      "image_file": "Tin_06_1.jpg",
+      "title": "V-League: Thanh Hóa phá dớp tám năm thắng HAGL 2-1",
+      "digest_line": "Thanh Hóa ngược dòng hạ Hoàng Anh Gia Lai 2-1 trên sân Pleiku sau tám năm, còn Thể Công Viettel trải qua 11 trận không thắng."
+    },
+    {
+      "id": 7,
+      "region": "Việt Nam",
+      "voice_preset": "secondary",
+      "voice_gender": "Nữ",
+      "image_file": "Tin_07_1.jpg",
+      "title": "Lê Quang Liêm xếp hạng 8 thế giới, nhận thưởng 800 triệu",
+      "digest_line": "Thua ngược Nepomniachtchi ở ván Armageddon, Lê Quang Liêm dừng bước hạng tám giải cờ vua toàn năng thế giới và nhận 800 triệu đồng."
+    },
+    {
+      "id": 8,
+      "region": "Việt Nam",
+      "voice_preset": "secondary",
+      "voice_gender": "Nữ",
+      "image_file": "Tin_08_1.jpg",
+      "title": "Kỳ thủ 18 tuổi Phan Huy Hoàng gây sốt làng cờ tướng Trung Quốc",
+      "digest_line": "Kỳ thủ 18 tuổi Phan Huy Hoàng gây tiếng vang lớn tại Trung Quốc và được kỳ vọng tiếp bước Lại Lý Huynh vươn tầm thế giới."
+    },
+    {
+      "id": 9,
+      "region": "Việt Nam",
+      "voice_preset": "secondary",
+      "voice_gender": "Nữ",
+      "image_file": "Tin_09_1.jpg",
+      "title": "Khai mạc Đại hội Thể thao toàn quốc 2026 tối nay",
+      "digest_line": "Đại hội Thể thao toàn quốc 2026 khai mạc 19 giờ tối nay bên sông Sài Gòn, nơi chủ nhà TP.HCM tạm vượt Hà Nội với tám vàng Vovinam."
+    },
+    {
+      "id": 10,
+      "region": "Việt Nam",
+      "voice_preset": "secondary",
+      "voice_gender": "Nữ",
+      "image_file": "Tin_10_1.jpg",
+      "title": "Đại hội 2026: Hải Phòng nhất Canoeing, Quân Đội soán ngôi Judo",
+      "digest_line": "Nguyễn Thị Hương giành bốn vàng giúp Hải Phòng nhất Canoeing, trong khi Quân Đội soán ngôi nhất toàn đoàn Judo từ TP.HCM."
+    },
+    {
+      "id": 11,
+      "region": "Việt Nam",
+      "voice_preset": "secondary",
+      "voice_gender": "Nữ",
+      "image_file": "Tin_11_1.jpg",
+      "title": "P Esports Việt Nam vào chung kết Free Fire thế giới 2026",
+      "digest_line": "P Esports Việt Nam bùng nổ với 101 điểm tại Bangkok, vượt cả Buriram United để đoạt vé đầu tiên vào chung kết Free Fire thế giới."
+    },
+    {
+      "id": 12,
+      "region": "Quốc tế",
+      "voice_preset": "primary",
+      "voice_gender": "Nam",
+      "image_file": "Tin_12_1.jpg",
+      "title": "Ronaldo chạm mốc 986 bàn rồi hỏng 11m khiến Al Nassr thua",
+      "digest_line": "Cristiano Ronaldo ghi bàn thứ 986 nhưng sút phạt đền dội cột dọc, khiến Al Nassr thua ngược Al Ahli 1-3 và kém Al Hilal hai điểm."
+    },
+    {
+      "id": 13,
+      "region": "Quốc tế",
+      "voice_preset": "primary",
+      "voice_gender": "Nam",
+      "image_file": "Tin_13_1.jpg",
+      "title": "HLV Jose Mourinho đột ngột bỏ họp báo khi bị hỏi về Ronaldo",
+      "digest_line": "HLV Jose Mourinho nói không năm lần liên tiếp rồi rời phòng họp báo Real Madrid ngay khi phóng viên nhắc tới Cristiano Ronaldo."
+    },
+    {
+      "id": 14,
+      "region": "Quốc tế",
+      "voice_preset": "primary",
+      "voice_gender": "Nam",
+      "image_file": "Tin_14_1.jpg",
+      "title": "Bayern hòa Cologne 1-1, Harry Kane rách dây chằng cổ chân",
+      "digest_line": "Bayern Munich hòa Cologne 1-1 và nhận hung tin khi Harry Kane rách dây chằng cổ chân trái, đối diện nguy cơ nghỉ hai tới bốn tháng."
+    },
+    {
+      "id": 15,
+      "region": "Quốc tế",
+      "voice_preset": "primary",
+      "voice_gender": "Nam",
+      "image_file": "Tin_15_1.jpg",
+      "title": "Bốc thăm tứ kết Nations League: Tây Ban Nha đại chiến Pháp",
+      "digest_line": "Bốc thăm tứ kết UEFA Nations League đưa Tây Ban Nha chạm trán Pháp của Zidane, còn Bồ Đào Nha gặp Hà Lan và Anh tái đấu Na Uy."
+    },
+    {
+      "id": 16,
+      "region": "Quốc tế",
+      "voice_preset": "primary",
+      "voice_gender": "Nam",
+      "image_file": "Tin_16_1.jpg",
+      "title": "Bóng đá Hàn Quốc đối mặt nguy cơ bị FIFA đình chỉ",
+      "digest_line": "FIFA cảnh báo có thể đình chỉ Liên đoàn Bóng đá Hàn Quốc vì tranh cãi cải tổ bầu cử, đe dọa vé dự World Cup 2030."
+    },
+    {
+      "id": 17,
+      "region": "Quốc tế",
+      "voice_preset": "primary",
+      "voice_gender": "Nam",
+      "image_file": "Tin_17_1.jpg",
+      "title": "Man City và Nottingham Forest phản đối lá chắn pháp lý EPL",
+      "digest_line": "Chỉ Man City và Nottingham Forest bỏ phiếu chống đề xuất Ngoại hạng Anh cấp chứng thư bảo vệ năm lãnh đạo trước nguy cơ bị kiện."
+    },
+    {
+      "id": 18,
+      "region": "Quốc tế",
+      "voice_preset": "primary",
+      "voice_gender": "Nam",
+      "image_file": "Tin_18_1.jpg",
+      "title": "Lionel Messi cùng Inter Miami săn MLS Cup từ sáng mai",
+      "digest_line": "Sáu giờ sáng mai theo giờ Hà Nội, Lionel Messi cùng Inter Miami tiếp Columbus Crew mở màn chiến dịch bảo vệ ngôi vương MLS Cup."
+    },
+    {
+      "id": 19,
+      "region": "Quốc tế",
+      "voice_preset": "primary",
+      "voice_gender": "Nam",
+      "image_file": "Tin_19_1.jpg",
+      "title": "Chốt hai cặp bán kết ATP Finals 2026 tại Turin hôm nay",
+      "digest_line": "Tại ATP Finals Turin hôm nay, Carlos Alcaraz chạm trán Ben Shelton ở bán kết một, còn Alexander Zverev đụng độ Daniil Medvedev."
+    }
+  ]
+}
