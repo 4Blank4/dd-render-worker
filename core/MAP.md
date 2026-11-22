@@ -423,3 +423,9 @@ Không module nào tự viết lại logic đã có ở đây.
 - **`daily_21_11_data.py`**: Dữ liệu kịch bản & 262 slot ảnh HD sạch cho **Intro song giọng (`id=0`, `hide_title=True`) + 19 tin chính độc lập (`01..19`) + Mục `20. CÁC TIN THỂ THAO KHÁC` (`voice_preset="secondary"`, 100% giọng Nữ Ngọc Huyền điểm 9 tin bên lề)**.
 - **`prepare_daily_21_11.py`**: Thu thập ảnh từ `image_curator.py`, kiểm định và xuất bộ JSON đầu vào, `thumbnails_plan.json` A/B Test và 22 bảng QA Contact Sheet (`outputs/21.11.2026/qa/`).
 - **`build_mota_21_11.py`**: Đọc `outputs/21.11.2026/_preview_v2/chapters_21_11.json` (21 chapters từ `00:00` đến `14:42`) và xuất `outputs/21.11.2026/mota.txt` chuẩn đuôi `| Điểm Đọc 21/11` qua `publisher.write_mota_16x9()`.
+
+### Bộ Công Cụ Sản Xuất Bản Tin Ngày 22.11.2026 (`daily_22_11_data.py`, `prepare_daily_22_11.py`, `apply_qa_fixes_22_11.py`, `build_mota_22_11.py`) — Mới 22.11.2026
+- **`daily_22_11_data.py`**: Dữ liệu kịch bản & kế hoạch 271 slot ảnh HD sạch cho **Intro song giọng (`id=0`, `hide_title=True`) + 22 tin chính độc lập (`01..22`) + Mục `23. CÁC TIN THỂ THAO KHÁC` (`voice_preset="secondary"`, 100% giọng Nữ Ngọc Huyền điểm tin bên lề)** tổng hợp song hành báo VN & quốc tế (BBC, ESPN, Sky Sports, Guardian).
+- **`prepare_daily_22_11.py`**: Thu thập ảnh từ `image_curator.py` (chặn `ftcdn.net`), xuất bộ JSON đầu vào (`intro_hook.json`, `thethao.json`, `image_plan.json`, `image_credits.json`), `thumbnails_plan.json` và 24 bảng QA Contact Sheet + Overview (`outputs/22.11.2026/qa/`).
+- **`apply_qa_fixes_22_11.py`**: Áp dụng kết quả kiểm duyệt thị giác trên 24 Contact Sheet (thay thế ảnh stock/watermark/lỗi chủ đề, cắt viền logo, xử lý trùng kề) và tái dựng QA sheet đạt `0` lỗi, `0` cảnh báo.
+- **`build_mota_22_11.py`**: Đọc `outputs/22.11.2026/_preview_v2/chapters_22_11.json` (24 chapters từ `00:00` đến `16:47`) và xuất `outputs/22.11.2026/mota.txt` chuẩn đuôi `| Điểm Đọc 22/11` qua `publisher.write_mota_16x9()`.
