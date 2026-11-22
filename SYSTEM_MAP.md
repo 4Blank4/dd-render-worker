@@ -16,7 +16,7 @@ DD-The-thao/
 │   ├── voice.json          # ViTTS v3turbo cấu hình 2 giọng: Nam chính (Minh Quân Pro #15) & Nữ thứ hai (Ngọc Huyền #14)
 │   ├── audio.json          # Ducking sidechain, BGM pools, SFX, 2-pass loudnorm
 │   ├── render.json         # Độ phân giải (16:9 & 9:16), 30fps, work_dir ngoài Drive
-│   ├── sources.json        # 5 nguồn báo chí ưu tiên (Thanh Niên #1, VnExpress #2...)
+│   ├── sources.json        # Nguồn báo song hành Việt Nam (Thanh Niên, VnExpress, Tuổi Trẻ, Dân Trí...) & Thế giới (BBC Sport, ESPN, Sky Sports, Guardian Sport)
 │   ├── fx.json             # Cấu hình hiệu ứng thị giác (sparkles, embers, light sweep, grid, grain)
 │   └── shorts.json         # Cấu hình sản xuất shorts (focus, digest, trần giây, items/short)
 ├── spec/                   # Hợp đồng dữ liệu & định nghĩa thành phần
@@ -137,6 +137,10 @@ DD-The-thao/
 
 ## 3. Nhật Ký Nâng Cấp Hệ Thống (Changelog)
 
+- **2026-11-22 (Mở Rộng Nguồn Báo Thế Giới & Bãi Bỏ Lối Mòn Cố Định Số Tin)**:
+  - **Cập nhật `AGENTS.md` (Mục 4 & Mục 5.8)**: Xóa bỏ quy định cứng `20–25 bản tin` / `TIN XX/25`, thiết lập quy tắc **Số lượng tin ĐỘNG 100%** theo mật độ sự kiện thực tế (không nhồi tin vặt cho đủ 18–20 bài, không cắt bỏ tin lớn vì chạm trần) và quy tắc **Bắt buộc quét song hành Báo Việt Nam + Báo Thể thao Thế giới** kèm đối chứng chéo số liệu.
+  - **Mở rộng `config/sources.json` & `core/m1_scraper.py`**: Bổ sung 5 nguồn RSS quốc tế (`BBC Sport`, `BBC Football`, `ESPN`, `Sky Sports`, `The Guardian Sport` với trường `region`/`lang`), nâng cấp `m1_scraper.py` hỗ trợ lọc `--region all|vn|world`, từ khóa chống gossip/live-blog tiếng Anh, `updated_parsed`, `fallback_pub_dt` và fallback RSS summary khi trang gốc reset TLS.
+
 - **2026-11-21 (Hoàn Tất Video Bản Tin Thể Thao 16:9 Ngày 21.11.2026 Qua GitHub Cloud Matrix — Intro Song Giọng, 19 Tin Độc Lập & Mục Tin Bên Lề Giọng Nữ)**:
   - **Cấu trúc nội dung tinh chỉnh theo yêu cầu Chủ kênh (`core/daily_21_11_data.py`, `core/prepare_daily_21_11.py`)**:
     + Tuyệt đối **1 vấn đề/tin** (không gộp tin rời rạc như luật việt vị Wenger với vụ kiện Man City), bổ sung mục **`20. CÁC TIN THỂ THAO KHÁC`** (`voice_preset: "secondary"` — 100% giọng Nữ Ngọc Huyền điểm nhanh 9 tin bên lề trước Outro).
@@ -146,6 +150,9 @@ DD-The-thao/
   - **Sản xuất ViTTS v3turbo + Render HTML v2 trên GitHub Cloud (`4Blank4/dd-render-worker`, 8 shards song song, Run #44858282960 -> đã tự động xóa sạch)**:
     + Video chính 16:9 [Tin-The-Thao-21-11.mp4](file:///Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive%20cu%CC%89a%20to%CC%82i/2026/Agent/DD-The-thao/outputs/21.11.2026/Tin-The-Thao-21-11.mp4): `1920x1080 @ 30fps`, `h264`, thời lượng **`988.994s`** (`16 phút 29 giây`), dung lượng **`797.61 MB`**, **`I = -14.03 LUFS`**, **`TP = -1.08 dBTP`**, **A/V Drift `0.15 ms`**.
     + Đầy đủ ấn phẩm đi kèm tại `outputs/21.11.2026/`: Bộ 3 Thumbnail A/B Test cùng xoay quanh cụm tin nóng nhất (`thumbnail_A/B/C.jpg` + `thumbnail.jpg`) và mô tả SEO 2 phần (`mota.txt` do `core/build_mota_21_11.py` xuất với 21 chapters từ `00:00` đến `14:42`, đuôi tiêu đề `| Điểm Đọc 21/11`). Dọn sạch `54.9 MB` cache tạm vào `~/.Trash`.
+  - **Nâng cấp tải 3 tầng theo thứ tự ưu tiên trên GitHub Cloud (`cloud_render.yml`, `cloud_runner.py`, `cloud_worker.py`, `engines/html/renderer.py`) & Xuất bản Short Tin Nhanh 19 Tin (`21.11.2026`)**:
+    + Tách artifact xuất bản từ 1 gói gộp (`~1.28 GB`) thành **3 gói ưu tiên độc lập**: `[1/3] dd-meta-thumbs` (Ảnh Thumbnail, `_mota.txt`/`mota.txt`, Chapters, Contact Sheet QA — tải trước tiên chỉ ~`1–2 MB`), `[2/3] dd-video-deliverable` (File video `.mp4` với `libx264 -crf 20 -maxrate 3600k -bufsize 5400k` gọn nhẹ hơn ~2–3 lần), và `[3/3] dd-audio-extras` (Audio `.wav` thô, hỗ trợ cờ `--skip-extras`).
+    + Sản xuất [Short_Tin_Nhanh_19_Tin.mp4](file:///Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive%20cu%CC%89a%20to%CC%82i/2026/Agent/DD-The-thao/outputs/21.11.2026/shorts/Short_Tin_Nhanh_19_Tin.mp4) (`1080x1920 @ 30fps`, `128.333s` = `2 phút 08,3 giây < 180s` bao gồm Outro, `54.23 MB`, `I = -14.04 LUFS`, `TP = -4.20 dBTP`, **A/V Drift `0.34 ms`**) gồm 19 tin chính (`01–19`, bỏ mục #20 Các tin thể thao khác) kèm `Short_Tin_Nhanh_19_Tin_thumbnail.jpg`, `Short_Tin_Nhanh_19_Tin_mota.txt` chuẩn 3 MXH và `qa/contact_digest_21_11.jpg`.
 
 - **2026-11-20 (Chuẩn Hóa Mô Tả Đa Nền Tảng, Quy Tắc Dọn Sạch Cache Tức Thì `30.5 GB`, Tối Ưu Bitrate VideoToolbox & 6 Hạng Mục Cứng Hóa Hệ Thống)**:
   - **Quy tắc bắt buộc dọn sạch `~/Library/Caches/DiemDoc/` trước & sau mỗi tác vụ (`AGENTS.md` & `core/clean.py`)**:

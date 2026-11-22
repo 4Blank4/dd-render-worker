@@ -67,9 +67,9 @@ Toàn bộ quy trình dựng video xoay quanh file kịch bản thời gian `vid
 
 Hệ thống sản xuất thống nhất **3 Loại Video chính thức**:
 
-1. **Loại 1 — Video Tổng Hợp Thông Tin Hằng Tuần (`weekly_digest` — 16:9, ~10–12 phút)**:
-   - **Lưu trữ**: `outputs/<DD.MM.YYYY>/` (VD: `outputs/02.11.2026/`, `outputs/09.11.2026/`).
-   - **Định dạng & Quy mô**: `1920x1080 @ 30fps`, chuẩn âm lượng loudnorm `-14 LUFS` ($\text{TP} \le -1.0\text{ dBTP}$), gồm **20–25 bản tin** chia 4 cụm chuyên mục (~2.750–3.200 từ).
+1. **Loại 1 — Video Tổng Hợp Thông Tin Hằng Ngày / Hằng Tuần (`daily_digest` / `weekly_digest` — 16:9)**:
+   - **Lưu trữ**: `outputs/<DD.MM.YYYY>/` (VD: `outputs/21.11.2026/`, `outputs/22.11.2026/`).
+   - **Định dạng & Quy mô (ĐỘNG — KHÔNG CỐ ĐỊNH SỐ TIN)**: `1920x1080 @ 30fps`, chuẩn âm lượng loudnorm `-14 LUFS` ($\text{TP} \le -1.0\text{ dBTP}$). **Số lượng bản tin hoàn toàn linh hoạt theo mật độ sự kiện thực tế** trong khung thời gian (tuyệt đối KHÔNG ép đủ hoặc cắt bớt về một con số lối mòn như 18, 19, 20, 24 hay 25 bài). Ngày ít tin chỉ cần 8–14 tin chất lượng; ngày cuối tuần/cao điểm đa giải đấu có thể 22–30+ tin; tuyệt đối không nhồi tin phong trào vặt cho đủ số và không bỏ sót tin lớn vì chạm trần.
    - **Trình bày giao diện**: Template `templates/long_sports_news_v2.html`, **BẬT Chip Thứ Ngày** (`date-chip`), Lower-Third 2 góc (`📰 NGUỒN` góc trái + `📷 ẢNH` góc phải đổi động theo từng ảnh), Ticker tin tiếp theo ở đáy.
    - **Ấn phẩm đi kèm**:
      + **3 ảnh bìa ngang 16:9** (`thumbnail_A.jpg`, `thumbnail_B.jpg`, `thumbnail_C.jpg` + `thumbnail.jpg`) render từ `templates/thumbnail_16x9_sports.html`.
@@ -84,10 +84,10 @@ Hệ thống sản xuất thống nhất **3 Loại Video chính thức**:
 3. **Loại 3 — Video Ngắn Dạng Tin Tức Hằng Ngày / Ý Tưởng Riêng (`short_news` — 9:16, ~45s–175s)**:
    - **Lưu trữ**:
      + Tin ngắn đột xuất / ý tưởng riêng hằng ngày: `outputs/Orther/<DD.MM.YYYY>/shorts/`.
-     + Các video Short trích xuất từ bản tin tuần (Focus Short gộp 2–5 tin hoặc Digest Short 25 tin): `outputs/<DD.MM.YYYY>/shorts/`.
+     + Các video Short trích xuất từ bản tin ngày/tuần (Focus Short gộp 2–5 tin hoặc Digest Short điểm nhanh theo số tin thực tế `< 180s`): `outputs/<DD.MM.YYYY>/shorts/`.
    - **Trình bày giao diện**:
      + **Đơn tin (1 tin) hoặc Focus Short (gộp 2–5 tin)**: Dùng `templates/short_news_v2.html`. Đầu mỗi bản tin hiển thị `Hero Title` lớn kèm đọc tiêu đề (`is_title: true`), khi vào nội dung tự động thu lên thanh tiêu đề cố định `#fixed-headline-bar` và cập nhật động `#cat-pill`, `#lt-news-source` (`📰 NGUỒN`), `#lt-photo-credit` (`📷 ẢNH`) theo đúng từng bản tin/câu!
-     + **Digest Short (đọc nhanh 20–25 tin)**: Dùng `templates/short_digest_v2.html` với bộ đếm `TIN XX/25`, thanh tiêu đề cố định và Lower-Third 2 góc động.
+     + **Digest Short (đọc nhanh các tin trong ngày/tuần)**: Dùng `templates/short_digest_v2.html` với bộ đếm `TIN XX/N` (động theo tổng số tin thực tế), thanh tiêu đề cố định và Lower-Third 2 góc động.
    - **Ấn phẩm đi kèm**:
      + **1 ảnh bìa dọc 9:16** (`<tên_short>_thumbnail.jpg` hoặc `thumbnail.jpg`, `1080x1920`) render từ `templates/thumbnail_9x16_sports.html` — đồng bộ 100% ngôn ngữ thiết kế Cyber-Stadium Electric Cyan với ảnh bìa 16:9.
      + **Mô tả SEO 2 phần** (`<tên_short>_mota.txt`): Phần 1 `=== TIÊU ĐỀ YOUTUBE ===` (1 tiêu đề Sentence Case $\le 100$ ký tự kèm `#Shorts`) + Phần 2 `=== MÔ TẢ VIDEO ===` (tóm tắt + `⏱️ MỐC THỜI GIAN (CHAPTERS):` nếu gộp nhiều tin + nguồn tin + lời kêu gọi + dòng `#Shorts #DiemDoc...`).
@@ -183,6 +183,16 @@ Hệ thống sản xuất thống nhất **3 Loại Video chính thức**:
    - Khi yêu cầu tạo video cho **ngày hôm qua**: Nội dung được tổng hợp từ **trưa – chiều hôm qua (~12:00 – 18:00 ICT) đến thời điểm hiện tại** (`--period yesterday` mặc định từ `12:00` trưa hôm qua trở về sau).
 3. **Chuẩn Hình Ảnh Không Logo & Khổ Lớn HD (Mặc định bắt buộc)**:
    - Mặc định chỉ sử dụng **ảnh sạch hoàn toàn không logo, không watermark, không chữ góc báo chí** (chặn triệt để `wm1-` VnExpress, Getty, Alamy, Shutterstock, iStock, Dreamstime, nền trắng e-commerce...) và **ảnh khổ lớn chuẩn HD** (`W >= 800`, `H >= 450`, ưu tiên ảnh gốc `1020px–2560px`, tỷ lệ ngang `W/H >= 1.18` cho khung ảnh ngang) để tránh vi phạm bản quyền, vỡ ảnh hoặc làm giảm chất lượng video.
+
+### 5.8. Quy Chuẩn Tìm Kiếm Song Hành Báo Việt Nam & Thế Giới + Chống Lối Mòn Số Lượng Tin (Cập nhật 22.11.2026)
+1. **Tuyệt đối không cố định số lượng bài/tin (Anti-Quota Rule)**:
+   - Không có bất kỳ hạn mức cứng nào kiểu `18 tin`, `19 tin`, `20 tin`, `24 tin` hay `25 tin`.
+   - Số lượng tin trong kế hoạch và video **100% phụ thuộc vào lượng sự kiện thể thao thực sự đáng chú ý** trong khung thời gian yêu cầu.
+   - Nghiêm cấm cắt bỏ tin quan trọng (nhất là tin thể thao thế giới) chỉ vì "đã đủ số bài", và nghiêm cấm nhồi tin phong trào cấp xã/phường hay tin lặt vặt để "cho tròn 18–20 bài".
+   - Các tin lớn, có diễn biến sâu hoặc tác động mạnh nên tách riêng từng vấn đề (1 vấn đề/tin); các kết quả phụ/vòng đấu phụ trong cùng môn hoặc cùng ngày nên gom gọn có hệ thống hoặc đưa vào mục điểm tin tổng hợp cuối bản tin.
+2. **Bắt buộc quét song song Báo Việt Nam & Báo Thể Thao Thế Giới (`config/sources.json`)**:
+   - Mọi tác vụ tìm kiếm & lên kế hoạch tin tức **bắt buộc** khai thác đồng thời cả **báo Việt Nam** (`Thanh Niên`, `VnExpress`, `Tuổi Trẻ`, `Dân Trí`...) VÀ **báo Thể thao Thế giới** (`BBC Sport`, `BBC Football`, `ESPN`, `Sky Sports`, `The Guardian Sport`, kết hợp tìm kiếm bổ sung cho F1, MotoGP, UFC/Boxing, NBA, ATP/WTA, Golf, Rugby, Cricket, BWF...).
+   - Khi tổng hợp số liệu/tỷ số từ web search, **bắt buộc đối chứng chéo** với bài báo gốc quốc tế (`BBC Sport` / `ESPN` / `The Guardian` / `Sky Sports`) để bảo đảm 100% chính xác tỷ số, người ghi bàn và bối cảnh trước khi trình Chủ kênh.
 
 
 ---

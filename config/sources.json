@@ -3,47 +3,112 @@
     {
       "name": "Thanh Niên",
       "priority": 1,
+      "region": "vn",
+      "lang": "vi",
       "site": "https://thanhnien.vn/the-thao.html",
       "rss": "https://thanhnien.vn/rss/the-thao.rss",
       "image_quality": "cao",
-      "status": "chưa xác minh",
-      "note": "Ưu tiên số 1: nguồn tin thể thao uy tín, ảnh chất lượng tốt"
+      "status": "hoạt động",
+      "note": "Ưu tiên số 1 Việt Nam: nguồn tin thể thao uy tín, ảnh chất lượng tốt"
     },
     {
       "name": "VnExpress",
       "priority": 2,
+      "region": "vn",
+      "lang": "vi",
       "site": "https://vnexpress.net/the-thao",
       "rss": "https://vnexpress.net/rss/the-thao.rss",
       "image_quality": "trung bình",
-      "status": "chưa xác minh",
-      "note": "Nội dung rất tốt nhưng ảnh kém chất lượng hơn nên xếp thứ 2"
+      "status": "hoạt động",
+      "note": "Nội dung phân tích rất tốt tại Việt Nam"
     },
     {
       "name": "Bongdaplus",
       "priority": 3,
+      "region": "vn",
+      "lang": "vi",
       "site": "https://bongdaplus.vn",
       "rss": "https://bongdaplus.vn/rss/trang-chu.rss",
       "image_quality": "cao",
-      "status": "chưa xác minh",
-      "note": "Chuyên trang bóng đá chuyên sâu, cập nhật tỷ số và tin chuyển nhượng"
+      "status": "dự phòng",
+      "note": "Chuyên trang bóng đá chuyên sâu"
     },
     {
       "name": "Tuổi Trẻ",
       "priority": 4,
+      "region": "vn",
+      "lang": "vi",
       "site": "https://tuoitre.vn/the-thao.htm",
       "rss": "https://tuoitre.vn/rss/the-thao.rss",
       "image_quality": "cao",
-      "status": "chưa xác minh",
+      "status": "hoạt động",
       "note": "Báo chính thống, thông tin xác thực cao"
     },
     {
       "name": "Dân Trí",
       "priority": 5,
+      "region": "vn",
+      "lang": "vi",
       "site": "https://dantri.com.vn/the-thao.htm",
       "rss": "https://dantri.com.vn/rss/the-thao.rss",
       "image_quality": "trung bình",
-      "status": "chưa xác minh",
+      "status": "hoạt động",
       "note": "Nguồn tin tổng hợp nhanh"
+    },
+    {
+      "name": "BBC Sport",
+      "priority": 6,
+      "region": "world",
+      "lang": "en",
+      "site": "https://www.bbc.com/sport",
+      "rss": "https://feeds.bbci.co.uk/sport/rss.xml",
+      "image_quality": "cao",
+      "status": "hoạt động",
+      "note": "Nguồn thể thao thế giới đa môn (Bóng đá, F1, Tennis, Rugby, UFC, Golf, Cricket)"
+    },
+    {
+      "name": "BBC Football",
+      "priority": 7,
+      "region": "world",
+      "lang": "en",
+      "site": "https://www.bbc.com/sport/football",
+      "rss": "https://feeds.bbci.co.uk/sport/football/rss.xml",
+      "image_quality": "cao",
+      "status": "hoạt động",
+      "note": "Bóng đá Anh, châu Âu và WSL chuẩn xác"
+    },
+    {
+      "name": "ESPN",
+      "priority": 8,
+      "region": "world",
+      "lang": "en",
+      "site": "https://www.espn.com",
+      "rss": "https://www.espn.com/espn/rss/news",
+      "image_quality": "cao",
+      "status": "hoạt động",
+      "note": "Thể thao Mỹ & quốc tế (NBA, NFL, MLS, Bóng đá châu Âu, UFC)"
+    },
+    {
+      "name": "Sky Sports",
+      "priority": 9,
+      "region": "world",
+      "lang": "en",
+      "site": "https://www.skysports.com",
+      "rss": "https://www.skysports.com/rss/12040",
+      "image_quality": "cao",
+      "status": "hoạt động",
+      "note": "Ngoại hạng Anh, F1, Golf, Darts, Rugby"
+    },
+    {
+      "name": "The Guardian Sport",
+      "priority": 10,
+      "region": "world",
+      "lang": "en",
+      "site": "https://www.theguardian.com/sport",
+      "rss": "https://www.theguardian.com/sport/rss",
+      "image_quality": "cao",
+      "status": "hoạt động",
+      "note": "Bình luận chuyên sâu thể thao quốc tế, F1, Cricket, Rugby, Bóng đá"
     }
   ],
   "extra": []

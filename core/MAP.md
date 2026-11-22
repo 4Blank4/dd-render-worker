@@ -66,11 +66,12 @@ Không module nào tự viết lại logic đã có ở đây.
   - `python3 core/run_day.py build --item 1 --engine html`
   - `python3 core/run_day.py build --force`
 
-### `m1_scraper.py` — Bộ cào và lọc tin thể thao tự động (Nâng cấp — 18.11.2026)
-- **Mục đích**: Cào tin tức thể thao tự động từ các nguồn cấu hình (`config/sources.json`) qua RSS hoặc URL trực tiếp; hỗ trợ cửa sổ thời gian chuẩn kênh (`--period weekly`: 00:01 T2 tuần trước -> 23:59 CN tuần trước; `--period yesterday`: 12:00 trưa hôm qua -> hiện tại; `--since` & `--until` múi giờ ICT UTC+7); loại bỏ tin chứa từ khóa cấm và tin đồn chuyển nhượng; bóc tách text sạch qua `trafilatura` và lọc ảnh lớn sạch không logo/watermark (`is_clean_large_image_url`, chặn `wm1-` và stock watermark). Lưu vào `WORK/temp_raw_news.json`.
+### `m1_scraper.py` — Bộ cào và lọc tin thể thao tự động (Nâng cấp — 22.11.2026)
+- **Mục đích**: Cào tin tức thể thao tự động song hành từ cả báo Việt Nam và báo Thế giới cấu hình tại `config/sources.json` (hỗ trợ `--region all|vn|world`); hỗ trợ cửa sổ thời gian chuẩn kênh (`--period weekly`: 00:01 T2 tuần trước -> 23:59 CN tuần trước; `--period yesterday`: 12:00 trưa hôm qua -> hiện tại; `--since` & `--until` múi giờ ICT UTC+7); loại bỏ tin chứa từ khóa cấm, live blog và tin đồn chuyển nhượng (song ngữ Việt/Anh); bóc tách text sạch qua `trafilatura` (có fallback RSS summary) và lọc ảnh lớn sạch không logo/watermark (`is_clean_large_image_url`, chặn `wm1-` và stock watermark). Lưu vào `WORK/temp_raw_news.json`.
 - **Cách dùng**:
   - `python3 core/m1_scraper.py --period weekly` (tổng hợp trọn tuần trước 00:01 T2 -> 23:59 CN)
-  - `python3 core/m1_scraper.py --period yesterday` (tổng hợp từ 12:00 trưa hôm qua đến hiện tại)
+  - `python3 core/m1_scraper.py --period yesterday` (tổng hợp cả VN + Thế giới từ 12:00 trưa hôm qua đến hiện tại)
+  - `python3 core/m1_scraper.py --period yesterday --region world` (chỉ quét báo Thế giới)
   - `python3 core/m1_scraper.py --since "2026-10-15 00:01" --until "2026-10-17 23:59"` (cào tin theo khoảng ngày tùy chọn)
   - `python3 core/m1_scraper.py --rss` (cào tự động 50 tin mới nhất từ các nguồn RSS)
 
@@ -396,7 +397,7 @@ Không module nào tự viết lại logic đã có ở đây.
     + Chạy phần nặng trên GitHub Cloud: `python3 -B core/daily_runner.py --day <DD.MM.YYYY> --cloud --shards 8`
 
 ### Bộ Điều Phối & Thực Thi Đám Mây GitHub Actions (`cloud_runner.py`, `cloud_worker.py`) — Mới 20.11.2026
-- **`cloud_runner.py`**: Bộ điều phối đám mây (Zero-RAM Local Orchestrator) kết nối trực tiếp với repo Public `4Blank4/dd-render-worker`. Đóng gói dữ liệu nhẹ của ngày đang làm (`thethao.json`, `images/`...) vào `_cloud_job/payload/`, kích hoạt GitHub Actions Matrix (`1–15` máy ảo x 16 GB RAM chạy song song), tự động tải thành phẩm (`.mp4`, `.wav`, `thumbnail*.jpg`, `_mota.txt`, `chapters*.json`) về `outputs/` trên Google Drive, rồi **tự động xóa sạch `_cloud_job/` và xóa luôn Workflow Run / Artifacts trên GitHub** (Zero-Data Retention).
+- **`cloud_runner.py`**: Bộ điều phối đám mây (Zero-RAM Local Orchestrator) kết nối trực tiếp với repo Public `4Blank4/dd-render-worker`. Đóng gói dữ liệu nhẹ của ngày đang làm (`thethao.json`, `images/`...) vào `_cloud_job/payload/`, kích hoạt GitHub Actions Matrix (`1–15` máy ảo x 16 GB RAM chạy song song), tải thành phẩm theo **3 tầng ưu tiên (`dd-meta-thumbs` → `dd-video-deliverable` → `dd-audio-extras`, hỗ trợ `--skip-extras`)** về `outputs/` trên Google Drive, rồi **tự động xóa sạch `_cloud_job/` và xóa luôn Workflow Run / Artifacts trên GitHub** (Zero-Data Retention).
   - Cách dùng:
     + Khởi tạo/đồng bộ Engine lên GitHub: `python3 -B core/cloud_runner.py --init-repo`
     + Dựng Video Bản Tin Dài 16:9 trên GitHub (8 máy ảo song song): `python3 -B core/cloud_runner.py --day 20.11.2026 --mode daily_long --shards 8`

@@ -58,7 +58,22 @@ FORBIDDEN_KEYWORDS = [
     "diễn biến",
     "tường thuật",
     "tin đồn",
-    "cập nhật"
+    "cập nhật",
+    "follow live",
+    "live blog",
+    "as it happened",
+    "transfer rumors",
+    "sunday's gossip",
+    "saturday's gossip",
+    "monday's gossip",
+    "tuesday's gossip",
+    "wednesday's gossip",
+    "thursday's gossip",
+    "friday's gossip",
+    "best bets",
+    "fantasy buzz",
+    "fantasy basketball",
+    "fantasy football",
 ]
 
 # 2. Quy tắc chống tin sai — Chuyển nhượng
@@ -75,7 +90,12 @@ TRANSFER_KEYWORDS = [
     "rời clb",
     "rời đội",
     "nhắm mua",
-    "để mắt"
+    "để mắt",
+    "transfer rumour",
+    "transfer rumor",
+    "transfer talk",
+    "eyeing",
+    "monitoring",
 ]
 
 RUMOR_INDICATORS = [
@@ -89,7 +109,12 @@ RUMOR_INDICATORS = [
     "rục rịch",
     "bắn tin",
     "có thể gia nhập",
-    "chuẩn bị hỏi mua"
+    "chuẩn bị hỏi mua",
+    "rumour",
+    "rumor",
+    "gossip",
+    "could",
+    "linked with",
 ]
 
 OFFICIAL_CONFIRMATIONS = [
@@ -261,7 +286,7 @@ def extract_article_from_html(html: str, url: str, source_name: str = "") -> Dic
     title = html_lib.unescape(title)
 
     # Làm sạch đuôi tên báo trong tiêu đề
-    title = re.sub(r'\s*[-|–]\s*(Báo\s*)?(Thanh Niên|VnExpress|Tuổi Trẻ|Dân Trí|Bóng đá).*$', '', title, flags=re.I).strip()
+    title = re.sub(r'\s*[-|–]\s*(Báo\s*)?(Thanh Niên|VnExpress|Tuổi Trẻ|Dân Trí|Bóng đá|BBC Sport|Sky Sports|ESPN|The Guardian).*$', '', title, flags=re.I).strip()
 
     # 2. Mô tả (Sapo / Lead)
     og_desc = soup.find("meta", property="og:description")
@@ -541,6 +566,7 @@ def scrape_single_url(
     priority: int = 99,
     since_dt: Optional[datetime] = None,
     until_dt: Optional[datetime] = None,
+    fallback_pub_dt: Optional[datetime] = None,
 ) -> Tuple[bool, Optional[Dict[str, Any]], str]:
     """Cào và kiểm duyệt một bài viết đơn lẻ từ URL."""
     html = fetch_url_html(url)
@@ -548,6 +574,9 @@ def scrape_single_url(
         return False, None, "LỖI_MẠNG_HOẶC_KHÔNG_THỂ_TRUY_CẬP"
 
     data = extract_article_from_html(html, url, source_name=source_name)
+    if not data.get("published_dt") and fallback_pub_dt is not None:
+        data["published_dt"] = fallback_pub_dt
+        data["published_at"] = fallback_pub_dt.isoformat()
     data["source"] = source_name or (url.split("//")[-1].split("/")[0])
     data["source_priority"] = priority
 
@@ -560,14 +589,18 @@ def crawl_rss_sources(
     max_total: Optional[int] = 50,
     since_dt: Optional[datetime] = None,
     until_dt: Optional[datetime] = None,
+    region: str = "all",
 ) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
     """
     Cào các nguồn RSS theo thứ tự ưu tiên trong config/sources.json.
+    - Hỗ trợ lọc vùng nguồn (`region`: `all` | `vn` | `world`).
     - Nếu có since_dt / until_dt: Lấy bài viết có since_dt <= published_at <= until_dt (chuẩn UTC+7).
     - Nếu không có giới hạn thời gian: Lấy mặc định tối đa 50 tin mới nhất từ RSS.
     Trả về (accepted_articles, dropped_reports).
     """
     sources = load_source_configs()
+    if region and region.lower() != "all":
+        sources = [s for s in sources if (s.get("region", "vn") or "vn").lower() == region.lower()]
     now_ict = datetime.now(ICT)
 
     accepted: List[Dict[str, Any]] = []
@@ -595,7 +628,8 @@ def crawl_rss_sources(
         print(f"\n-> Đang đọc luồng RSS: {name} (Ưu tiên {priority}): {rss_url}")
         feed = None
         try:
-            req = urllib.request.Request(rss_url, headers=HEADERS)
+            rss_headers = {"User-Agent": "Mozilla/5.0", "Accept": "application/rss+xml, application/xml, text/xml, */*"}
+            req = urllib.request.Request(rss_url, headers=rss_headers)
             with urllib.request.urlopen(req, timeout=10) as resp:
                 feed = feedparser.parse(resp.read())
         except Exception as e:
@@ -650,7 +684,7 @@ def crawl_rss_sources(
                 continue
 
             # 3. Kiểm tra sơ bộ ngày đăng từ RSS (nếu có mốc since_dt / until_dt)
-            pub_raw = entry.get("published_parsed") or entry.get("published")
+            pub_raw = entry.get("published_parsed") or entry.get("published") or entry.get("updated_parsed") or entry.get("updated")
             pub_dt = parse_date_to_ict(pub_raw)
             if pub_dt and since_dt and pub_dt < since_dt:
                 dropped.append({
@@ -669,14 +703,42 @@ def crawl_rss_sources(
                 })
                 continue
 
-            # 4. Cào toàn văn bài viết và thẩm định chi tiết
-            passed, data, reason = scrape_single_url(entry_url, source_name=name, priority=priority, since_dt=since_dt, until_dt=until_dt)
+            # 4. Cào toàn văn bài viết và thẩm định chi tiết (có fallback RSS nếu trang gốc chặn TLS/reset)
+            passed, data, reason = scrape_single_url(
+                entry_url,
+                source_name=name,
+                priority=priority,
+                since_dt=since_dt,
+                until_dt=until_dt,
+                fallback_pub_dt=pub_dt,
+            )
+            if not passed and reason == "LỖI_MẠNG_HOẶC_KHÔNG_THỂ_TRUY_CẬP" and len(entry_desc) >= 60:
+                clean_rss_desc = BeautifulSoup(entry_desc, "html.parser").get_text(" ", strip=True)
+                if len(clean_rss_desc) >= 60:
+                    data = {
+                        "url": entry_url,
+                        "title": entry_title,
+                        "description": clean_rss_desc,
+                        "published_at_raw": str(pub_raw or ""),
+                        "published_at": pub_dt.isoformat() if pub_dt else None,
+                        "tags": [],
+                        "clean_text": clean_rss_desc,
+                        "word_count": len(clean_rss_desc.split()),
+                        "cover_image": {"url": "", "caption": clean_rss_desc[:120], "credit": f"Ảnh: {name}"},
+                        "images": [],
+                        "source": name,
+                        "source_priority": priority,
+                        "rss_summary_only": True,
+                    }
+                    passed = True
             if passed and data:
                 data.pop("published_dt", None)
+                data["region"] = src.get("region", "vn")
+                data["lang"] = src.get("lang", "vi")
                 data["id"] = f"art_{len(accepted) + 1:02d}"
                 accepted.append(data)
                 src_accepted += 1
-                pub_display = data.get("published_at", "")[:16]
+                pub_display = (data.get("published_at") or "")[:16]
                 print(f"   [NHẬN #{len(accepted)}] [{pub_display}] {entry_title[:65]}...")
             else:
                 dropped.append({
@@ -774,6 +836,7 @@ def main():
     parser.add_argument("--urls", nargs="+", help="Danh sách URL cần cào trực tiếp")
     parser.add_argument("--limit", type=int, default=None, help="Giới hạn số tin mỗi nguồn (khi cào RSS)")
     parser.add_argument("--max-total", type=int, default=50, help="Giới hạn tổng số tin (mặc định 50 nếu không có --since)")
+    parser.add_argument("--region", choices=["all", "vn", "world"], default="all", help="Lọc khu vực nguồn báo (all: cả VN & Thế giới)")
     parser.add_argument("--output", type=str, default=None, help="Đường dẫn file JSON đầu ra")
 
     args = parser.parse_args()
@@ -804,7 +867,13 @@ def main():
     else:
         # Mặc định hoặc khi có --rss / --since / --period: cào tin từ luồng RSS
         max_total = None if (since_dt or until_dt) else args.max_total
-        accepted, dropped = crawl_rss_sources(limit_per_source=args.limit, max_total=max_total, since_dt=since_dt, until_dt=until_dt)
+        accepted, dropped = crawl_rss_sources(
+            limit_per_source=args.limit,
+            max_total=max_total,
+            since_dt=since_dt,
+            until_dt=until_dt,
+            region=args.region,
+        )
 
     save_and_report_results(accepted, dropped, args.output)
 

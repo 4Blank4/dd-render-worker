@@ -47,6 +47,7 @@ BLOCKED_DOMAINS = (
     "vecteezy.",
     "freepik.",
     "stock.adobe.com",
+    "ftcdn.net",
     "lookaside.",
     "fbsbx.com",
     "tiktok.com",
