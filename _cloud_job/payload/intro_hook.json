@@ -1,0 +1,70 @@
+{
+  "id": 0,
+  "art_id": "art_00",
+  "group": "TÂM ĐIỂM THỂ THAO 22.11.2026",
+  "title": "",
+  "summary": "Chào mừng quý vị đến với Điểm Đọc trong bản tin tổng hợp thể thao ngày 22 tháng 11 năm 2026, cập nhật những sự kiện nóng nhất tại Việt Nam và trên toàn thế giới. Ở sân chơi quốc nội, Đại hội Thể thao toàn quốc 2026 chính thức khai mạc rực rỡ bên dòng sông Sài Gòn, còn ở V-League, Nam Định giữ vững ngôi đầu bảng trong khi Hà Nội FC ngược dòng ngoạn mục trên sân Đồng Nai. Tại Ngoại hạng Anh và La Liga, Man City hòa Fulham đầy tranh cãi khi VAR từ chối bàn thắng của Erling Haaland, Chelsea thảm bại 1-4 trước Leeds ngay tại Stamford Bridge, Arsenal chia điểm trên sân Newcastle, còn Real Madrid thắng ngược Celta Vigo dù Kylian Mbappé sút hỏng phạt đền. Cùng thất bại sốc 0-3 của Inter Miami trước Columbus Crew dù Lionel Messi đoạt Vua phá lưới MLS, chung kết trong mơ ATP Finals giữa Carlos Alcaraz và Alexander Zverev, cú sốc ở UFC Qatar, sức nóng F1 Las Vegas và nhiều tin thể thao đáng chú ý khác ngay sau đây.",
+  "total_images": 16,
+  "hide_date_chip": false,
+  "source": "Thanh Niên / VnExpress / Tuổi Trẻ / Dân Trí / BBC Sport / ESPN / Sky Sports",
+  "news_source": "VIỆT NAM & THẾ GIỚI",
+  "credit": "ĐIỂM ĐỌC TỔNG HỢP",
+  "voice": "Song giọng Nữ & Nam",
+  "voice_gender": "mixed",
+  "voice_preset": "mixed",
+  "audio_path": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/22.11.2026/audio/audio_00.wav",
+  "audio_title": "",
+  "image_path": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/22.11.2026/images/Tin_00_1.jpg",
+  "hide_title": true,
+  "voice_segments": [
+    {
+      "voice_preset": "secondary",
+      "text": "Chào mừng quý vị đến với Điểm Đọc trong bản tin tổng hợp thể thao ngày 22 tháng 11 năm 2026, cập nhật những sự kiện nóng nhất tại Việt Nam và trên toàn thế giới."
+    },
+    {
+      "voice_preset": "primary",
+      "text": "Ở sân chơi quốc nội, Đại hội Thể thao toàn quốc 2026 chính thức khai mạc rực rỡ bên dòng sông Sài Gòn, còn ở V-League, Nam Định giữ vững ngôi đầu bảng trong khi Hà Nội FC ngược dòng ngoạn mục trên sân Đồng Nai."
+    },
+    {
+      "voice_preset": "secondary",
+      "text": "Tại Ngoại hạng Anh và La Liga, Man City hòa Fulham đầy tranh cãi khi VAR từ chối bàn thắng của Erling Haaland, Chelsea thảm bại 1-4 trước Leeds ngay tại Stamford Bridge, Arsenal chia điểm trên sân Newcastle, còn Real Madrid thắng ngược Celta Vigo dù Kylian Mbappé sút hỏng phạt đền."
+    },
+    {
+      "voice_preset": "primary",
+      "text": "Cùng thất bại sốc 0-3 của Inter Miami trước Columbus Crew dù Lionel Messi đoạt Vua phá lưới MLS, chung kết trong mơ ATP Finals giữa Carlos Alcaraz và Alexander Zverev, cú sốc ở UFC Qatar, sức nóng F1 Las Vegas và nhiều tin thể thao đáng chú ý khác ngay sau đây."
+    }
+  ],
+  "stat_badges": {
+    "1": {
+      "label": "BẢN TIN NGÀY",
+      "value": "22.11.2026",
+      "sub": "Toàn cảnh Việt Nam & Thế giới"
+    },
+    "2": {
+      "label": "ĐẠI HỘI TOÀN QUỐC",
+      "value": "KHAI MẠC",
+      "sub": "36 đoàn tranh tài 48 môn"
+    },
+    "3": {
+      "label": "NGOẠI HẠNG ANH",
+      "value": "CHELSEA 1-4",
+      "sub": "Man City 1-1 • Arsenal 2-2"
+    }
+  },
+  "image_1": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/22.11.2026/images/Tin_00_1.jpg",
+  "image_2": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/22.11.2026/images/Tin_00_2.jpg",
+  "image_3": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/22.11.2026/images/Tin_00_3.jpg",
+  "image_4": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/22.11.2026/images/Tin_00_4.jpg",
+  "image_5": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/22.11.2026/images/Tin_00_5.jpg",
+  "image_6": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/22.11.2026/images/Tin_00_6.jpg",
+  "image_7": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/22.11.2026/images/Tin_00_7.jpg",
+  "image_8": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/22.11.2026/images/Tin_00_8.jpg",
+  "image_9": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/22.11.2026/images/Tin_00_9.jpg",
+  "image_10": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/22.11.2026/images/Tin_00_10.jpg",
+  "image_11": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/22.11.2026/images/Tin_00_11.jpg",
+  "image_12": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/22.11.2026/images/Tin_00_12.jpg",
+  "image_13": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/22.11.2026/images/Tin_00_13.jpg",
+  "image_14": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/22.11.2026/images/Tin_00_14.jpg",
+  "image_15": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/22.11.2026/images/Tin_00_15.jpg",
+  "image_16": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/22.11.2026/images/Tin_00_16.jpg"
+}
