@@ -430,3 +430,9 @@ Không module nào tự viết lại logic đã có ở đây.
 - **`apply_qa_fixes_22_11.py`**: Áp dụng kết quả kiểm duyệt thị giác trên 24 Contact Sheet (thay thế ảnh stock/watermark/lỗi chủ đề, cắt viền logo, xử lý trùng kề) và tái dựng QA sheet đạt `0` lỗi, `0` cảnh báo.
 - **`build_mota_22_11.py`**: Đọc `outputs/22.11.2026/_preview_v2/chapters_22_11.json` (24 chapters từ `00:00` đến `16:47`) và xuất `outputs/22.11.2026/mota.txt` chuẩn đuôi `| Điểm Đọc 22/11` qua `publisher.write_mota_16x9()`.
 - **`prepare_digest_22_11.py`**: Tạo và kiểm định `outputs/22.11.2026/shorts/digest_specs.json` (22 tin nhanh: 8 tin VN giọng Nữ + 14 tin Quốc tế giọng Nam, cấu hình thumbnail 9:16 và metadata 3 MXH) để chạy `--mode digest_short` trên GitHub Cloud (`Short_Tin_Nhanh_22_Tin.mp4`, `147.200s < 180s`).
+
+### Bộ Công Cụ Sản Xuất Bản Tin Ngày 23.11.2026 (`daily_23_11_data.py`, `prepare_daily_23_11.py`, `apply_qa_fixes_23_11.py`, `build_mota_23_11.py`) — Mới 23.11.2026
+- **`daily_23_11_data.py`**: Dữ liệu kịch bản chi tiết (5–6 câu/tin) & kế hoạch `165` slot ảnh HD sạch cho **Intro song giọng (`id=0`, `hide_title=True`) + 16 tin chính (`01..16`) + Mục `17. CÁC TIN THỂ THAO KHÁC` (`voice_preset="secondary"`, 100% giọng Nữ Ngọc Huyền điểm tin bên lề)** tổng hợp song hành báo VN & Quốc tế.
+- **`prepare_daily_23_11.py`**: Tái sử dụng pipeline thu thập & Contact Sheet QA của `prepare_daily_22_11.py` cho `outputs/23.11.2026/`, xuất `thumbnails_plan.json` và 18 bảng QA Contact Sheet + Overview (`outputs/23.11.2026/qa/`).
+- **`apply_qa_fixes_23_11.py`**: Áp dụng kết quả kiểm duyệt thị giác 18 bảng Contact Sheet (thay thế ảnh fallback sai/graphic/watermark, cắt mép logo, xử lý trùng ảnh kề) và tái dựng QA sheet đạt `0` lỗi, `0` cảnh báo.
+- **`build_mota_23_11.py`**: Đọc `outputs/23.11.2026/_preview_v2/chapters_23_11.json` (18 chapters từ `00:00` đến `17:16`) và xuất `outputs/23.11.2026/mota.txt` chuẩn đuôi `| Điểm Đọc 23/11` qua `publisher.write_mota_16x9()`.
