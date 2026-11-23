@@ -53,7 +53,7 @@ DIGEST_SPECS = {
         "image": "Tin_10_1.jpg",
         "kicker": "ĐIỂM NHANH 22 TIN THỂ THAO 22.11",
         "hero_html": '<span class="hl-cyan">22 TIN NHANH!</span><br><span class="hl-white">HỦY BÀN HAALAND</span><br><span class="hl-yellow">CHELSEA THUA 1-4!</span>',
-        "subtitle": "ĐẠI HỘI 2026 • NGOẠI HẠNG ANH • REAL MADRID • MLS • UFC",
+        "subtitle": "ĐẠI HỘI 2026 • NGOẠI HẠNG ANH • REAL MADRID • UFC",
         "badge": "22 TIN NHANH",
         "tag_a": "VN & QUỐC TẾ",
         "tag_b": "22.11.2026",
