@@ -1,0 +1,1655 @@
+{
+  "total_slots": 165,
+  "records": [
+    {
+      "scene_id": 0,
+      "type": "sentence",
+      "index": 1,
+      "sentence_idx": 1,
+      "file_name": "Tin_00_1.jpg",
+      "dimensions": "1024x768 r=1.33",
+      "credit": "THANH NIÊN",
+      "description": "Nguyễn Thị Ánh Viên và Võ Thị Mỹ Tiên tạo màn so tài cảm xúc tại hồ bơi Phú Thọ"
+    },
+    {
+      "scene_id": 0,
+      "type": "sentence",
+      "index": 1,
+      "sentence_idx": 1,
+      "file_name": "Tin_00_2.jpg",
+      "dimensions": "1920x1080 r=1.78",
+      "credit": "SKY SPORTS",
+      "description": "Rio Ngumoha bùng nổ giúp Liverpool vùi dập Manchester United 4-0 tại Anfield"
+    },
+    {
+      "scene_id": 0,
+      "type": "sentence",
+      "index": 1,
+      "sentence_idx": 1,
+      "file_name": "Tin_00_3.jpg",
+      "dimensions": "1020x680 r=1.50",
+      "credit": "VNEXPRESS / AP",
+      "description": "Carlos Alcaraz nâng cúp vô địch ATP Finals 2026 lần đầu tiên trong sự nghiệp"
+    },
+    {
+      "scene_id": 0,
+      "type": "sentence",
+      "index": 1,
+      "sentence_idx": 1,
+      "file_name": "Tin_00_4.jpg",
+      "dimensions": "1200x900 r=1.33",
+      "credit": "THE GUARDIAN",
+      "description": "Max Verstappen lên ngôi tại chặng đua F1 Las Vegas đầy hỗn loạn"
+    },
+    {
+      "scene_id": 0,
+      "type": "sentence",
+      "index": 2,
+      "sentence_idx": 2,
+      "file_name": "Tin_00_5.jpg",
+      "dimensions": "1200x675 r=1.78",
+      "credit": "VNEXPRESS",
+      "description": "Ngày mở màn môn bơi Đại hội Toàn quốc 2026 chứng kiến nhiều kỷ lục quốc gia bị xô đổ"
+    },
+    {
+      "scene_id": 0,
+      "type": "sentence",
+      "index": 2,
+      "sentence_idx": 2,
+      "file_name": "Tin_00_6.jpg",
+      "dimensions": "1202x828 r=1.45",
+      "credit": "TUỔI TRẺ",
+      "description": "Watson Nguyễn và Phạm Thanh Bảo cùng phá kỷ lục quốc gia cự ly 50 mét ếch nam"
+    },
+    {
+      "scene_id": 0,
+      "type": "sentence",
+      "index": 2,
+      "sentence_idx": 2,
+      "file_name": "Tin_00_7.jpg",
+      "dimensions": "1702x1175 r=1.45",
+      "credit": "THANH NIÊN",
+      "description": "Nguyễn Hoàng Đức ghi bàn giúp Ninh Bình giành trọn ba điểm trước Đà Nẵng"
+    },
+    {
+      "scene_id": 0,
+      "type": "sentence",
+      "index": 2,
+      "sentence_idx": 2,
+      "file_name": "Tin_00_8.jpg",
+      "dimensions": "1173x597 r=1.96",
+      "credit": "TUỔI TRẺ / FPT PLAY",
+      "description": "Trung vệ Nguyễn Nhật Minh gặp chấn thương nặng phải rời sân bằng xe cấp cứu"
+    },
+    {
+      "scene_id": 0,
+      "type": "sentence",
+      "index": 3,
+      "sentence_idx": 3,
+      "file_name": "Tin_00_9.jpg",
+      "dimensions": "1920x1080 r=1.78",
+      "credit": "SKY SPORTS",
+      "description": "HLV Mauricio Pochettino trải qua ngày ra mắt ác mộng ngay tại Anfield"
+    },
+    {
+      "scene_id": 0,
+      "type": "sentence",
+      "index": 3,
+      "sentence_idx": 3,
+      "file_name": "Tin_00_10.jpg",
+      "dimensions": "1020x686 r=1.49",
+      "credit": "VNEXPRESS / AFP",
+      "description": "Barcelona thắng ngược Villarreal 3-2 dù Lamine Yamal đá hỏng phạt đền hiệp một"
+    },
+    {
+      "scene_id": 0,
+      "type": "sentence",
+      "index": 3,
+      "sentence_idx": 3,
+      "file_name": "Tin_00_11.jpg",
+      "dimensions": "1200x800 r=1.50",
+      "credit": "FOOTBALL ITALIA",
+      "description": "Atalanta và Inter Milan tạo trận cầu tám bàn thắng kịch tính tại Serie A"
+    },
+    {
+      "scene_id": 0,
+      "type": "sentence",
+      "index": 3,
+      "sentence_idx": 3,
+      "file_name": "Tin_00_12.jpg",
+      "dimensions": "2048x1365 r=1.50",
+      "credit": "THE ATHLETIC",
+      "description": "PSG đối mặt hung tin chấn thương dây chằng của ngôi sao trẻ Désiré Doué"
+    },
+    {
+      "scene_id": 0,
+      "type": "sentence",
+      "index": 4,
+      "sentence_idx": 4,
+      "file_name": "Tin_00_13.jpg",
+      "dimensions": "1200x900 r=1.33",
+      "credit": "THE GUARDIAN",
+      "description": "Carlos Alcaraz khuất phục số một thế giới Alexander Zverev sau hai set đấu"
+    },
+    {
+      "scene_id": 0,
+      "type": "sentence",
+      "index": 4,
+      "sentence_idx": 4,
+      "file_name": "Tin_00_14.jpg",
+      "dimensions": "1200x900 r=1.33",
+      "credit": "THE GUARDIAN",
+      "description": "Marc Márquez san bằng kỷ lục tám chức vô địch hạng cao nhất của Giacomo Agostini"
+    },
+    {
+      "scene_id": 0,
+      "type": "sentence",
+      "index": 4,
+      "sentence_idx": 4,
+      "file_name": "Tin_00_15.jpg",
+      "dimensions": "1920x1080 r=1.78",
+      "credit": "SKY SPORTS",
+      "description": "Jeeno Thitikul giành danh hiệu LPGA Tour Championship thứ ba liên tiếp"
+    },
+    {
+      "scene_id": 0,
+      "type": "sentence",
+      "index": 4,
+      "sentence_idx": 4,
+      "file_name": "Tin_00_16.jpg",
+      "dimensions": "1200x900 r=1.33",
+      "credit": "THE GUARDIAN",
+      "description": "Tarik Skubal ký hợp đồng kỷ lục lịch sử 450 triệu USD với New York Mets"
+    },
+    {
+      "scene_id": 1,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_01_1.jpg",
+      "dimensions": "1024x768 r=1.33",
+      "credit": "THANH NIÊN",
+      "description": "Nguyễn Thị Ánh Viên và Võ Thị Mỹ Tiên rạng rỡ sau chung kết 200m hỗn hợp nữ"
+    },
+    {
+      "scene_id": 1,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_01_2.jpg",
+      "dimensions": "1200x675 r=1.78",
+      "credit": "VNEXPRESS",
+      "description": "Các kình ngư tranh tài quyết liệt trong đêm chung kết đầu tiên tại hồ bơi Phú Thọ"
+    },
+    {
+      "scene_id": 1,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_01_3.jpg",
+      "dimensions": "1202x828 r=1.45",
+      "credit": "TUỔI TRẺ",
+      "description": "Watson Nguyễn phá kỷ lục quốc gia 50m ếch nam trong cuộc đối đầu với Phạm Thanh Bảo"
+    },
+    {
+      "scene_id": 1,
+      "type": "sentence",
+      "index": 1,
+      "sentence_idx": 1,
+      "file_name": "Tin_01_4.jpg",
+      "dimensions": "1200x630 r=1.90",
+      "credit": "DÂN TRÍ",
+      "description": "Hàng loạt kỷ lục quốc gia và Đại hội được thiết lập ngay tối 22 tháng 11"
+    },
+    {
+      "scene_id": 1,
+      "type": "sentence",
+      "index": 1,
+      "sentence_idx": 1,
+      "file_name": "Tin_01_5.jpg",
+      "dimensions": "1019x649 r=1.57",
+      "credit": "VNEXPRESS",
+      "description": "Khán đài CLB Bơi lặn Phú Thọ chật kín khán giả theo dõi ngày thi đấu đỉnh cao"
+    },
+    {
+      "scene_id": 1,
+      "type": "sentence",
+      "index": 2,
+      "sentence_idx": 2,
+      "file_name": "Tin_01_6.jpg",
+      "dimensions": "1200x630 r=1.90",
+      "credit": "DÂN TRÍ",
+      "description": "Ở tuổi 30, Ánh Viên vẫn cải thiện gần 11 giây so với vòng loại để giành HCB"
+    },
+    {
+      "scene_id": 1,
+      "type": "sentence",
+      "index": 2,
+      "sentence_idx": 2,
+      "file_name": "Tin_01_7.jpg",
+      "dimensions": "1024x768 r=1.33",
+      "credit": "THANH NIÊN",
+      "description": "Ánh Viên chủ động ôm chúc mừng đàn em Võ Thị Mỹ Tiên ngay dưới làn bơi"
+    },
+    {
+      "scene_id": 1,
+      "type": "sentence",
+      "index": 3,
+      "sentence_idx": 3,
+      "file_name": "Tin_01_8.jpg",
+      "dimensions": "1847x1316 r=1.40",
+      "credit": "TUỔI TRẺ",
+      "description": "Võ Thị Mỹ Tiên phá sâu kỷ lục đại hội tồn tại suốt tám năm của Ánh Viên"
+    },
+    {
+      "scene_id": 1,
+      "type": "sentence",
+      "index": 4,
+      "sentence_idx": 4,
+      "file_name": "Tin_01_9.jpg",
+      "dimensions": "2560x1786 r=1.43",
+      "credit": "THANH NIÊN",
+      "description": "Watson Nguyễn khẳng định đẳng cấp nhà vô địch 50m ếch quốc gia Mỹ"
+    },
+    {
+      "scene_id": 1,
+      "type": "sentence",
+      "index": 4,
+      "sentence_idx": 4,
+      "file_name": "Tin_01_10.jpg",
+      "dimensions": "1202x828 r=1.45",
+      "credit": "TUỔI TRẺ",
+      "description": "Phạm Thanh Bảo giữ thế trận giằng co nhưng vẫn về sau Watson 0,41 giây"
+    },
+    {
+      "scene_id": 1,
+      "type": "sentence",
+      "index": 5,
+      "sentence_idx": 5,
+      "file_name": "Tin_01_11.jpg",
+      "dimensions": "2560x1786 r=1.43",
+      "credit": "THANH NIÊN",
+      "description": "Kình ngư trẻ Nguyễn Thúy Hiền xô đổ cả kỷ lục quốc gia lẫn đại hội ở cự ly 50m ếch nữ"
+    },
+    {
+      "scene_id": 1,
+      "type": "sentence",
+      "index": 6,
+      "sentence_idx": 6,
+      "file_name": "Tin_01_12.jpg",
+      "dimensions": "1847x1316 r=1.40",
+      "credit": "TUỔI TRẺ",
+      "description": "Lần đầu tiên sau nhiều năm nội dung 100m tự do nam chứng kiến hai VĐV cùng đoạt HCV"
+    },
+    {
+      "scene_id": 2,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_02_1.jpg",
+      "dimensions": "2560x1920 r=1.33",
+      "credit": "THANH NIÊN",
+      "description": "Ngày hội thể thao lớn nhất cả nước sôi động tại TP.HCM tối 22 tháng 11"
+    },
+    {
+      "scene_id": 2,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_02_2.jpg",
+      "dimensions": "1065x697 r=1.53",
+      "credit": "THANH NIÊN",
+      "description": "Dương Quốc Hoàng dừng bước đầy tiếc nuối ở nội dung pool 9 bi đơn nam"
+    },
+    {
+      "scene_id": 2,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_02_3.jpg",
+      "dimensions": "1200x630 r=1.90",
+      "credit": "TUỔI TRẺ",
+      "description": "Tay vợt 43 tuổi Nguyễn Tiến Minh trình diễn kỹ thuật cầu lông mãn nhãn"
+    },
+    {
+      "scene_id": 2,
+      "type": "sentence",
+      "index": 1,
+      "sentence_idx": 1,
+      "file_name": "Tin_02_4.jpg",
+      "dimensions": "2063x1330 r=1.55",
+      "credit": "THANH NIÊN",
+      "description": "Canoeing và vovinam đóng góp gần một nửa số HCV của đoàn TP.HCM"
+    },
+    {
+      "scene_id": 2,
+      "type": "sentence",
+      "index": 2,
+      "sentence_idx": 2,
+      "file_name": "Tin_02_5.jpg",
+      "dimensions": "2560x1706 r=1.50",
+      "credit": "THANH NIÊN",
+      "description": "Hà Nội, Công an Nhân dân và Quân Đội bám đuổi quyết liệt trong nhóm đầu"
+    },
+    {
+      "scene_id": 2,
+      "type": "sentence",
+      "index": 3,
+      "sentence_idx": 3,
+      "file_name": "Tin_02_6.jpg",
+      "dimensions": "2560x1707 r=1.50",
+      "credit": "TUỔI TRẺ",
+      "description": "Hoàng Sao đánh mất lợi thế dẫn 8-6 và nhìn Chu Việt Hoàng thắng ngược 9-8"
+    },
+    {
+      "scene_id": 2,
+      "type": "sentence",
+      "index": 3,
+      "sentence_idx": 3,
+      "file_name": "Tin_02_7.jpg",
+      "dimensions": "1065x697 r=1.53",
+      "credit": "THANH NIÊN",
+      "description": "Chu Việt Hoàng tiếp tục vượt qua Lô Văn Hoàn để ghi tên vào bán kết"
+    },
+    {
+      "scene_id": 2,
+      "type": "sentence",
+      "index": 4,
+      "sentence_idx": 4,
+      "file_name": "Tin_02_8.jpg",
+      "dimensions": "2560x1543 r=1.66",
+      "credit": "THANH NIÊN",
+      "description": "Lực sĩ sinh năm 1976 Phạm Văn Mách giành HCB trước đối thủ trẻ Phạm Văn Phước"
+    },
+    {
+      "scene_id": 2,
+      "type": "sentence",
+      "index": 5,
+      "sentence_idx": 5,
+      "file_name": "Tin_02_9.jpg",
+      "dimensions": "1200x630 r=1.90",
+      "credit": "TUỔI TRẺ",
+      "description": "Khán giả thích thú với pha xử lý cầu sau lưng đậm đẳng cấp của Nguyễn Tiến Minh"
+    },
+    {
+      "scene_id": 2,
+      "type": "sentence",
+      "index": 6,
+      "sentence_idx": 6,
+      "file_name": "Tin_02_10.jpg",
+      "dimensions": "1500x997 r=1.50",
+      "credit": "TUỔI TRẺ",
+      "description": "Hoàng Minh Hợi ghi bàn mở tỷ số nhưng U21 Nghệ An bị CAND gỡ hòa 1-1"
+    },
+    {
+      "scene_id": 3,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_03_1.jpg",
+      "dimensions": "1702x1175 r=1.45",
+      "credit": "THANH NIÊN",
+      "description": "Nguyễn Hoàng Đức ghi bàn thắng quý như vàng giúp Ninh Bình đánh bại Đà Nẵng 1-0"
+    },
+    {
+      "scene_id": 3,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_03_2.jpg",
+      "dimensions": "1193x844 r=1.41",
+      "credit": "THANH NIÊN",
+      "description": "Hồng Lĩnh Hà Tĩnh giành chiến thắng kịch tính 2-1 trước Công an TP.HCM"
+    },
+    {
+      "scene_id": 3,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_03_3.jpg",
+      "dimensions": "1173x597 r=1.96",
+      "credit": "TUỔI TRẺ / FPT PLAY",
+      "description": "Trung vệ Nguyễn Nhật Minh rời sân bằng xe cấp cứu sau pha va chạm mạnh"
+    },
+    {
+      "scene_id": 3,
+      "type": "sentence",
+      "index": 1,
+      "sentence_idx": 1,
+      "file_name": "Tin_03_4.jpg",
+      "dimensions": "1020x680 r=1.50",
+      "credit": "DÂN TRÍ",
+      "description": "Vòng 8 V-League khép lại với nhiều biến động ở cả nhóm đầu lẫn nhóm cuối bảng"
+    },
+    {
+      "scene_id": 3,
+      "type": "sentence",
+      "index": 2,
+      "sentence_idx": 2,
+      "file_name": "Tin_03_5.jpg",
+      "dimensions": "1702x1175 r=1.45",
+      "credit": "THANH NIÊN",
+      "description": "Hoàng Đức tự phát động rồi dứt điểm ghi bàn mở tỷ số ở phút 24 trên sân Chi Lăng"
+    },
+    {
+      "scene_id": 3,
+      "type": "sentence",
+      "index": 2,
+      "sentence_idx": 2,
+      "file_name": "Tin_03_6.jpg",
+      "dimensions": "2560x1706 r=1.50",
+      "credit": "THANH NIÊN",
+      "description": "Tân HLV Lee Young-jin không thể giúp Đà Nẵng giữ điểm ngay trận đầu cầm quân"
+    },
+    {
+      "scene_id": 3,
+      "type": "sentence",
+      "index": 3,
+      "sentence_idx": 3,
+      "file_name": "Tin_03_7.jpg",
+      "dimensions": "1020x680 r=1.50",
+      "credit": "DÂN TRÍ",
+      "description": "Ninh Bình trở lại vị trí thứ hai với 16 điểm, chỉ kém đội đầu bảng Nam Định ba điểm"
+    },
+    {
+      "scene_id": 3,
+      "type": "sentence",
+      "index": 4,
+      "sentence_idx": 4,
+      "file_name": "Tin_03_8.jpg",
+      "dimensions": "1173x597 r=1.96",
+      "credit": "TUỔI TRẺ / FPT PLAY",
+      "description": "Thủ môn Lê Giang Patrik vội vã gọi đội ngũ y tế khi thấy Nhật Minh chảy máu vùng đầu"
+    },
+    {
+      "scene_id": 3,
+      "type": "sentence",
+      "index": 5,
+      "sentence_idx": 5,
+      "file_name": "Tin_03_9.jpg",
+      "dimensions": "1193x844 r=1.41",
+      "credit": "THANH NIÊN",
+      "description": "Luiz Antonio tỏa sáng đúng phút 89 mang về ba điểm trọn vẹn cho đội bóng núi Hồng"
+    },
+    {
+      "scene_id": 3,
+      "type": "sentence",
+      "index": 5,
+      "sentence_idx": 5,
+      "file_name": "Tin_03_10.jpg",
+      "dimensions": "1128x752 r=1.50",
+      "credit": "THANH NIÊN",
+      "description": "HLV Arthur Diles đối mặt áp lực lớn khi Công an TP.HCM thua liền ba vòng V-League"
+    },
+    {
+      "scene_id": 3,
+      "type": "sentence",
+      "index": 6,
+      "sentence_idx": 6,
+      "file_name": "Tin_03_11.jpg",
+      "dimensions": "1702x1175 r=1.45",
+      "credit": "THANH NIÊN",
+      "description": "Cuộc đua vô địch lẫn trụ hạng hứa hẹn căng thẳng trước giai đoạn giữa lượt đi"
+    },
+    {
+      "scene_id": 4,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_04_1.jpg",
+      "dimensions": "1020x774 r=1.32",
+      "credit": "DÂN TRÍ",
+      "description": "U17 Việt Nam tích cực rèn chiến thuật hướng tới trận gặp New Zealand tối nay"
+    },
+    {
+      "scene_id": 4,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_04_2.jpg",
+      "dimensions": "2000x1333 r=1.50",
+      "credit": "THANH NIÊN",
+      "description": "HLV Cristiano Roland truyền sự tự tin nhưng yêu cầu học trò giữ đôi chân trên mặt đất"
+    },
+    {
+      "scene_id": 4,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_04_3.jpg",
+      "dimensions": "1024x779 r=1.31",
+      "credit": "THANH NIÊN",
+      "description": "Chu Ngọc Nguyễn Lực được FIFA nhắc tên nhờ bàn thắng phạt góc mẫu mực"
+    },
+    {
+      "scene_id": 4,
+      "type": "sentence",
+      "index": 1,
+      "sentence_idx": 1,
+      "file_name": "Tin_04_4.jpg",
+      "dimensions": "1020x774 r=1.32",
+      "credit": "DÂN TRÍ",
+      "description": "Cả Việt Nam và New Zealand đều chưa có điểm sau lượt trận ra quân bảng G"
+    },
+    {
+      "scene_id": 4,
+      "type": "sentence",
+      "index": 2,
+      "sentence_idx": 2,
+      "file_name": "Tin_04_5.jpg",
+      "dimensions": "1024x779 r=1.31",
+      "credit": "THANH NIÊN",
+      "description": "Cú đá phạt góc phút 84 vào lưới U17 Bỉ được FIFA gọi bằng thuật ngữ Bàn thắng Olympic"
+    },
+    {
+      "scene_id": 4,
+      "type": "sentence",
+      "index": 3,
+      "sentence_idx": 3,
+      "file_name": "Tin_04_6.jpg",
+      "dimensions": "1020x708 r=1.44",
+      "credit": "DÂN TRÍ",
+      "description": "U17 New Zealand đang xếp cuối bảng với hiệu số âm ba nên chắc chắn dâng cao tấn công"
+    },
+    {
+      "scene_id": 4,
+      "type": "sentence",
+      "index": 4,
+      "sentence_idx": 4,
+      "file_name": "Tin_04_7.jpg",
+      "dimensions": "2000x1333 r=1.50",
+      "credit": "THANH NIÊN",
+      "description": "HLV Roland phân tích kỹ những tình huống bóng bổng và thể hình vượt trội của đối thủ"
+    },
+    {
+      "scene_id": 4,
+      "type": "sentence",
+      "index": 5,
+      "sentence_idx": 5,
+      "file_name": "Tin_04_8.jpg",
+      "dimensions": "2000x1343 r=1.49",
+      "credit": "THANH NIÊN",
+      "description": "Ba điểm tối nay sẽ mở toang cánh cửa đi tiếp cho thầy trò HLV Roland tại World Cup"
+    },
+    {
+      "scene_id": 5,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_05_1.jpg",
+      "dimensions": "2560x1707 r=1.50",
+      "credit": "TUỔI TRẺ",
+      "description": "Bùi Đình Khải chiếm thế kiểm soát trên mặt sàn trước Lê Hoàng Đức tại Bắc Ninh"
+    },
+    {
+      "scene_id": 5,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_05_2.jpg",
+      "dimensions": "2560x1707 r=1.50",
+      "credit": "TUỔI TRẺ",
+      "description": "Khoảnh khắc chiến thắng thuyết phục giúp Bùi Đình Khải đăng quang đai 52 kg"
+    },
+    {
+      "scene_id": 5,
+      "type": "sentence",
+      "index": 1,
+      "sentence_idx": 1,
+      "file_name": "Tin_05_3.jpg",
+      "dimensions": "2560x1707 r=1.50",
+      "credit": "TUỔI TRẺ",
+      "description": "Trận tranh đai Lion Championship 52 kg thu hút sự quan tâm đặc biệt của giới võ thuật"
+    },
+    {
+      "scene_id": 5,
+      "type": "sentence",
+      "index": 2,
+      "sentence_idx": 2,
+      "file_name": "Tin_05_4.jpg",
+      "dimensions": "2560x1707 r=1.50",
+      "credit": "TUỔI TRẺ",
+      "description": "Lê Hoàng Đức mang theo bề dày thành tích hai lần vô địch Muay thế giới"
+    },
+    {
+      "scene_id": 5,
+      "type": "sentence",
+      "index": 3,
+      "sentence_idx": 3,
+      "file_name": "Tin_05_5.jpg",
+      "dimensions": "2560x1707 r=1.50",
+      "credit": "TUỔI TRẺ",
+      "description": "Pha quật ngã ở nửa cuối hiệp một mở ra bước ngoặt quyết định cho Đình Khải"
+    },
+    {
+      "scene_id": 5,
+      "type": "sentence",
+      "index": 4,
+      "sentence_idx": 4,
+      "file_name": "Tin_05_6.jpg",
+      "dimensions": "2560x1707 r=1.50",
+      "credit": "TUỔI TRẺ",
+      "description": "Trọng tài cho dừng trận ngay hiệp đầu trước loạt đòn chỏ dồn dập của võ sĩ sinh năm 2001"
+    },
+    {
+      "scene_id": 5,
+      "type": "sentence",
+      "index": 5,
+      "sentence_idx": 5,
+      "file_name": "Tin_05_7.jpg",
+      "dimensions": "2560x1707 r=1.50",
+      "credit": "TUỔI TRẺ",
+      "description": "Bùi Đình Khải sẽ chuẩn bị cho màn bảo vệ đai đầu tiên gặp Nguyễn Phú Thịnh năm 2027"
+    },
+    {
+      "scene_id": 6,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_06_1.jpg",
+      "dimensions": "2048x1365 r=1.50",
+      "credit": "TUỔI TRẺ",
+      "description": "Lê Quang Liêm liên tiếp thử lửa ở các siêu giải cờ vua quốc tế"
+    },
+    {
+      "scene_id": 6,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_06_2.jpg",
+      "dimensions": "2000x1333 r=1.50",
+      "credit": "TUỔI TRẺ",
+      "description": "Đương kim vô địch cờ tướng thế giới Lại Lý Huynh tranh tài ở Đại hội 2026"
+    },
+    {
+      "scene_id": 6,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_06_3.jpg",
+      "dimensions": "1687x1150 r=1.47",
+      "credit": "TUỔI TRẺ",
+      "description": "Trần Minh Vương tỏa sáng ngay ngày trở lại màu áo Công an Nhân dân"
+    },
+    {
+      "scene_id": 6,
+      "type": "sentence",
+      "index": 1,
+      "sentence_idx": 1,
+      "file_name": "Tin_06_4.jpg",
+      "dimensions": "2048x1365 r=1.50",
+      "credit": "TUỔI TRẺ",
+      "description": "Quang Liêm duy trì phong độ cao sau chiến thắng trước Ian Nepomniachtchi"
+    },
+    {
+      "scene_id": 6,
+      "type": "sentence",
+      "index": 2,
+      "sentence_idx": 2,
+      "file_name": "Tin_06_5.jpg",
+      "dimensions": "1200x675 r=1.78",
+      "credit": "VNEXPRESS",
+      "description": "Jerusalem Masters 2026 là cuộc đọ trí của 12 kỳ thủ hàng đầu thế giới"
+    },
+    {
+      "scene_id": 6,
+      "type": "sentence",
+      "index": 3,
+      "sentence_idx": 3,
+      "file_name": "Tin_06_6.jpg",
+      "dimensions": "2000x1333 r=1.50",
+      "credit": "TUỔI TRẺ",
+      "description": "Đôi TP.HCM của Lại Lý Huynh gặp không ít khó khăn ngay từ những ván mở màn"
+    },
+    {
+      "scene_id": 6,
+      "type": "sentence",
+      "index": 4,
+      "sentence_idx": 4,
+      "file_name": "Tin_06_7.jpg",
+      "dimensions": "1687x1150 r=1.47",
+      "credit": "TUỔI TRẺ",
+      "description": "Minh Vương bình phục chấn thương gãy tay từ vòng 3 và nhanh chóng tạo khác biệt"
+    },
+    {
+      "scene_id": 6,
+      "type": "sentence",
+      "index": 5,
+      "sentence_idx": 5,
+      "file_name": "Tin_06_8.jpg",
+      "dimensions": "1308x872 r=1.50",
+      "credit": "TUỔI TRẺ",
+      "description": "Quy Nhơn United chơi phản công sắc bén để ngược dòng thắng Đại học Văn Hiến"
+    },
+    {
+      "scene_id": 7,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_07_1.jpg",
+      "dimensions": "1920x1080 r=1.78",
+      "credit": "SKY SPORTS",
+      "description": "Rio Ngumoha ăn mừng bàn thắng trong chiến thắng hủy diệt 4-0 của Liverpool"
+    },
+    {
+      "scene_id": 7,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_07_2.jpg",
+      "dimensions": "1920x1080 r=1.78",
+      "credit": "SKY SPORTS",
+      "description": "HLV Mauricio Pochettino chết lặng bên đường biên ngay trận ra mắt Quỷ đỏ"
+    },
+    {
+      "scene_id": 7,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_07_3.jpg",
+      "dimensions": "1920x1080 r=1.78",
+      "credit": "SKY SPORTS",
+      "description": "Thẻ đỏ của Leny Yoro ở phút thứ tám đặt dấu chấm hết cho toan tính của đội khách"
+    },
+    {
+      "scene_id": 7,
+      "type": "sentence",
+      "index": 1,
+      "sentence_idx": 1,
+      "file_name": "Tin_07_4.jpg",
+      "dimensions": "1020x680 r=1.50",
+      "credit": "VNEXPRESS / AP",
+      "description": "Chưa đầy bốn ngày sau khi chia tay tuyển Mỹ tiếp quản MU, Pochettino nếm trái đắng"
+    },
+    {
+      "scene_id": 7,
+      "type": "sentence",
+      "index": 2,
+      "sentence_idx": 2,
+      "file_name": "Tin_07_5.jpg",
+      "dimensions": "1020x680 r=1.50",
+      "credit": "DÂN TRÍ / REUTERS",
+      "description": "Trọng tài rút thẻ đỏ trực tiếp cho Leny Yoro sau pha tranh chấp với Alexander Isak"
+    },
+    {
+      "scene_id": 7,
+      "type": "sentence",
+      "index": 3,
+      "sentence_idx": 3,
+      "file_name": "Tin_07_6.jpg",
+      "dimensions": "2326x1593 r=1.46",
+      "credit": "THANH NIÊN / REUTERS",
+      "description": "Florian Wirtz dễ dàng nhân đôi cách biệt lên 2-0 chỉ sau 13 phút bóng lăn"
+    },
+    {
+      "scene_id": 7,
+      "type": "sentence",
+      "index": 3,
+      "sentence_idx": 3,
+      "file_name": "Tin_07_7.jpg",
+      "dimensions": "2560x1600 r=1.60",
+      "credit": "THANH NIÊN / REUTERS",
+      "description": "Hàng thủ chắp vá với sơ đồ 3-4-3 của Man Utd liên tiếp bị Liverpool xé toang"
+    },
+    {
+      "scene_id": 7,
+      "type": "sentence",
+      "index": 4,
+      "sentence_idx": 4,
+      "file_name": "Tin_07_8.jpg",
+      "dimensions": "1920x1080 r=1.78",
+      "credit": "SKY SPORTS",
+      "description": "Rio Ngumoha và Victor Muñoz ghi thêm hai bàn trong hiệp hai hoàn tất thắng lợi 4-0"
+    },
+    {
+      "scene_id": 7,
+      "type": "sentence",
+      "index": 5,
+      "sentence_idx": 5,
+      "file_name": "Tin_07_9.jpg",
+      "dimensions": "1200x900 r=1.33",
+      "credit": "THE GUARDIAN",
+      "description": "Man Utd rơi xuống vị trí thứ 19 với áp lực khổng lồ bủa vây tân HLV người Argentina"
+    },
+    {
+      "scene_id": 7,
+      "type": "sentence",
+      "index": 6,
+      "sentence_idx": 6,
+      "file_name": "Tin_07_10.jpg",
+      "dimensions": "1020x680 r=1.50",
+      "credit": "VNEXPRESS / AP",
+      "description": "Pochettino và các học trò rời Anfield trong tâm trạng nặng nề cùng làn sóng chỉ trích"
+    },
+    {
+      "scene_id": 8,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_08_1.jpg",
+      "dimensions": "1200x900 r=1.33",
+      "credit": "THE GUARDIAN",
+      "description": "Oli McBurnie vỡ òa cảm xúc sau cú đúp quyết định ở thời gian bù giờ"
+    },
+    {
+      "scene_id": 8,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_08_2.jpg",
+      "dimensions": "1024x682 r=1.50",
+      "credit": "SCOTTISH SUN",
+      "description": "Hai pha lập công phút 90+2 và 90+5 nhấn chìm hoàn toàn Brighton"
+    },
+    {
+      "scene_id": 8,
+      "type": "sentence",
+      "index": 1,
+      "sentence_idx": 1,
+      "file_name": "Tin_08_3.jpg",
+      "dimensions": "1200x900 r=1.33",
+      "credit": "THE GUARDIAN",
+      "description": "Hull City kiên cường chống đỡ trước khi tung đòn kết liễu ở những giây cuối"
+    },
+    {
+      "scene_id": 8,
+      "type": "sentence",
+      "index": 2,
+      "sentence_idx": 2,
+      "file_name": "Tin_08_4.jpg",
+      "dimensions": "960x540 r=1.78",
+      "credit": "BBC SPORT",
+      "description": "Thủ thành Konstantinos Tzolakis xứng đáng là chốt chặn đáng tin cậy nhất trận"
+    },
+    {
+      "scene_id": 8,
+      "type": "sentence",
+      "index": 3,
+      "sentence_idx": 3,
+      "file_name": "Tin_08_5.jpg",
+      "dimensions": "1024x682 r=1.50",
+      "credit": "SCOTTISH SUN",
+      "description": "Huấn luyện viên Jakirovic hết lời khen ngợi bản lĩnh vượt khó của thủ môn người Hy Lạp"
+    },
+    {
+      "scene_id": 8,
+      "type": "sentence",
+      "index": 4,
+      "sentence_idx": 4,
+      "file_name": "Tin_08_6.jpg",
+      "dimensions": "1200x900 r=1.33",
+      "credit": "THE GUARDIAN",
+      "description": "Brighton mất người từ thẻ đỏ của Costinha và sụp đổ hoàn toàn trong năm phút bù giờ"
+    },
+    {
+      "scene_id": 8,
+      "type": "sentence",
+      "index": 5,
+      "sentence_idx": 5,
+      "file_name": "Tin_08_7.jpg",
+      "dimensions": "1024x682 r=1.50",
+      "credit": "SCOTTISH SUN",
+      "description": "CĐV Hull City ăn mừng cuồng nhiệt chiến thắng 2-0 ngoạn mục trên sân nhà"
+    },
+    {
+      "scene_id": 9,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_09_1.jpg",
+      "dimensions": "1020x686 r=1.49",
+      "credit": "VNEXPRESS / AFP",
+      "description": "Lamine Yamal ôm mặt tiếc nuối sau cú sút phạt đền dội cột dọc ở phút 23"
+    },
+    {
+      "scene_id": 9,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_09_2.jpg",
+      "dimensions": "1200x900 r=1.33",
+      "credit": "THE GUARDIAN",
+      "description": "Cầu thủ Barcelona bùng nổ trong hiệp hai hoàn tất cuộc lội ngược dòng 3-2"
+    },
+    {
+      "scene_id": 9,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_09_3.jpg",
+      "dimensions": "1020x680 r=1.50",
+      "credit": "DÂN TRÍ",
+      "description": "Barca duy trì khoảng cách ba điểm trước Real Madrid trên đỉnh bảng La Liga"
+    },
+    {
+      "scene_id": 9,
+      "type": "sentence",
+      "index": 1,
+      "sentence_idx": 1,
+      "file_name": "Tin_09_4.jpg",
+      "dimensions": "1020x680 r=1.50",
+      "credit": "VNEXPRESS / AFP",
+      "description": "Trận đấu trên sân Spotify Camp Nou diễn ra cởi mở với năm bàn thắng được ghi"
+    },
+    {
+      "scene_id": 9,
+      "type": "sentence",
+      "index": 2,
+      "sentence_idx": 2,
+      "file_name": "Tin_09_5.jpg",
+      "dimensions": "1200x900 r=1.33",
+      "credit": "THE GUARDIAN",
+      "description": "Villarreal gây sốc cho hàng thủ chủ nhà bằng hai bàn dẫn trước ngay trong hiệp một"
+    },
+    {
+      "scene_id": 9,
+      "type": "sentence",
+      "index": 3,
+      "sentence_idx": 3,
+      "file_name": "Tin_09_6.jpg",
+      "dimensions": "1020x686 r=1.49",
+      "credit": "VNEXPRESS / AFP",
+      "description": "Đây là lần hỏng phạt đền thứ ba trong bảy lần thực hiện của Yamal tại La Liga"
+    },
+    {
+      "scene_id": 9,
+      "type": "sentence",
+      "index": 3,
+      "sentence_idx": 3,
+      "file_name": "Tin_09_7.jpg",
+      "dimensions": "1020x680 r=1.50",
+      "credit": "VNEXPRESS / AFP",
+      "description": "Ở tuổi 19 năm 132 ngày, Yamal phá cột mốc cũ của tiền đạo Fernando Torres"
+    },
+    {
+      "scene_id": 9,
+      "type": "sentence",
+      "index": 4,
+      "sentence_idx": 4,
+      "file_name": "Tin_09_8.jpg",
+      "dimensions": "1200x900 r=1.33",
+      "credit": "THE GUARDIAN",
+      "description": "Gerard Martín và Fermín López liên tiếp ghi bàn kéo Barcelona trở lại thế cân bằng"
+    },
+    {
+      "scene_id": 9,
+      "type": "sentence",
+      "index": 5,
+      "sentence_idx": 5,
+      "file_name": "Tin_09_9.jpg",
+      "dimensions": "1020x680 r=1.50",
+      "credit": "DÂN TRÍ",
+      "description": "Pha phản lưới của Pau Navarro mang về trọn vẹn ba điểm quý giá cho thầy trò Hansi Flick"
+    },
+    {
+      "scene_id": 10,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_10_1.jpg",
+      "dimensions": "1200x800 r=1.50",
+      "credit": "FOOTBALL ITALIA",
+      "description": "Cuộc rượt đuổi tỷ số tám bàn giữa Atalanta và Inter Milan làm rung chuyển Serie A"
+    },
+    {
+      "scene_id": 10,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_10_2.jpg",
+      "dimensions": "2048x1365 r=1.50",
+      "credit": "THE ATHLETIC",
+      "description": "Chấn thương đứt dây chằng chéo trước buộc Désiré Doué sớm khép lại mùa giải"
+    },
+    {
+      "scene_id": 10,
+      "type": "sentence",
+      "index": 1,
+      "sentence_idx": 1,
+      "file_name": "Tin_10_3.jpg",
+      "dimensions": "1200x800 r=1.50",
+      "credit": "FOOTBALL ITALIA",
+      "description": "New Balance Arena chứng kiến một trong những trận cầu hay nhất mùa giải Serie A"
+    },
+    {
+      "scene_id": 10,
+      "type": "sentence",
+      "index": 2,
+      "sentence_idx": 2,
+      "file_name": "Tin_10_4.jpg",
+      "dimensions": "1200x600 r=2.00",
+      "credit": "UA NEWS",
+      "description": "Chân sút trẻ Francesco Pio Esposito lập hat-trick ngoạn mục cho Inter Milan"
+    },
+    {
+      "scene_id": 10,
+      "type": "sentence",
+      "index": 3,
+      "sentence_idx": 3,
+      "file_name": "Tin_10_5.jpg",
+      "dimensions": "1200x800 r=1.50",
+      "credit": "FOOTBALL ITALIA",
+      "description": "Quả phạt đền lạnh lùng phút 90+1 của Franck Kessié giúp Atalanta giật lại một điểm"
+    },
+    {
+      "scene_id": 10,
+      "type": "sentence",
+      "index": 4,
+      "sentence_idx": 4,
+      "file_name": "Tin_10_6.jpg",
+      "dimensions": "1600x1000 r=1.60",
+      "credit": "AC MILAN",
+      "description": "AC Milan thắng đậm Frosinone 5-1 còn Juventus vượt qua Venezia 4-0"
+    },
+    {
+      "scene_id": 10,
+      "type": "sentence",
+      "index": 5,
+      "sentence_idx": 5,
+      "file_name": "Tin_10_7.jpg",
+      "dimensions": "2048x1365 r=1.50",
+      "credit": "THE ATHLETIC",
+      "description": "PSG đối diện cơn khủng hoảng nhân sự sau ca đứt dây chằng ACL của Désiré Doué"
+    },
+    {
+      "scene_id": 10,
+      "type": "sentence",
+      "index": 6,
+      "sentence_idx": 6,
+      "file_name": "Tin_10_8.jpg",
+      "dimensions": "1600x900 r=1.78",
+      "credit": "SKY SPORTS",
+      "description": "Trước Doué, nhà vô địch nước Pháp cũng mất Khvicha Kvaratskhelia vì chấn thương"
+    },
+    {
+      "scene_id": 11,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_11_1.jpg",
+      "dimensions": "1200x800 r=1.50",
+      "credit": "AFC / FIFA",
+      "description": "U17 Hàn Quốc áp đảo hoàn toàn để sớm giành quyền vào vòng knock-out World Cup"
+    },
+    {
+      "scene_id": 11,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_11_2.jpg",
+      "dimensions": "800x599 r=1.34",
+      "credit": "FOOTBALL GROUND GUIDE",
+      "description": "Sân Wembley sẵn sàng dẫn đầu kế hoạch đăng cai World Cup nữ 2035 tại Vương quốc Anh"
+    },
+    {
+      "scene_id": 11,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_11_3.jpg",
+      "dimensions": "1200x900 r=1.33",
+      "credit": "THE GUARDIAN",
+      "description": "Kansas City Current lần đầu vô địch NWSL Championship sau chiến thắng 2-1"
+    },
+    {
+      "scene_id": 11,
+      "type": "sentence",
+      "index": 1,
+      "sentence_idx": 1,
+      "file_name": "Tin_11_4.jpg",
+      "dimensions": "1200x800 r=1.50",
+      "credit": "KFA / FIFA",
+      "description": "Kim Ji-woo ghi ba bàn đưa U17 Hàn Quốc đạt sáu điểm tuyệt đối đứng đầu bảng B"
+    },
+    {
+      "scene_id": 11,
+      "type": "sentence",
+      "index": 2,
+      "sentence_idx": 2,
+      "file_name": "Tin_11_5.jpg",
+      "dimensions": "1920x1080 r=1.78",
+      "credit": "GOAL / FIFA",
+      "description": "Saudi Arabia tạo cú sốc khi hạ U17 Pháp 1-0 còn Argentina thắng Mozambique 2-1"
+    },
+    {
+      "scene_id": 11,
+      "type": "sentence",
+      "index": 3,
+      "sentence_idx": 3,
+      "file_name": "Tin_11_6.jpg",
+      "dimensions": "2048x1365 r=1.50",
+      "credit": "FOOTBALL GROUND GUIDE",
+      "description": "Đại hội bất thường FIFA tại Zurich ngày 23 tháng 11 bỏ phiếu xác nhận quyền đăng cai"
+    },
+    {
+      "scene_id": 11,
+      "type": "sentence",
+      "index": 4,
+      "sentence_idx": 4,
+      "file_name": "Tin_11_7.jpg",
+      "dimensions": "1200x900 r=1.33",
+      "credit": "THE GUARDIAN",
+      "description": "Kansas City Current khép lại cơn khát danh hiệu bằng chiến thắng trước Washington Spirit"
+    },
+    {
+      "scene_id": 11,
+      "type": "sentence",
+      "index": 5,
+      "sentence_idx": 5,
+      "file_name": "Tin_11_8.jpg",
+      "dimensions": "2560x1440 r=1.78",
+      "credit": "FIFA / WEMBLEY",
+      "description": "Vương quốc Anh kỳ vọng tạo kỳ World Cup nữ bùng nổ khán giả vào năm 2035"
+    },
+    {
+      "scene_id": 12,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_12_1.jpg",
+      "dimensions": "1020x680 r=1.50",
+      "credit": "DÂN TRÍ / AP",
+      "description": "Carlos Alcaraz lần đầu bước lên bục vinh quang tại ATP Finals ở Turin"
+    },
+    {
+      "scene_id": 12,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_12_2.jpg",
+      "dimensions": "1020x680 r=1.50",
+      "credit": "VNEXPRESS / AP",
+      "description": "Alcaraz quỳ sụp ăn mừng sau cú trái tay quyết định đánh bại Zverev"
+    },
+    {
+      "scene_id": 12,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_12_3.jpg",
+      "dimensions": "1200x900 r=1.33",
+      "credit": "THE GUARDIAN",
+      "description": "Tay vợt Tây Ban Nha thể hiện đẳng cấp đỉnh cao trước đối thủ số một thế giới"
+    },
+    {
+      "scene_id": 12,
+      "type": "sentence",
+      "index": 1,
+      "sentence_idx": 1,
+      "file_name": "Tin_12_4.jpg",
+      "dimensions": "1020x680 r=1.50",
+      "credit": "DÂN TRÍ / AP",
+      "description": "Không khí cuồng nhiệt tại Inalpi Arena trong đêm hạ màn mùa giải quần vợt nam 2026"
+    },
+    {
+      "scene_id": 12,
+      "type": "sentence",
+      "index": 2,
+      "sentence_idx": 2,
+      "file_name": "Tin_12_5.jpg",
+      "dimensions": "1020x574 r=1.78",
+      "credit": "VNEXPRESS / AP",
+      "description": "Alcaraz hoàn toàn áp đảo Zverev ở set mở màn với những pha điều bóng uy lực"
+    },
+    {
+      "scene_id": 12,
+      "type": "sentence",
+      "index": 3,
+      "sentence_idx": 3,
+      "file_name": "Tin_12_6.jpg",
+      "dimensions": "1020x680 r=1.50",
+      "credit": "DÂN TRÍ / AP",
+      "description": "Bản lĩnh thép giúp Alcaraz hóa giải ba set-point của Zverev trong loạt tie-break"
+    },
+    {
+      "scene_id": 12,
+      "type": "sentence",
+      "index": 4,
+      "sentence_idx": 4,
+      "file_name": "Tin_12_7.jpg",
+      "dimensions": "1020x680 r=1.50",
+      "credit": "DÂN TRÍ / AP",
+      "description": "Danh hiệu ATP Finals bổ sung mảnh ghép còn thiếu vào bộ sưu tập đồ sộ của Alcaraz"
+    },
+    {
+      "scene_id": 12,
+      "type": "sentence",
+      "index": 5,
+      "sentence_idx": 5,
+      "file_name": "Tin_12_8.jpg",
+      "dimensions": "1020x680 r=1.50",
+      "credit": "VNEXPRESS / AP",
+      "description": "Alcaraz chạy lên khán đài ôm chặt đội ngũ huấn luyện sau khoảnh khắc lịch sử"
+    },
+    {
+      "scene_id": 13,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_13_1.jpg",
+      "dimensions": "1200x900 r=1.33",
+      "credit": "THE GUARDIAN",
+      "description": "Max Verstappen lần thứ ba giành chiến thắng trên đường phố đêm Las Vegas"
+    },
+    {
+      "scene_id": 13,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_13_2.jpg",
+      "dimensions": "1000x666 r=1.50",
+      "credit": "MOTORSPORT",
+      "description": "Nội bộ Ferrari căng thẳng tột độ sau cú va chạm giữa Leclerc và Hamilton"
+    },
+    {
+      "scene_id": 13,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_13_3.jpg",
+      "dimensions": "1200x900 r=1.33",
+      "credit": "THE GUARDIAN",
+      "description": "Max Verstappen và George Russell tiếp tục đẩy màn khẩu chiến lên đỉnh điểm"
+    },
+    {
+      "scene_id": 13,
+      "type": "sentence",
+      "index": 1,
+      "sentence_idx": 1,
+      "file_name": "Tin_13_4.jpg",
+      "dimensions": "1024x683 r=1.50",
+      "credit": "MOTORCYCLE SPORTS",
+      "description": "Đường đua tốc độ cao tại Las Vegas chứng kiến 35 lần đổi ngôi đầu nghẹt thở"
+    },
+    {
+      "scene_id": 13,
+      "type": "sentence",
+      "index": 2,
+      "sentence_idx": 2,
+      "file_name": "Tin_13_5.jpg",
+      "dimensions": "1200x900 r=1.33",
+      "credit": "THE GUARDIAN",
+      "description": "Verstappen cùng hai tay đua McLaren là Norris và Piastri chia nhau ba vị trí trên bục podium"
+    },
+    {
+      "scene_id": 13,
+      "type": "sentence",
+      "index": 3,
+      "sentence_idx": 3,
+      "file_name": "Tin_13_6.jpg",
+      "dimensions": "1000x666 r=1.50",
+      "credit": "MOTORSPORT",
+      "description": "Pha tấn công mạo hiểm ở cua số bảy vòng 38 khiến cả hai xe Ferrari trả giá đắt"
+    },
+    {
+      "scene_id": 13,
+      "type": "sentence",
+      "index": 4,
+      "sentence_idx": 4,
+      "file_name": "Tin_13_7.jpg",
+      "dimensions": "1000x666 r=1.50",
+      "credit": "MOTORSPORT",
+      "description": "Lãnh đội Fred Vasseur triệu tập gấp cuộc họp khẩn phê bình Charles Leclerc"
+    },
+    {
+      "scene_id": 13,
+      "type": "sentence",
+      "index": 5,
+      "sentence_idx": 5,
+      "file_name": "Tin_13_8.jpg",
+      "dimensions": "1200x900 r=1.33",
+      "credit": "THE GUARDIAN",
+      "description": "George Russell đâm rào cuối chặng nhưng vẫn tranh cãi quyết liệt với Verstappen"
+    },
+    {
+      "scene_id": 13,
+      "type": "sentence",
+      "index": 6,
+      "sentence_idx": 6,
+      "file_name": "Tin_13_9.jpg",
+      "dimensions": "1920x1080 r=1.78",
+      "credit": "SKY SPORTS",
+      "description": "Tài năng trẻ Rafael Camara nắm cơ hội thử sức ở hai chặng F1 cuối cùng đội Haas"
+    },
+    {
+      "scene_id": 14,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_14_1.jpg",
+      "dimensions": "1200x900 r=1.33",
+      "credit": "THE GUARDIAN",
+      "description": "Marc Márquez vỡ òa cảm xúc khi chính thức chạm mốc tám lần vô địch hạng cao nhất"
+    },
+    {
+      "scene_id": 14,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_14_2.jpg",
+      "dimensions": "1024x683 r=1.50",
+      "credit": "MOTORCYCLE SPORTS",
+      "description": "Tay đua Tây Ban Nha san bằng tượng đài Giacomo Agostini ngay tại Portimão"
+    },
+    {
+      "scene_id": 14,
+      "type": "sentence",
+      "index": 1,
+      "sentence_idx": 1,
+      "file_name": "Tin_14_3.jpg",
+      "dimensions": "1000x666 r=1.50",
+      "credit": "MOTORSPORT",
+      "description": "Chặng Bồ Đào Nha khép lại hành trình hồi sinh thần kỳ trong màu áo đội Ducati"
+    },
+    {
+      "scene_id": 14,
+      "type": "sentence",
+      "index": 2,
+      "sentence_idx": 2,
+      "file_name": "Tin_14_4.jpg",
+      "dimensions": "2915x1640 r=1.78",
+      "credit": "MOTOCICLISMO",
+      "description": "Marco Bezzecchi giành chiến thắng thuyết phục sau màn cạnh tranh sát sao với Jorge Martín"
+    },
+    {
+      "scene_id": 14,
+      "type": "sentence",
+      "index": 3,
+      "sentence_idx": 3,
+      "file_name": "Tin_14_5.jpg",
+      "dimensions": "1024x683 r=1.50",
+      "credit": "MOTORCYCLE SPORTS",
+      "description": "Márquez tụt xuống nhóm giữa sau pha xuất phát nhưng kiên nhẫn giữ vững vị trí thứ tám"
+    },
+    {
+      "scene_id": 14,
+      "type": "sentence",
+      "index": 4,
+      "sentence_idx": 4,
+      "file_name": "Tin_14_6.jpg",
+      "dimensions": "1200x900 r=1.33",
+      "credit": "THE GUARDIAN",
+      "description": "Thứ hạng tám vừa đủ giúp anh nâng cúp vô địch thế giới lần thứ tám trước một chặng"
+    },
+    {
+      "scene_id": 14,
+      "type": "sentence",
+      "index": 5,
+      "sentence_idx": 5,
+      "file_name": "Tin_14_7.jpg",
+      "dimensions": "1000x666 r=1.50",
+      "credit": "MOTORSPORT",
+      "description": "Giới chuyên môn đánh giá chức vô địch năm 2026 là màn đăng quang ấn tượng nhất của Márquez"
+    },
+    {
+      "scene_id": 15,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_15_1.jpg",
+      "dimensions": "1920x1080 r=1.78",
+      "credit": "SKY SPORTS",
+      "description": "Jeeno Thitikul làm nên lịch sử với năm thứ ba liên tiếp thắng CME Group Tour Championship"
+    },
+    {
+      "scene_id": 15,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_15_2.jpg",
+      "dimensions": "1200x900 r=1.33",
+      "credit": "THE GUARDIAN",
+      "description": "Pitcher xuất sắc Tarik Skubal nhận bản hợp đồng chín năm trị giá 450 triệu USD"
+    },
+    {
+      "scene_id": 15,
+      "type": "sentence",
+      "index": 1,
+      "sentence_idx": 1,
+      "file_name": "Tin_15_3.jpg",
+      "dimensions": "1440x960 r=1.50",
+      "credit": "LPGA",
+      "description": "Hai môn thể thao đỉnh cao cùng chứng kiến những con số tiền thưởng choáng ngợp"
+    },
+    {
+      "scene_id": 15,
+      "type": "sentence",
+      "index": 2,
+      "sentence_idx": 2,
+      "file_name": "Tin_15_4.jpg",
+      "dimensions": "2000x1125 r=1.78",
+      "credit": "LPGA",
+      "description": "Vòng cuối 65 gậy không lỗi bogey giúp Thitikul bỏ xa các đối thủ bám đuổi"
+    },
+    {
+      "scene_id": 15,
+      "type": "sentence",
+      "index": 3,
+      "sentence_idx": 3,
+      "file_name": "Tin_15_5.jpg",
+      "dimensions": "1920x1080 r=1.78",
+      "credit": "SKY SPORTS",
+      "description": "Phần thưởng 4 triệu USD đưa golfer Thái Lan vượt qua kỷ lục của Annika Sörenstam"
+    },
+    {
+      "scene_id": 15,
+      "type": "sentence",
+      "index": 4,
+      "sentence_idx": 4,
+      "file_name": "Tin_15_6.jpg",
+      "dimensions": "1280x853 r=1.50",
+      "credit": "MLIVE / AP",
+      "description": "New York Mets kích nổ bom tấn chiêu mộ ngôi sao ném bóng từng hai lần đoạt Cy Young"
+    },
+    {
+      "scene_id": 15,
+      "type": "sentence",
+      "index": 5,
+      "sentence_idx": 5,
+      "file_name": "Tin_15_7.jpg",
+      "dimensions": "1200x900 r=1.33",
+      "credit": "THE GUARDIAN",
+      "description": "Thỏa thuận 450 triệu USD thiết lập chuẩn mực tài chính mới cho bóng chày Mỹ"
+    },
+    {
+      "scene_id": 16,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_16_1.jpg",
+      "dimensions": "1280x720 r=1.78",
+      "credit": "VNEXPRESS",
+      "description": "Khoảnh khắc Leandro Paredes bất ngờ đổ gục trước ống kính truyền hình ở Colombia"
+    },
+    {
+      "scene_id": 16,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_16_2.jpg",
+      "dimensions": "1020x680 r=1.50",
+      "credit": "VNEXPRESS / AP",
+      "description": "Tiền đạo Neymar bất ngờ giành chức vô địch giải poker BSOP Millions"
+    },
+    {
+      "scene_id": 16,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_16_3.jpg",
+      "dimensions": "1920x1080 r=1.78",
+      "credit": "SKY SPORTS",
+      "description": "Gerwyn Price ăn mừng chiến thắng 16-11 tại chung kết Grand Slam of Darts"
+    },
+    {
+      "scene_id": 16,
+      "type": "sentence",
+      "index": 1,
+      "sentence_idx": 1,
+      "file_name": "Tin_16_4.jpg",
+      "dimensions": "1280x720 r=1.78",
+      "credit": "VNEXPRESS",
+      "description": "Paredes ngã quỵ giữa lúc chia sẻ niềm vui vô địch khiến phóng viên và nhân viên y tế hốt hoảng"
+    },
+    {
+      "scene_id": 16,
+      "type": "sentence",
+      "index": 2,
+      "sentence_idx": 2,
+      "file_name": "Tin_16_5.jpg",
+      "dimensions": "2304x1296 r=1.78",
+      "credit": "AP PHOTO",
+      "description": "Trước đó, cựu tiền vệ tuyển Argentina vừa cùng Boca Juniors nâng cao cúp Nam Mỹ"
+    },
+    {
+      "scene_id": 16,
+      "type": "sentence",
+      "index": 3,
+      "sentence_idx": 3,
+      "file_name": "Tin_16_6.jpg",
+      "dimensions": "1800x1200 r=1.50",
+      "credit": "BOCA JUNIORS",
+      "description": "Paredes nhanh chóng đăng ảnh từ phòng khám trấn an người hâm mộ rằng mình đã ổn"
+    },
+    {
+      "scene_id": 16,
+      "type": "sentence",
+      "index": 4,
+      "sentence_idx": 4,
+      "file_name": "Tin_16_7.jpg",
+      "dimensions": "1250x834 r=1.50",
+      "credit": "POKER HIGH ROLLER",
+      "description": "Neymar đánh bại người bạn thân Gilmar Araújo để nhận 380000 real tại São Paulo"
+    },
+    {
+      "scene_id": 16,
+      "type": "sentence",
+      "index": 5,
+      "sentence_idx": 5,
+      "file_name": "Tin_16_8.jpg",
+      "dimensions": "1200x799 r=1.50",
+      "credit": "MIRROR",
+      "description": "Gerwyn Price vượt qua Gian van Veen để hướng thẳng tới Giải vô địch thế giới"
+    },
+    {
+      "scene_id": 16,
+      "type": "sentence",
+      "index": 5,
+      "sentence_idx": 5,
+      "file_name": "Tin_16_9.jpg",
+      "dimensions": "1200x900 r=1.33",
+      "credit": "THE GUARDIAN",
+      "description": "Chức vô địch giúp tay ném Xứ Wales lấy lại sự tự tin sau bốn năm chờ đợi danh hiệu"
+    },
+    {
+      "scene_id": 17,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_17_1.jpg",
+      "dimensions": "1210x864 r=1.40",
+      "credit": "TUỔI TRẺ",
+      "description": "Khoảnh khắc Sophia Huỳnh gặp sự cố bóng trúng mặt tại giải pickleball MLP Asia"
+    },
+    {
+      "scene_id": 17,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_17_2.jpg",
+      "dimensions": "1920x961 r=2.00",
+      "credit": "SKY SPORTS",
+      "description": "Ngôi sao NFL DK Metcalf bị truất quyền thi đấu sau tình huống va chạm căng thẳng"
+    },
+    {
+      "scene_id": 17,
+      "type": "title",
+      "index": 0,
+      "sentence_idx": 0,
+      "file_name": "Tin_17_3.jpg",
+      "dimensions": "1920x1080 r=1.78",
+      "credit": "SKY SPORTS",
+      "description": "Tuần 11 giải bóng bầu dục NFL diễn ra kịch tính trên nhiều sân đấu"
+    },
+    {
+      "scene_id": 17,
+      "type": "sentence",
+      "index": 1,
+      "sentence_idx": 1,
+      "file_name": "Tin_17_4.jpg",
+      "dimensions": "2560x1934 r=1.32",
+      "credit": "BBC SPORT",
+      "description": "Werder Bremen giành chiến thắng tưng bừng 4-0 trước đối thủ cùng vùng Hamburger SV"
+    },
+    {
+      "scene_id": 17,
+      "type": "sentence",
+      "index": 1,
+      "sentence_idx": 1,
+      "file_name": "Tin_17_5.jpg",
+      "dimensions": "1800x1200 r=1.50",
+      "credit": "THE GUARDIAN",
+      "description": "Marseille bất ngờ nhận thất bại 2-3 ngay tại Ligue 1 trước Le Mans"
+    },
+    {
+      "scene_id": 17,
+      "type": "sentence",
+      "index": 2,
+      "sentence_idx": 2,
+      "file_name": "Tin_17_6.jpg",
+      "dimensions": "1200x675 r=1.78",
+      "credit": "BBC SPORT",
+      "description": "Đội nữ Tottenham giành ba điểm quan trọng trước Manchester City tại giải vô địch Anh"
+    },
+    {
+      "scene_id": 17,
+      "type": "sentence",
+      "index": 3,
+      "sentence_idx": 3,
+      "file_name": "Tin_17_7.jpg",
+      "dimensions": "1210x864 r=1.40",
+      "credit": "TUỔI TRẺ",
+      "description": "Cặp Trương Vinh Hiển và Sophia Huỳnh khiến khán giả lo lắng vì pha bóng dội vợt bất ngờ"
+    },
+    {
+      "scene_id": 17,
+      "type": "sentence",
+      "index": 4,
+      "sentence_idx": 4,
+      "file_name": "Tin_17_8.jpg",
+      "dimensions": "1200x800 r=1.50",
+      "credit": "ESPN",
+      "description": "Atlanta Hawks giành thắng lợi 107-97 trước Detroit Pistons trên sân nhà"
+    },
+    {
+      "scene_id": 17,
+      "type": "sentence",
+      "index": 4,
+      "sentence_idx": 4,
+      "file_name": "Tin_17_9.jpg",
+      "dimensions": "1920x961 r=2.00",
+      "credit": "SKY SPORTS",
+      "description": "Cầu thủ DK Metcalf bị trọng tài đuổi khỏi sân vì va chạm với Cooper DeJean của Eagles"
+    },
+    {
+      "scene_id": 17,
+      "type": "sentence",
+      "index": 5,
+      "sentence_idx": 5,
+      "file_name": "Tin_17_10.jpg",
+      "dimensions": "1800x1012 r=1.78",
+      "credit": "BBC SPORT",
+      "description": "Làng snooker chấn động với án đình chỉ phục vụ điều tra dành cho Liu Wenwei"
+    },
+    {
+      "scene_id": 17,
+      "type": "sentence",
+      "index": 5,
+      "sentence_idx": 5,
+      "file_name": "Tin_17_11.jpg",
+      "dimensions": "1920x1080 r=1.78",
+      "credit": "SKY SPORTS",
+      "description": "Rasmus Højgaard chia sẻ ngôi đầu giải golf RSM Classic trước loạt đánh quyết định"
+    }
+  ]
+}

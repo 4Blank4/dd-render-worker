@@ -1,0 +1,70 @@
+{
+  "id": 0,
+  "art_id": "art_00",
+  "group": "TÂM ĐIỂM THỂ THAO 23.11.2026",
+  "title": "",
+  "summary": "Chào mừng quý vị đến với Điểm Đọc trong bản tin tổng hợp thể thao ngày 23 tháng 11 năm 2026, cập nhật đầy đủ những diễn biến nóng nhất tại Việt Nam và trên toàn thế giới. Ở đấu trường quốc nội, đường đua bơi Đại hội Thể thao toàn quốc 2026 bùng nổ kỷ lục trong ngày Nguyễn Thị Ánh Viên tái xuất và kình ngư Việt kiều Watson Nguyễn vượt qua Phạm Thanh Bảo, còn ở vòng 8 V-League, Hoàng Đức ghi bàn đưa Ninh Bình chiếm ngôi nhì trong khi trung vệ Nguyễn Nhật Minh rời sân bằng xe cấp cứu. Trên sân cỏ châu Âu, Liverpool đè bẹp Manchester United 4-0 khiến tân huấn luyện viên Mauricio Pochettino lập kỷ lục ra mắt tệ nhất sau 100 năm, Barcelona thắng ngược Villarreal 3-2 dù Lamine Yamal sút hỏng phạt đền, và Atalanta hòa điên rồ Inter Milan 4-4. Bên cạnh đó là chức vô địch ATP Finals đầu tiên của Carlos Alcaraz, chiến thắng hỗn loạn của Max Verstappen tại F1 Las Vegas, cột mốc lịch sử tám lần vô địch MotoGP của Marc Márquez, hai kỷ lục tiền thưởng tại Golf và bóng chày MLB cùng nhiều tin thể thao đáng chú ý khác ngay sau đây.",
+  "total_images": 16,
+  "hide_date_chip": false,
+  "source": "Thanh Niên / VnExpress / Tuổi Trẻ / Dân Trí / BBC Sport / ESPN / Sky Sports / The Guardian",
+  "news_source": "VIỆT NAM & THẾ GIỚI",
+  "credit": "ĐIỂM ĐỌC TỔNG HỢP",
+  "voice": "Song giọng Nữ & Nam",
+  "voice_gender": "mixed",
+  "voice_preset": "mixed",
+  "audio_path": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/23.11.2026/audio/audio_00.wav",
+  "audio_title": "",
+  "image_path": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/23.11.2026/images/Tin_00_1.jpg",
+  "hide_title": true,
+  "voice_segments": [
+    {
+      "voice_preset": "secondary",
+      "text": "Chào mừng quý vị đến với Điểm Đọc trong bản tin tổng hợp thể thao ngày 23 tháng 11 năm 2026, cập nhật đầy đủ những diễn biến nóng nhất tại Việt Nam và trên toàn thế giới."
+    },
+    {
+      "voice_preset": "primary",
+      "text": "Ở đấu trường quốc nội, đường đua bơi Đại hội Thể thao toàn quốc 2026 bùng nổ kỷ lục trong ngày Nguyễn Thị Ánh Viên tái xuất và kình ngư Việt kiều Watson Nguyễn vượt qua Phạm Thanh Bảo, còn ở vòng 8 V-League, Hoàng Đức ghi bàn đưa Ninh Bình chiếm ngôi nhì trong khi trung vệ Nguyễn Nhật Minh rời sân bằng xe cấp cứu."
+    },
+    {
+      "voice_preset": "secondary",
+      "text": "Trên sân cỏ châu Âu, Liverpool đè bẹp Manchester United 4-0 khiến tân huấn luyện viên Mauricio Pochettino lập kỷ lục ra mắt tệ nhất sau 100 năm, Barcelona thắng ngược Villarreal 3-2 dù Lamine Yamal sút hỏng phạt đền, và Atalanta hòa điên rồ Inter Milan 4-4."
+    },
+    {
+      "voice_preset": "primary",
+      "text": "Bên cạnh đó là chức vô địch ATP Finals đầu tiên của Carlos Alcaraz, chiến thắng hỗn loạn của Max Verstappen tại F1 Las Vegas, cột mốc lịch sử tám lần vô địch MotoGP của Marc Márquez, hai kỷ lục tiền thưởng tại Golf và bóng chày MLB cùng nhiều tin thể thao đáng chú ý khác ngay sau đây."
+    }
+  ],
+  "stat_badges": {
+    "1": {
+      "label": "BẢN TIN NGÀY",
+      "value": "23.11.2026",
+      "sub": "Toàn cảnh Việt Nam & Thế giới"
+    },
+    "2": {
+      "label": "ĐẠI HỘI 2026",
+      "value": "MƯA KỶ LỤC",
+      "sub": "Ánh Viên HCB • Watson Nguyễn phá KLQG"
+    },
+    "3": {
+      "label": "ANFIELD DẬY SÓNG",
+      "value": "LIVERPOOL 4-0 MU",
+      "sub": "Ác mộng đầu tiên của Pochettino"
+    }
+  },
+  "image_1": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/23.11.2026/images/Tin_00_1.jpg",
+  "image_2": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/23.11.2026/images/Tin_00_2.jpg",
+  "image_3": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/23.11.2026/images/Tin_00_3.jpg",
+  "image_4": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/23.11.2026/images/Tin_00_4.jpg",
+  "image_5": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/23.11.2026/images/Tin_00_5.jpg",
+  "image_6": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/23.11.2026/images/Tin_00_6.jpg",
+  "image_7": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/23.11.2026/images/Tin_00_7.jpg",
+  "image_8": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/23.11.2026/images/Tin_00_8.jpg",
+  "image_9": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/23.11.2026/images/Tin_00_9.jpg",
+  "image_10": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/23.11.2026/images/Tin_00_10.jpg",
+  "image_11": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/23.11.2026/images/Tin_00_11.jpg",
+  "image_12": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/23.11.2026/images/Tin_00_12.jpg",
+  "image_13": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/23.11.2026/images/Tin_00_13.jpg",
+  "image_14": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/23.11.2026/images/Tin_00_14.jpg",
+  "image_15": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/23.11.2026/images/Tin_00_15.jpg",
+  "image_16": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/23.11.2026/images/Tin_00_16.jpg"
+}
