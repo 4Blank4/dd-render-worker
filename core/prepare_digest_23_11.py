@@ -34,7 +34,7 @@ DIGEST_SPECS = {
         "Điểm đọc nhanh 16 tin tức thể thao nóng nhất ngày 23/11/2026 từ Đại hội Thể thao toàn quốc 2026, V-League, Ngoại hạng Anh tới La Liga, Serie A, ATP Finals, F1 và MotoGP.",
         "Nổi bật mưa kỷ lục đường đua bơi với HCB tái xuất của Nguyễn Thị Ánh Viên và Watson Nguyễn phá kỷ lục quốc gia, Hoàng Đức đưa Ninh Bình lên nhì bảng V-League, Liverpool vùi dập Manchester United 4-0, Barcelona thắng ngược Villarreal 3-2, Carlos Alcaraz vô địch ATP Finals và Marc Márquez san bằng kỷ lục tám lần vô địch MotoGP.",
     ],
-    "fb_hook": "🔥 16 TIN THỂ THAO NÓNG NHẤT 23/11 TRONG CHƯA ĐẦY 2 PHÚT!",
+    "fb_hook": "🔥 16 TIN THỂ THAO NÓNG NHẤT 23/11 TRONG CHƯA ĐẦY 3 PHÚT!",
     "tiktok_caption": "Điểm nhanh 16 tin nóng thể thao 23/11: Liverpool đè bẹp Man Utd 4-0 ở trận ra mắt của Pochettino, Ánh Viên tái xuất giành HCB Đại hội, Carlos Alcaraz vô địch ATP Finals và Marc Márquez cân bằng kỷ lục 8 ngôi vương MotoGP!",
     "sources_line": "📰 Nguồn tin: Thanh Niên, VnExpress, Tuổi Trẻ, Dân Trí, BBC Sport, ESPN, Sky Sports, The Guardian.",
     "hashtags": [
