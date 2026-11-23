@@ -1,0 +1,35 @@
+[
+  {
+    "suffix": "A",
+    "badge": "BẢN TIN 23.11.2026",
+    "kicker": "NGOẠI HẠNG ANH • ĐẠI HỘI 2026",
+    "headline": "LIVERPOOL HỦY DIỆT<br>MAN UNITED 4-0!",
+    "subtitle": "Thảm họa ra mắt của Pochettino • Barca ngược dòng • Alcaraz vô địch",
+    "footer_tag": "TIN NÓNG • 23.11",
+    "image_file": "outputs/23.11.2026/images/Tin_07_1.jpg",
+    "obj_pos": "center 22%",
+    "filter": "contrast(1.06) saturate(1.1)"
+  },
+  {
+    "suffix": "B",
+    "badge": "CHẤN ĐỘNG ANFIELD",
+    "kicker": "KỶ LỤC 100 NĂM • LA LIGA",
+    "headline": "THẢM BẠI ANFIELD!<br>BARCA NGƯỢC DÒNG",
+    "subtitle": "MU tụt xuống hạng 19 • Yamal hỏng 11m • Márquez 8 lần vô địch MotoGP",
+    "footer_tag": "TIN NÓNG • 23.11",
+    "image_file": "outputs/23.11.2026/images/Tin_07_2.jpg",
+    "obj_pos": "center 20%",
+    "filter": "contrast(1.06) saturate(1.08)"
+  },
+  {
+    "suffix": "C",
+    "badge": "TÂM ĐIỂM THỂ THAO",
+    "kicker": "ĐẠI HỘI TOÀN QUỐC 2026",
+    "headline": "ÁNH VIÊN TÁI XUẤT<br>ĐẠI HỘI MƯA KỶ LỤC",
+    "subtitle": "Mỹ Tiên thắng 200m • Watson Nguyễn phá KLQG • Hoàng Đức đưa Ninh Bình nhì bảng",
+    "footer_tag": "TIN NÓNG • 23.11",
+    "image_file": "outputs/23.11.2026/images/Tin_01_1.jpg",
+    "obj_pos": "center 22%",
+    "filter": "contrast(1.06) saturate(1.1)"
+  }
+]
