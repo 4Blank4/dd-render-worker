@@ -1,0 +1,35 @@
+[
+  {
+    "suffix": "A",
+    "badge": "BẢN TIN TUẦN • 23.11",
+    "kicker": "NGOẠI HẠNG ANH • ĐẠI HỘI 2026",
+    "headline": "THẢM HỌA MAN UNITED<br>THUA LIVERPOOL 0-4!",
+    "subtitle": "Pochettino lập kỷ lục tệ nhất 100 năm • Barca ngược dòng • Alcaraz vô địch",
+    "footer_tag": "BẢN TIN TUẦN • 23/11",
+    "image_file": "outputs/Weekly-23.11.2026/images/Thumb_A.jpg",
+    "obj_pos": "center 22%",
+    "filter": "contrast(1.06) saturate(1.1)"
+  },
+  {
+    "suffix": "B",
+    "badge": "U17 WORLD CUP 2026",
+    "kicker": "BÓNG ĐÁ VIỆT NAM • TIN TUẦN",
+    "headline": "U17 VIỆT NAM BÙNG NỔ<br>2 SIÊU PHẨM ĐỈNH CAO",
+    "subtitle": "Sỹ Bách đánh gót & Nguyễn Lực đá phạt góc • Đình Bắc nghỉ hết năm",
+    "footer_tag": "TÂM ĐIỂM TUẦN • 23/11",
+    "image_file": "outputs/Weekly-23.11.2026/images/Thumb_B.jpg",
+    "obj_pos": "center 20%",
+    "filter": "contrast(1.08) saturate(1.12)"
+  },
+  {
+    "suffix": "C",
+    "badge": "ĐẠI HỘI TOÀN QUỐC 2026",
+    "kicker": "THỂ THAO VIỆT NAM & THẾ GIỚI",
+    "headline": "ÁNH VIÊN TÁI XUẤT HCB<br>BƠI LỘI MƯA KỶ LỤC!",
+    "subtitle": "Watson Nguyễn phá KLQG • Alcaraz vô địch ATP Finals • Marc Márquez lần 8",
+    "footer_tag": "TỔNG HỢP TUẦN • 23/11",
+    "image_file": "outputs/Weekly-23.11.2026/images/Thumb_C.jpg",
+    "obj_pos": "center 22%",
+    "filter": "contrast(1.07) saturate(1.1)"
+  }
+]
