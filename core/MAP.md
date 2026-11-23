@@ -437,3 +437,9 @@ Không module nào tự viết lại logic đã có ở đây.
 - **`apply_qa_fixes_23_11.py`**: Áp dụng kết quả kiểm duyệt thị giác 18 bảng Contact Sheet (thay thế ảnh fallback sai/graphic/watermark, cắt mép logo, xử lý trùng ảnh kề) và tái dựng QA sheet đạt `0` lỗi, `0` cảnh báo.
 - **`build_mota_23_11.py`**: Đọc `outputs/23.11.2026/_preview_v2/chapters_23_11.json` (18 chapters từ `00:00` đến `17:16`) và xuất `outputs/23.11.2026/mota.txt` chuẩn đuôi `| Điểm Đọc 23/11` qua `publisher.write_mota_16x9()`.
 - **`prepare_digest_23_11.py`**: Tạo và kiểm định `outputs/23.11.2026/shorts/digest_specs.json` (16 tin nhanh: 6 tin VN giọng Nữ + 10 tin Quốc tế giọng Nam, cấu hình thumbnail 9:16 và metadata 3 MXH) để chạy `--mode digest_short` trên GitHub Cloud (`Short_Tin_Nhanh_16_Tin.mp4`, `127.733s < 180s`).
+
+### Bộ Công Cụ Sản Xuất Bản Tin Tổng Hợp Tuần `Weekly-23.11.2026` (`weekly_23_11_data.py`, `prepare_weekly_23_11.py`, `build_mota_weekly_23_11.py`) — Mới 23.11.2026
+- **`weekly_23_11_data.py`**: Dữ liệu kịch bản hợp nhất 6 ngày (`18–23.11.2026`) gồm **Intro song giọng (`id=0`, `hide_title=True`, 4 đoạn) + 20 chuyên đề tuần chi tiết (`01..20`) + Mục `21. CÁC TIN THỂ THAO KHÁC`**, kèm `stat_badges`, `source_refs` và ánh xạ ảnh theo câu `sentence_refs`.
+- **`prepare_weekly_23_11.py`**: Tuyển chọn **`349` ảnh HD độc lập** từ `1447` ảnh nguồn của 6 ngày trong tuần (kiểm tra `ahash` + `center_crop_ahash` + `dhash` và lọc từ khóa `SENTENCE_INCLUDE_KEYWORDS`/`SCENE_EXCLUDES`), xuất bộ JSON đầu vào, `thumbnails_plan.json` (3 A/B Test cân 2 dòng) và 23 bảng QA Contact Sheet + Overview (`outputs/Weekly-23.11.2026/qa/`).
+- **`build_mota_weekly_23_11.py`**: Đọc `outputs/Weekly-23.11.2026/_preview_v2/chapters_Weekly_23_11.json` (22 chapters từ `00:00` đến `22:26`) và xuất `outputs/Weekly-23.11.2026/mota.txt` chuẩn đuôi `| Điểm Đọc Tuần` qua `publisher.write_mota_16x9()`.
+

@@ -137,6 +137,15 @@ DD-The-thao/
 
 ## 3. Nhật Ký Nâng Cấp Hệ Thống (Changelog)
 
+- **2026-11-23 (Hoàn Tất Video Tổng Hợp Tuần `Weekly-23.11.2026` Qua GitHub Cloud Matrix — 21 Chuyên Đề & 349 Ảnh HD Tại `outputs/Weekly-23.11.2026/`)**:
+  - **Tổng hợp 6 ngày thành 21 chuyên đề xuyên suốt (`core/weekly_23_11_data.py`, `core/prepare_weekly_23_11.py`)**:
+    + Tái sử dụng trọn vẹn nội dung và kho `1447` ảnh HD từ 6 bản tin ngày `18.11`–`23.11.2026` để xây dựng **Intro song giọng (`id=0`, `hide_title=True`, 4 đoạn)** + **20 chuyên đề tuần (`01..20`, mỗi tin 5–6 câu chi tiết, hợp nhất diễn biến đầu tuần và kết quả cuối tuần)** + **mục `21. CÁC TIN THỂ THAO KHÁC` (`stat_badges` đồng bộ từng câu)**.
+    + Nâng cấp thuật toán chọn ảnh đa góc (`12–17` ảnh/cảnh, tổng **`349` ảnh HD**): kiểm tra `ahash` + `center_crop_ahash` + `dhash` chống ảnh crop trùng và lọc từ khóa `SENTENCE_INCLUDE_KEYWORDS` / `SCENE_EXCLUDES` bảo đảm từng ảnh khớp sát câu thoại; kiểm duyệt trực quan toàn bộ 23 Contact Sheets (`outputs/Weekly-23.11.2026/qa/`) và đạt **`0` lỗi, `0` cảnh báo** qua `qa_precheck.py`.
+    + Cập nhật `_format_vi_date_chip()` trong `core/daily_runner.py` hỗ trợ prefix `Weekly-`.
+  - **Sản xuất ViTTS v3turbo + Render HTML v2 trên GitHub Cloud (`4Blank4/dd-render-worker`, 8 shards song song, Run `#45111308049` hoàn tất sau `35p24s` -> đã tự xóa sạch)**:
+    + Video 16:9 [Tin-The-Thao-Weekly-23-11.mp4](file:///Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive%20cu%CC%89a%20to%CC%82i/2026/Agent/DD-The-thao/outputs/Weekly-23.11.2026/Tin-The-Thao-Weekly-23-11.mp4): `1920x1080 @ 30fps`, `h264`, thời lượng **`1425.558s`** (~23 phút 45,5 giây / `42767` frames), dung lượng **`630.86 MB`**, **`I = -14.05 LUFS`**, **`TP = -1.09 dBTP`**, **A/V Drift `0.20 ms`** ($\le 33.3\text{ ms}$), đối chứng 6 khung hình qua `qa/video_qa_frames.jpg`.
+    + Đầy đủ ấn phẩm đi kèm tại `outputs/Weekly-23.11.2026/`: Bộ 3 Thumbnail 16:9 2 dòng sắc nét (`thumbnail_A/B/C.jpg` + `thumbnail.jpg`) và mô tả SEO 2 phần (`mota.txt` do `core/build_mota_weekly_23_11.py` xuất với 3 Option `| Điểm Đọc Tuần` Sentence Case `<= 95` ký tự + 22 chapters từ `00:00` đến `22:26`).
+
 - **2026-11-23 (Hoàn Tất Video Bản Tin Thể Thao 16:9 Ngày 23.11.2026 Qua GitHub Cloud Matrix — Chi Tiết Sâu 16 Tin Chính & Mục Tin Bên Lề)**:
   - **Nội dung chi tiết & Kiểm duyệt Thị giác (`core/daily_23_11_data.py`, `core/prepare_daily_23_11.py`, `core/apply_qa_fixes_23_11.py`)**: Tổng hợp từ `12:00 22/11` đến `08:11 23/11/2026` qua `74` bài báo Việt Nam + `5` luồng RSS Quốc tế (`BBC Sport`, `BBC Football`, `ESPN`, `Sky Sports`, `The Guardian`) kèm đối chứng chéo web search. Cấu trúc Intro song giọng (`00`) + `16` bản tin chi tiết 5–6 câu (`01–16`) + mục `17. CÁC TIN THỂ THAO KHÁC` (100% giọng Nữ Ngọc Huyền). Soi thủ công toàn bộ `18` bảng Contact Sheet (`outputs/23.11.2026/qa/`), thay thế ảnh fallback/graphic/watermark, cắt viền logo, đạt `165/165` ảnh HD sạch (`0` lỗi, `0` cảnh báo `qa_precheck.py`).
   - **Sản xuất trên GitHub Cloud (`4Blank4/dd-render-worker`, 8 shards song song, Run #45095112882 -> đã tự động xóa sạch)**:

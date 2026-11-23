@@ -207,6 +207,9 @@ def stage_job_payload(day_str: str, mode: str, is_orther: bool) -> Tuple[Path, D
                 for it in d_items:
                     if it.get("image_file"):
                         needed_imgs.add(it["image_file"])
+                    for ex_img in (it.get("extra_images") or []):
+                        if ex_img:
+                            needed_imgs.add(ex_img)
                 if isinstance(cfg_d, dict) and isinstance(cfg_d.get("thumb"), dict) and cfg_d["thumb"].get("image"):
                     needed_imgs.add(cfg_d["thumb"]["image"])
             if needed_imgs:

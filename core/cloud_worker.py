@@ -796,6 +796,8 @@ def run_digest_short_cloud(day_dir: Path, day_str: str, final_out_dir: Path) -> 
         seg.export(str(wav_out), format="wav")
         it_dur = round(len(seg) / 1000.0, 3)
 
+        if idx == 1 and spec.get("is_intro"):
+            raw_sfx.append({"sfx": "whoosh_cinematic_short.mp3", "time": 0.05, "volume": 0.24})
         if idx > 1:
             combined_voice += gap_seg
             cum_sec += gap_ms / 1000.0
@@ -824,10 +826,37 @@ def run_digest_short_cloud(day_dir: Path, day_str: str, final_out_dir: Path) -> 
 
         pan_info = compute_pan_params(str(img_path), duration=it_dur, dir_toggle=(idx % 2 == 1))
         photo_credit = credits_map.get(spec["image_file"]) or orig_item.get("credit", "REUTERS")
-        news_source = orig_item.get("news_source") or orig_item.get("source") or "VNEXPRESS"
+        news_source = spec.get("news_source") or orig_item.get("news_source") or orig_item.get("source") or "VNEXPRESS"
 
-        items_data.append({
+        sub_slides: List[Dict[str, Any]] = []
+        extra_imgs = [ex for ex in (spec.get("extra_images") or []) if ex]
+        if extra_imgs:
+            slide_files = [spec["image_file"]] + extra_imgs
+            slide_dur = round(it_dur / len(slide_files), 3)
+            for si, s_fn in enumerate(slide_files):
+                s_fp = images_dir / s_fn
+                if not s_fp.exists():
+                    continue
+                s_start = round(it_start + si * slide_dur, 3)
+                s_end = it_end if si == len(slide_files) - 1 else round(it_start + (si + 1) * slide_dur, 3)
+                s_dur = max(0.4, round(s_end - s_start, 3))
+                s_pan = compute_pan_params(str(s_fp), duration=s_dur, dir_toggle=(si % 2 == 0))
+                s_cr = credits_map.get(s_fn) or photo_credit
+                sub_slides.append({
+                    "image": str(s_fp),
+                    "credit": s_cr,
+                    "start": s_start,
+                    "end": s_end,
+                    "duration": s_dur,
+                    **s_pan,
+                })
+                if si > 0:
+                    raw_sfx.append({"sfx": "whoosh_cinematic_short.mp3", "time": s_start, "volume": 0.16})
+
+        item_rec: Dict[str, Any] = {
             "id": str(sc_id),
+            "is_intro": bool(spec.get("is_intro", False)),
+            "pill_label": spec.get("pill_label", ""),
             "title": spec["title"],
             "digest_line": digest_text,
             "region": spec.get("region", ""),
@@ -840,7 +869,10 @@ def run_digest_short_cloud(day_dir: Path, day_str: str, final_out_dir: Path) -> 
             "end": it_end,
             "duration": it_dur,
             **pan_info,
-        })
+        }
+        if sub_slides:
+            item_rec["sub_slides"] = sub_slides
+        items_data.append(item_rec)
 
     voiceover_wav = work_dir / "voiceover.wav"
     combined_voice.export(str(voiceover_wav), format="wav")
@@ -877,7 +909,8 @@ def run_digest_short_cloud(day_dir: Path, day_str: str, final_out_dir: Path) -> 
                 sheet.paste(im_rgb, (x0 + 14 + (thumb_w - tw) // 2, y0 + 6 + (thumb_h - th) // 2))
             tag_color = (56, 189, 248) if rec.get("voice_gender") == "Nam" else (244, 114, 182)
             draw.rectangle([x0 + 10, y0 + 4, x0 + cell_w - 10, y0 + thumb_h + 8], outline=tag_color, width=2)
-            draw.text((x0 + 12, y0 + thumb_h + 14), f"[{int(rec['id']):02d}] {rec.get('region', '')} ({rec.get('voice_gender', '')}) · {img_p.name} ({iw}x{ih})", fill=tag_color, font=f_lbl)
+            tag_idx = "INTRO" if rec.get("is_intro") else f"{int(rec['id']):02d}"
+            draw.text((x0 + 12, y0 + thumb_h + 14), f"[{tag_idx}] {rec.get('region', '')} ({rec.get('voice_gender', '')}) · {img_p.name} ({iw}x{ih})", fill=tag_color, font=f_lbl)
             draw.text((x0 + 12, y0 + thumb_h + 38), f"📷 {rec['credit']} | {rec['digest_line'][:44]}...", fill=(226, 232, 240), font=f_sub)
             draw.text((x0 + 12, y0 + thumb_h + 58), f"📰 {rec['news_source']}", fill=(148, 163, 184), font=f_sub)
         dd_mm_u = "_".join(day_str.split(".")[:2])
