@@ -207,6 +207,12 @@ Hệ thống sản xuất thống nhất **3 Loại Video chính thức**:
    - Khi Chủ kênh yêu cầu lên kế hoạch hoặc làm video Ngày / Tuần / Chuyên đề, **chỉ thực hiện Video chính 16:9** (kèm 3 Thumbnail A/B/C + `mota.txt` + kiểm duyệt QA).
    - **Tuyệt đối không tự ý làm thêm và không hỏi gợi ý làm thêm Video Short 9:16**, trừ khi Chủ kênh ra lệnh đích danh yêu cầu làm Short.
 
+### 5.10. Quy Tắc Đồng Nhất Tiêu Đề SEO & Ảnh Thumbnail (Bắt Buộc — Cập nhật 24.11.2026)
+- **Tiêu đề SEO (`mota.txt` Option A/B/C) và Ảnh + Chữ trên Thumbnail (`thumbnail_A/B/C.jpg`) bắt buộc phải đồng nhất chủ thể**:
+  - Tuyệt đối **KHÔNG** để một Option tiêu đề (hoặc Short SEO title) nêu tên một sự kiện/nhân vật tâm điểm (ví dụ U17 Việt Nam) trong khi hình ảnh trên Thumbnail lại **không hề có** sự kiện/nhân vật đó.
+  - Khi trong ngày có tin cực nóng, **cho phép và khuyến khích** tiêu đề (thậm chí cả 3 Option) và hình ảnh/chữ trên bộ 3 Thumbnail trùng khớp xoay quanh tin nóng đó (không cần cố né trùng giữa 3 thumbnail nếu tin đó là tâm điểm hút người xem nhất).
+  - Với mỗi Option tiêu đề, phải đối chiếu trực tiếp với bộ thumbnail tương ứng bảo đảm khán giả nhìn ảnh + đọc tiêu đề thấy **khớp 100% câu chuyện**.
+
 
 ---
 
