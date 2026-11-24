@@ -40,7 +40,7 @@ def main() -> None:
         t = str(ch["time"]).strip()
         lbl = str(ch["label"]).strip()
         if i == 0:
-            lbl = "Nhập cuộc & Tâm điểm thể thao tuần qua (18–23/11)"
+            lbl = "Nhập cuộc & Tâm điểm thể thao tuần qua (16–22/11)"
         chapters.append((t, lbl))
 
     titles_abc = [
@@ -50,7 +50,7 @@ def main() -> None:
     ]
 
     intro_paragraphs = [
-        "Bản tin Điểm Đọc Tổng Hợp Tuần tới ngày 23/11/2026 điểm lại toàn cảnh 21 sự kiện thể thao Việt Nam và quốc tế nổi bật nhất tuần qua (18–23/11).",
+        "Bản tin Điểm Đọc Tổng Hợp Tuần (16–22/11/2026, cập nhật 23/11/2026) điểm lại toàn cảnh 21 sự kiện thể thao Việt Nam và quốc tế nổi bật nhất tuần qua.",
         "Theo dõi trọn vẹn từng diễn biến từ bóng đá Việt Nam, U17 World Cup 2026, V-League, Đại hội Thể thao toàn quốc lần thứ X tới Ngoại hạng Anh, La Liga, ATP Finals, F1 Las Vegas và MotoGP.",
     ]
 

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<!--
+  THUMBNAIL 16:9 KIỂU 3 — HIGH-CONTRAST DIAGONAL CLASH (Đỏ / Trắng Bạc / Đen Carbon)
+  Dùng qua core/diemdoc/publisher.py (style="clash_diagonal") cho Video 16:9 (Bản C).
+-->
+<style>
+  @font-face { font-family:'Anton'; src:url('__ASSETS__/fonts/Anton/Anton-Regular.ttf'); font-weight:400; font-display:block; }
+  @font-face { font-family:'Oswald'; src:url('__ASSETS__/fonts/Oswald/static/Oswald-Bold.ttf'); font-weight:700; font-display:block; }
+  @font-face { font-family:'Montserrat'; src:url('__ASSETS__/fonts/Montserrat/static/Montserrat-Bold.ttf'); font-weight:700; font-display:block; }
+  @font-face { font-family:'PlexMono'; src:url('__ASSETS__/fonts/IBM_Plex_Mono/IBMPlexMono-Bold.ttf'); font-weight:700; font-display:block; }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1920px; height:1080px; overflow:hidden; background:#090B10; color:#FFFFFF; font-family:'Oswald',sans-serif; }
+  .stage { position:relative; width:1920px; height:1080px; overflow:hidden; }
+
+  .left-pane {
+    position:absolute; inset:0; width:56%; height:100%;
+    clip-path: polygon(0 0, 100% 0, 82% 100%, 0 100%);
+    overflow:hidden; background:#111827;
+  }
+  .right-pane {
+    position:absolute; top:0; right:0; width:56%; height:100%;
+    clip-path: polygon(18% 0, 100% 0, 100% 100%, 0 100%);
+    overflow:hidden; background:#1F1215;
+  }
+  .left-pane img, .right-pane img {
+    width:100%; height:100%; object-fit:cover; filter:__THUMB_FILTER__;
+  }
+  .shade-bot {
+    position:absolute; left:0; right:0; bottom:0; height:520px; z-index:4;
+    background: linear-gradient(180deg, transparent 0%, rgba(9,11,16,0.72) 45%, rgba(9,11,16,0.98) 100%);
+  }
+  .shade-top {
+    position:absolute; left:0; right:0; top:0; height:180px; z-index:4;
+    background: linear-gradient(180deg, rgba(9,11,16,0.88) 0%, transparent 100%);
+  }
+  .slash-beam {
+    position:absolute; top:-60px; bottom:-60px; left:50%; width:14px; z-index:5;
+    transform: translateX(-50%) rotate(9.8deg);
+    background: linear-gradient(180deg, #FFFFFF 0%, #EF4444 50%, #FACC15 100%);
+    box-shadow: 0 0 32px rgba(239,68,68,0.95), 0 0 14px rgba(255,255,255,0.9);
+  }
+
+  .top-bar {
+    position:absolute; top:38px; left:54px; right:54px; z-index:10;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .week-stamp { display:flex; align-items:center; gap:14px; }
+  .stamp-red {
+    background:#DC2626; color:#FFFFFF; font-size:29px; font-weight:700; letter-spacing:2px;
+    padding:10px 26px; border-radius:8px; border:2px solid rgba(255,255,255,0.85);
+    box-shadow:0 8px 24px rgba(220,38,38,0.65); text-transform:uppercase;
+  }
+  .stamp-white {
+    background:#F8FAFC; color:#090B10; font-family:'PlexMono',monospace; font-size:22px;
+    font-weight:700; padding:10px 20px; border-radius:8px; letter-spacing:1px; text-transform:uppercase;
+    max-width:740px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .brand-box {
+    display:flex; align-items:center; gap:12px; background:rgba(9,11,16,0.90);
+    border:2px solid rgba(255,255,255,0.75); border-radius:999px; padding:8px 24px 8px 12px; flex-shrink:0;
+  }
+  .brand-box img { width:38px; height:38px; border-radius:50%; object-fit:cover; }
+  .brand-box span { font-size:23px; font-weight:700; letter-spacing:2.5px; color:#FFFFFF; text-transform:uppercase; }
+
+  .center-cta {
+    position:absolute; left:54px; right:54px; bottom:40px; z-index:10;
+    display:flex; flex-direction:column; align-items:center; text-align:center; gap:12px;
+  }
+  .block-row-1 {
+    display:inline-block; background:#F8FAFC; color:#090B10;
+    font-family:'Anton',sans-serif; font-size:__L1_SIZE__px; line-height:1.05;
+    padding:10px 38px; border-radius:10px; transform:skewX(-6deg);
+    box-shadow: 0 14px 34px rgba(0,0,0,0.75); text-transform:uppercase;
+    max-width:1760px; white-space:nowrap;
+  }
+  .block-row-2 {
+    display:inline-block; background: linear-gradient(90deg, #DC2626 0%, #B91C1C 100%); color:#FFFFFF;
+    font-family:'Anton',sans-serif; font-size:__L2_SIZE__px; line-height:1.06;
+    padding:10px 42px; border-radius:10px; border:3px solid #FACC15; transform:skewX(-6deg);
+    box-shadow: 0 14px 36px rgba(220,38,38,0.55); text-transform:uppercase;
+    max-width:1760px; white-space:nowrap;
+  }
+  .unskew { display:inline-block; transform:skewX(6deg); }
+  .sub-strip {
+    font-family:'Montserrat',sans-serif; font-weight:700; font-size:25px; letter-spacing:1.2px;
+    color:#FACC15; background:rgba(9,11,16,0.90); padding:8px 26px; border-radius:8px;
+    border:1.5px solid rgba(250,204,21,0.45); text-transform:uppercase;
+    max-width:1720px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="left-pane"><img src="__LEFT_IMG__" style="object-position:__LEFT_POS__;"></div>
+  <div class="right-pane"><img src="__RIGHT_IMG__" style="object-position:__RIGHT_POS__;"></div>
+  <div class="shade-top"></div>
+  <div class="shade-bot"></div>
+  <div class="slash-beam"></div>
+
+  <div class="top-bar">
+    <div class="week-stamp">
+      <div class="stamp-red">__THUMB_BADGE__</div>
+      <div class="stamp-white">__THUMB_KICKER__</div>
+    </div>
+    <div class="brand-box"><img src="__LOGO_URL__" alt="" onerror="this.style.display='none'"><span>__THUMB_TAG_A__</span></div>
+  </div>
+
+  <div class="center-cta">
+    <div class="block-row-1"><span class="unskew">__LINE_1__</span></div>
+    <div class="block-row-2"><span class="unskew">__LINE_2__</span></div>
+    <div class="sub-strip">__THUMB_SUBTITLE__</div>
+  </div>
+</div>
+</body>
+</html>

@@ -6,8 +6,8 @@ Tuân thủ nghiêm ngặt các quy tắc biên tập cứng:
 
 1. KỊCH BẢN DÀI 16:9 (outputs/DD.MM.YYYY/thethao.txt):
    - Số lượng: Linh hoạt tùy theo lượng tin tức nổi bật thực tế trong ngày (không cố định cứng số lượng tin).
-   - Chiều sâu Lời bình: MỖI TIN dài 4-6 câu (khoảng 80-120 từ), mang tính bình luận chuyên sâu,
-     bổ sung bối cảnh, nguyên nhân, diễn biến chính, hệ quả chiến thuật hoặc phát biểu nhân vật.
+   - Tách bạch 1 vấn đề / 1 tin (Anti-Bundling): Không gộp các sự kiện, môn thể thao hay giải đấu rời rạc vào chung 1 tin; tin/trận lớn có thể tách thành nhiều tin riêng theo góc nhìn.
+   - Chiều sâu Lời bình: MỖI TIN gọn sắc nét 3-5 câu (khoảng 65-100 từ), nêu rõ bối cảnh, diễn biến chính, số liệu hoặc phát biểu nhân vật.
    - Kỷ luật: Không lặp lại Tiêu đề, quy đổi thời gian tuyệt đối ("ngày 15 tháng 10").
 
 2. KỊCH BẢN SHORT 9:16 (outputs/DD.MM.YYYY/shorts.txt & shorts.json):

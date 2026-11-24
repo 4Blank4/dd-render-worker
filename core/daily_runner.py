@@ -66,9 +66,8 @@ WEEKDAYS_VI = ["THỨ HAI", "THỨ BA", "THỨ TƯ", "THỨ NĂM", "THỨ SÁU",
 
 def _format_vi_date_chip(day_str: str) -> str:
     if day_str.lower().startswith("weekly-"):
-        m = re.search(r"(\d{2}\.\d{2}\.\d{4})", day_str)
-        date_part = m.group(1) if m else day_str.split("-", 1)[1]
-        return f"TỔNG HỢP TUẦN · {date_part}"
+        from diemdoc.weekly_coverage import format_weekly_date_chip
+        return format_weekly_date_chip(day_str)
     try:
         d = dt.datetime.strptime(day_str, "%d.%m.%Y").date()
         return f"{WEEKDAYS_VI[d.weekday()]} · {day_str}"

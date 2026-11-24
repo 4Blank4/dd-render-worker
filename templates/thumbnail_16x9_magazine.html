@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<!--
+  THUMBNAIL 16:9 KIỂU 2 — WEEKLY / SPORTS MAGAZINE BENTO (Gold & Midnight Navy)
+  Dùng qua core/diemdoc/publisher.py (style="magazine_bento") cho Video 16:9 (Bản B).
+-->
+<style>
+  @font-face { font-family:'Anton'; src:url('__ASSETS__/fonts/Anton/Anton-Regular.ttf'); font-weight:400; font-display:block; }
+  @font-face { font-family:'Oswald'; src:url('__ASSETS__/fonts/Oswald/static/Oswald-Bold.ttf'); font-weight:700; font-display:block; }
+  @font-face { font-family:'Montserrat'; src:url('__ASSETS__/fonts/Montserrat/static/Montserrat-Bold.ttf'); font-weight:700; font-display:block; }
+  @font-face { font-family:'PlexMono'; src:url('__ASSETS__/fonts/IBM_Plex_Mono/IBMPlexMono-Bold.ttf'); font-weight:700; font-display:block; }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body {
+    width:1920px; height:1080px; overflow:hidden;
+    background: radial-gradient(circle at 50% 0%, #172554 0%, #090F24 58%, #040711 100%);
+    color:#FFFFFF; font-family:'Oswald',sans-serif;
+  }
+  .wrap {
+    width:1920px; height:1080px; padding:34px 48px 36px;
+    display:flex; flex-direction:column; justify-content:space-between; position:relative;
+  }
+  .top-strip { display:flex; align-items:center; justify-content:space-between; height:64px; }
+  .top-left { display:flex; align-items:center; gap:18px; }
+  .week-ribbon {
+    background: linear-gradient(90deg, #FACC15 0%, #F59E0B 100%);
+    color:#070B14; font-family:'Oswald',sans-serif; font-weight:700; font-size:29px;
+    letter-spacing:2px; padding:10px 26px; border-radius:10px;
+    box-shadow: 0 6px 24px rgba(250,204,21,0.35);
+    text-transform:uppercase;
+  }
+  .pill-sub {
+    background: rgba(15,23,42,0.88); border:2px solid rgba(56,189,248,0.65);
+    color:#38BDF8; font-family:'PlexMono',monospace; font-weight:700; font-size:21px;
+    letter-spacing:1.5px; padding:10px 20px; border-radius:10px; text-transform:uppercase;
+    max-width:780px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .brand-pill {
+    display:flex; align-items:center; gap:12px; background:rgba(10,16,32,0.92);
+    border:2px solid rgba(250,204,21,0.55); border-radius:999px; padding:8px 24px 8px 12px;
+  }
+  .brand-pill img { width:40px; height:40px; border-radius:50%; object-fit:cover; }
+  .brand-pill span { font-size:24px; font-weight:700; letter-spacing:3px; color:#FACC15; text-transform:uppercase; }
+
+  .cards-row {
+    display:grid; grid-template-columns: repeat(3, 1fr); gap:24px; height:575px; margin-top:14px;
+  }
+  .m-card {
+    position:relative; border-radius:20px; overflow:hidden; border:4px solid #FACC15;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.65); background:#0B1224;
+  }
+  .m-card.c2 { border-color:#38BDF8; }
+  .m-card.c3 { border-color:#F43F5E; }
+  .m-card img { width:100%; height:100%; object-fit:cover; filter:__THUMB_FILTER__; }
+  .m-card-grad {
+    position:absolute; inset:0;
+    background: linear-gradient(180deg, transparent 58%, rgba(4,7,17,0.90) 100%);
+  }
+  .m-card-tag {
+    position:absolute; left:18px; bottom:18px; color:#050812; font-family:'Oswald',sans-serif;
+    font-weight:700; font-size:24px; letter-spacing:1.5px; padding:6px 18px; border-radius:8px;
+    text-transform:uppercase; box-shadow:0 4px 14px rgba(0,0,0,0.5);
+    background:#FACC15; max-width:90%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .m-card.c2 .m-card-tag { background:#38BDF8; }
+  .m-card.c3 .m-card-tag { background:#F43F5E; color:#FFFFFF; }
+
+  .typo-stage {
+    background: linear-gradient(135deg, rgba(15,23,42,0.96) 0%, rgba(10,16,34,0.96) 100%);
+    border: 2.5px solid rgba(250,204,21,0.45);
+    border-left: 14px solid #FACC15;
+    border-radius: 18px;
+    padding: 24px 36px 26px;
+    display:flex; flex-direction:column; gap:10px;
+    box-shadow: 0 18px 44px rgba(0,0,0,0.7);
+  }
+  .hl-line-1 {
+    font-family:'Anton',sans-serif; font-size:__L1_SIZE__px; line-height:1.08;
+    letter-spacing:1.5px; text-transform:uppercase; color:#FACC15;
+    text-shadow: 0 6px 20px rgba(0,0,0,0.7);
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .hl-line-2 {
+    font-family:'Anton',sans-serif; font-size:__L2_SIZE__px; line-height:1.08;
+    letter-spacing:1px; text-transform:uppercase; color:#FFFFFF;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .sub-line {
+    font-family:'Montserrat',sans-serif; font-weight:700; font-size:26px; color:#CBD5E1;
+    letter-spacing:0.6px; text-transform:uppercase; margin-top:2px;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top-strip">
+    <div class="top-left">
+      <div class="week-ribbon">__THUMB_BADGE__</div>
+      <div class="pill-sub">__THUMB_KICKER__</div>
+    </div>
+    <div class="brand-pill">
+      <img src="__LOGO_URL__" alt="" onerror="this.style.display='none'">
+      <span>__THUMB_TAG_A__</span>
+    </div>
+  </div>
+  <div class="cards-row">
+    <div class="m-card c1">
+      <img src="__CARD_1_IMG__" style="object-position:__CARD_1_POS__;">
+      <div class="m-card-grad"></div>
+      <div class="m-card-tag">__CARD_1_TAG__</div>
+    </div>
+    <div class="m-card c2">
+      <img src="__CARD_2_IMG__" style="object-position:__CARD_2_POS__;">
+      <div class="m-card-grad"></div>
+      <div class="m-card-tag">__CARD_2_TAG__</div>
+    </div>
+    <div class="m-card c3">
+      <img src="__CARD_3_IMG__" style="object-position:__CARD_3_POS__;">
+      <div class="m-card-grad"></div>
+      <div class="m-card-tag">__CARD_3_TAG__</div>
+    </div>
+  </div>
+  <div class="typo-stage">
+    <div class="hl-line-1">__LINE_1__</div>
+    <div class="hl-line-2">__LINE_2__</div>
+    <div class="sub-line">__THUMB_SUBTITLE__</div>
+  </div>
+</div>
+</body>
+</html>

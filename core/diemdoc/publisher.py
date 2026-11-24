@@ -20,13 +20,22 @@ import sys
 sys.dont_write_bytecode = True
 
 import json
+import random
 import re
+from html import escape as _html_escape
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
 from . import paths
 from .jsonio import load_json
 from .log import ok, warn
+
+# 3 kiểu thiết kế Thumbnail chính thức áp dụng đồng bộ cho cả 16:9 và 9:16:
+#   1. cyber_split     : Kiểu ban đầu Cyber-Stadium Electric Cyan (#00E5FF)
+#   2. magazine_bento  : Kiểu Tạp chí Thể thao Gold/Midnight Navy Bento 3 khung
+#   3. clash_diagonal  : Kiểu Đối đầu Tương phản Mạnh (Đỏ / Trắng Bạc / Đen Carbon)
+THUMB_STYLES: Tuple[str, str, str] = ("cyber_split", "magazine_bento", "clash_diagonal")
+DEFAULT_LONG_ABC_STYLES: Tuple[str, str, str] = ("cyber_split", "magazine_bento", "clash_diagonal")
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -481,6 +490,219 @@ def compute_9x16_hero_font_size(hero_html: str) -> str:
     return "58"
 
 
+def _resolve_logo_url() -> str:
+    logo_file = Path(paths.ASSETS) / "logo" / "diem-doc-logo-1.png"
+    if not logo_file.exists():
+        logo_file = Path(paths.LOGO) / "logo.png"
+    return paths.file_url(str(logo_file))
+
+
+def _normalize_thumb_style(style: Optional[str], allow_random: bool = False, default: str = "cyber_split") -> str:
+    s = (style or "").strip().lower()
+    if s in THUMB_STYLES:
+        return s
+    if allow_random and s in ("", "random", "auto"):
+        return random.choice(THUMB_STYLES)
+    return default
+
+
+def _extract_two_lines_and_sizes(
+    hero_html: str,
+    badge: str = "",
+    subtitle: str = "",
+    line1: Optional[str] = None,
+    line2: Optional[str] = None,
+    is_vertical: bool = False,
+    l1_size: Optional[int] = None,
+    l2_size: Optional[int] = None,
+) -> Tuple[str, str, int, int]:
+    """Chuẩn hóa 2 dòng headline gọn sắc nét và tính cỡ chữ Anton tự động chống tràn/ngắt từ."""
+    if not line1 or not line2:
+        parts = re.split(r"<br\s*/?>", hero_html or "", flags=re.IGNORECASE)
+        clean_parts = [re.sub(r"<[^>]+>", "", p).strip() for p in parts if re.sub(r"<[^>]+>", "", p).strip()]
+        if not clean_parts:
+            clean_parts = ["ĐIỂM ĐỌC THỂ THAO"]
+        if len(clean_parts) == 1:
+            single = clean_parts[0]
+            words = single.split()
+            if len(words) >= 4:
+                mid = len(words) // 2
+                auto_l1, auto_l2 = " ".join(words[:mid]), " ".join(words[mid:])
+            else:
+                auto_l1 = (badge or "TIN NÓNG THỂ THAO").strip()
+                auto_l2 = single
+        elif len(clean_parts) == 2:
+            auto_l1, auto_l2 = clean_parts[0], clean_parts[1]
+        else:
+            joined_head = " • ".join(clean_parts[:-1])
+            auto_l1 = joined_head if len(joined_head) <= 34 else f"{clean_parts[0]} {clean_parts[1]}"
+            auto_l2 = clean_parts[-1]
+        l1 = (line1 or auto_l1).strip()
+        l2 = (line2 or auto_l2).strip()
+    else:
+        l1, l2 = line1.strip(), line2.strip()
+
+    max_w = 900.0 if is_vertical else 1680.0
+    min_px, max_px = (44, 84) if is_vertical else (54, 92)
+    s1 = int(l1_size) if l1_size else max(min_px, min(max_px, int(max_w / (max(len(l1), 1) * 0.50))))
+    s2 = int(l2_size) if l2_size else max(min_px, min(max_px - 4, int(max_w / (max(len(l2), 1) * 0.50))))
+    return l1, l2, s1, s2
+
+
+def _pick_companion_images(
+    primary_image: Optional[Path],
+    needed: int = 3,
+    extra_images: Optional[List[Path]] = None,
+) -> List[Path]:
+    """
+    Chọn `needed` ảnh hợp lệ ưu tiên đa dạng nhiều tin khác nhau cùng thư mục `images/`
+    (tránh trùng ảnh hoặc lấy nhầm thumbnail/contact sheet). Fallback về ảnh chính nếu thiếu.
+    """
+    chosen: List[Path] = []
+    seen_real: set = set()
+    seen_topic: set = set()
+
+    def _add(p: Optional[Path], check_topic: bool = True) -> None:
+        if p is None or len(chosen) >= needed:
+            return
+        try:
+            rp = p.resolve()
+        except Exception:
+            rp = p
+        if not rp.exists() or not rp.is_file():
+            return
+        name_l = rp.name.lower()
+        if any(bad in name_l for bad in ("thumbnail", "contact_", "thumb_", "_qa", "short_thumb")):
+            return
+        if str(rp) in seen_real:
+            return
+        m = re.match(r"^(tin_\d+)", name_l)
+        topic = m.group(1) if m else ""
+        if check_topic and topic and topic in seen_topic:
+            return
+        seen_real.add(str(rp))
+        if topic:
+            seen_topic.add(topic)
+        chosen.append(rp)
+
+    _add(primary_image, check_topic=True)
+    for ep in (extra_images or []):
+        _add(Path(ep) if ep else None, check_topic=True)
+
+    if primary_image and primary_image.parent.exists():
+        pdir = primary_image.parent
+        cands = sorted(
+            [f for f in pdir.iterdir() if f.is_file() and f.suffix.lower() in (".jpg", ".jpeg", ".png", ".webp")]
+        )
+        if pdir.name.lower() == "images" or any(re.match(r"^Tin_\d+", c.name, re.I) for c in cands):
+            for c in cands:
+                _add(c, check_topic=True)
+            for c in cands:
+                _add(c, check_topic=False)
+
+    for ep in (extra_images or []):
+        _add(Path(ep) if ep else None, check_topic=False)
+
+    if not chosen:
+        fallback = Path(paths.LOGO) / "logo.png"
+        if primary_image:
+            chosen.append(primary_image)
+        elif fallback.exists():
+            chosen.append(fallback)
+    while len(chosen) < needed and chosen:
+        chosen.append(chosen[len(chosen) % len(chosen)] if len(chosen) > 1 else chosen[0])
+    return chosen[:needed]
+
+
+def _render_html_to_jpg(
+    html: str,
+    tmp_name: str,
+    out_path: Path,
+    width: int,
+    height: int,
+    page: Optional[Any] = None,
+) -> bool:
+    """Render HTML sang JPEG bằng Playwright (tái sử dụng page nếu có)."""
+    out_p = Path(out_path)
+    tmp_dir = Path(paths.WORK) / "_thumbnails_tmp"
+    tmp_dir.mkdir(parents=True, exist_ok=True)
+    tmp_html = tmp_dir / tmp_name
+    tmp_html.write_text(html, encoding="utf-8")
+    out_p.parent.mkdir(parents=True, exist_ok=True)
+
+    if page is not None:
+        page.set_viewport_size({"width": width, "height": height})
+        page.goto(paths.file_url(str(tmp_html)), wait_until="networkidle")
+        page.wait_for_timeout(200)
+        page.screenshot(path=str(out_p), type="jpeg", quality=95)
+        return True
+
+    from playwright.sync_api import sync_playwright
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True, args=[
+            "--no-sandbox", "--allow-file-access-from-files", "--disable-dev-shm-usage",
+        ])
+        pg = browser.new_page(viewport={"width": width, "height": height}, device_scale_factor=1)
+        pg.goto(paths.file_url(str(tmp_html)), wait_until="networkidle")
+        pg.wait_for_timeout(250)
+        pg.screenshot(path=str(out_p), type="jpeg", quality=95)
+        browser.close()
+    return True
+
+
+def _build_card_tags(badge: str, subtitle: str, cards: Optional[List[Dict[str, Any]]] = None) -> List[str]:
+    if cards and len(cards) >= 3:
+        return [str(c.get("tag") or "").strip()[:32] or "ĐIỂM ĐỌC" for c in cards[:3]]
+    seg = [s.strip() for s in re.split(r"\s*[•|]\s*", subtitle or "") if s.strip()]
+    t1 = (cards[0].get("tag") if cards and len(cards) > 0 and cards[0].get("tag") else None) or (seg[0][:28] if len(seg) > 0 else badge or "TÂM ĐIỂM")
+    t2 = (cards[1].get("tag") if cards and len(cards) > 1 and cards[1].get("tag") else None) or (seg[1][:28] if len(seg) > 1 else "DIỄN BIẾN NÓNG")
+    t3 = (cards[2].get("tag") if cards and len(cards) > 2 and cards[2].get("tag") else None) or (seg[2][:28] if len(seg) > 2 else "TOÀN CẢNH THỂ THAO")
+    return [t1, t2, t3]
+
+
+def _fill_common_placeholders(
+    tpl_html: str,
+    assets_url: str,
+    logo_url: str,
+    photo_url: str,
+    obj_pos: str,
+    img_filter: str,
+    badge: str,
+    kicker: str,
+    computed_size: str,
+    hero_html: str,
+    subtitle: str,
+    tag_a: str,
+    tag_b: str,
+) -> str:
+    return (
+        tpl_html.replace("__ASSETS__", assets_url)
+        .replace("__LOGO_URL__", logo_url)
+        .replace("__LOGO__", logo_url)
+        .replace("__THUMB_IMAGE__", photo_url)
+        .replace("__PHOTO__", photo_url)
+        .replace("__THUMB_OBJ_POS__", obj_pos)
+        .replace("__OBJ_POS__", obj_pos)
+        .replace("__THUMB_FILTER__", img_filter)
+        .replace("__THUMB_BADGE__", _html_escape(badge))
+        .replace("__BADGE__", _html_escape(badge))
+        .replace("__THUMB_KICKER__", _html_escape(kicker))
+        .replace("__KICKER__", _html_escape(kicker))
+        .replace("__THUMB_HERO_SIZE__", computed_size)
+        .replace("__HERO_SIZE__", f"{computed_size}px")
+        .replace("__THUMB_HERO__", hero_html)
+        .replace("__THUMB_HEADLINE__", hero_html)
+        .replace("__HERO_HTML__", hero_html)
+        .replace("__THUMB_SUBTITLE__", _html_escape(subtitle))
+        .replace("__SUBTITLE__", _html_escape(subtitle))
+        .replace("__THUMB_FOOTER_TAG__", _html_escape(tag_a))
+        .replace("__THUMB_TAG_A__", _html_escape(tag_a))
+        .replace("__TAG_A__", _html_escape(tag_a))
+        .replace("__THUMB_TAG_B__", _html_escape(tag_b))
+        .replace("__TAG_B__", _html_escape(tag_b))
+    )
+
+
 def render_thumbnail_9x16(
     out_path: Path,
     image_path: Path,
@@ -494,74 +716,90 @@ def render_thumbnail_9x16(
     obj_pos: str = "center 20%",
     img_filter: str = "contrast(1.10) brightness(1.04) saturate(1.18)",
     page: Optional[Any] = None,
+    style: Optional[str] = None,
+    extra_images: Optional[List[Path]] = None,
+    cards: Optional[List[Dict[str, Any]]] = None,
+    bottom_image: Optional[Path] = None,
+    line1: Optional[str] = None,
+    line2: Optional[str] = None,
+    top_pos: Optional[str] = None,
+    bot_pos: Optional[str] = None,
+    l1_size: Optional[int] = None,
+    l2_size: Optional[int] = None,
 ) -> bool:
     """
-    Render ảnh bìa dọc 9:16 (`1080x1920`) chuẩn thống nhất từ `templates/thumbnail_9x16_sports.html`.
-    Nếu đã có sẵn `page` của Playwright thì tái sử dụng, ngược lại tự mở browser headless.
+    Render ảnh bìa dọc 9:16 (`1080x1920`).
+    Mặc định `style=None` ("random") tự động chọn ngẫu nhiên 1 trong 3 phong cách:
+      - `cyber_split`    (`templates/thumbnail_9x16_sports.html`)
+      - `magazine_bento` (`templates/thumbnail_9x16_magazine.html`)
+      - `clash_diagonal` (`templates/thumbnail_9x16_clash.html`)
     """
-    tpl_path = Path(paths.TEMPLATES) / "thumbnail_9x16_sports.html"
+    chosen_style = _normalize_thumb_style(style, allow_random=True)
+    tpl_map = {
+        "cyber_split": "thumbnail_9x16_sports.html",
+        "magazine_bento": "thumbnail_9x16_magazine.html",
+        "clash_diagonal": "thumbnail_9x16_clash.html",
+    }
+    tpl_path = Path(paths.TEMPLATES) / tpl_map[chosen_style]
     if not tpl_path.exists():
-        warn(f"Không tìm thấy template {tpl_path}")
-        return False
+        warn(f"Không tìm thấy template {tpl_path}, fallback cyber_split")
+        chosen_style = "cyber_split"
+        tpl_path = Path(paths.TEMPLATES) / "thumbnail_9x16_sports.html"
+        if not tpl_path.exists():
+            return False
 
     tpl_html = tpl_path.read_text(encoding="utf-8")
     assets_url = paths.file_url(str(paths.ASSETS))
-    logo_file = Path(paths.ASSETS) / "logo" / "diem-doc-logo-1.png"
-    if not logo_file.exists():
-        logo_file = Path(paths.LOGO) / "logo.png"
-    logo_url = paths.file_url(str(logo_file))
+    logo_url = _resolve_logo_url()
     img_p = Path(image_path) if image_path else None
     photo_url = paths.file_url(str(img_p)) if img_p and img_p.exists() else ""
     computed_size = str(hero_size or compute_9x16_hero_font_size(hero_html)).replace("px", "")
 
-    html = (
-        tpl_html.replace("__ASSETS__", assets_url)
-        .replace("__LOGO_URL__", logo_url)
-        .replace("__LOGO__", logo_url)
-        .replace("__THUMB_IMAGE__", photo_url)
-        .replace("__PHOTO__", photo_url)
-        .replace("__THUMB_OBJ_POS__", obj_pos)
-        .replace("__OBJ_POS__", obj_pos)
-        .replace("__THUMB_FILTER__", img_filter)
-        .replace("__THUMB_BADGE__", badge)
-        .replace("__BADGE__", badge)
-        .replace("__THUMB_KICKER__", kicker)
-        .replace("__KICKER__", kicker)
-        .replace("__THUMB_HERO_SIZE__", computed_size)
-        .replace("__HERO_SIZE__", f"{computed_size}px")
-        .replace("__THUMB_HERO__", hero_html)
-        .replace("__HERO_HTML__", hero_html)
-        .replace("__THUMB_SUBTITLE__", subtitle)
-        .replace("__SUBTITLE__", subtitle)
-        .replace("__THUMB_TAG_A__", tag_a)
-        .replace("__TAG_A__", tag_a)
-        .replace("__THUMB_TAG_B__", tag_b)
-        .replace("__TAG_B__", tag_b)
+    html = _fill_common_placeholders(
+        tpl_html, assets_url, logo_url, photo_url, obj_pos, img_filter,
+        badge, kicker, computed_size, hero_html, subtitle, tag_a, tag_b,
     )
 
+    if chosen_style in ("magazine_bento", "clash_diagonal"):
+        l1_txt, l2_txt, s1, s2 = _extract_two_lines_and_sizes(
+            hero_html, badge=badge, subtitle=subtitle, line1=line1, line2=line2,
+            is_vertical=True, l1_size=l1_size, l2_size=l2_size,
+        )
+        html = (
+            html.replace("__LINE_1__", _html_escape(l1_txt))
+            .replace("__LINE_2__", _html_escape(l2_txt))
+            .replace("__L1_SIZE__", str(s1))
+            .replace("__L2_SIZE__", str(s2))
+        )
+        if chosen_style == "magazine_bento":
+            card_paths_explicit = [Path(c["file"]) for c in (cards or []) if c.get("file") and Path(c["file"]).exists()]
+            imgs = _pick_companion_images(img_p, needed=3, extra_images=(card_paths_explicit or extra_images))
+            tags = _build_card_tags(badge, subtitle, cards=cards)
+            for idx in range(3):
+                c_pos = (cards[idx].get("pos") if cards and idx < len(cards) and cards[idx].get("pos") else obj_pos)
+                c_url = paths.file_url(str(imgs[idx])) if idx < len(imgs) and imgs[idx].exists() else photo_url
+                html = (
+                    html.replace(f"__CARD_{idx+1}_IMG__", c_url)
+                    .replace(f"__CARD_{idx+1}_POS__", c_pos)
+                    .replace(f"__CARD_{idx+1}_TAG__", _html_escape(tags[idx]))
+                )
+        else:
+            extras = [bottom_image] if bottom_image else (extra_images or [])
+            imgs = _pick_companion_images(img_p, needed=2, extra_images=extras)
+            top_u = paths.file_url(str(imgs[0])) if imgs and imgs[0].exists() else photo_url
+            bot_u = paths.file_url(str(imgs[1])) if len(imgs) > 1 and imgs[1].exists() else top_u
+            html = (
+                html.replace("__TOP_IMG__", top_u)
+                .replace("__BOT_IMG__", bot_u)
+                .replace("__TOP_POS__", top_pos or obj_pos)
+                .replace("__BOT_POS__", bot_pos or "center 20%")
+            )
+
     out_p = Path(out_path)
-    tmp_dir = Path(paths.WORK) / "_thumbnails_tmp"
-    tmp_dir.mkdir(parents=True, exist_ok=True)
-    tmp_html = tmp_dir / f"thumb_9x16_{out_p.stem}.html"
-    tmp_html.write_text(html, encoding="utf-8")
-    out_p.parent.mkdir(parents=True, exist_ok=True)
-
-    if page is not None:
-        page.set_viewport_size({"width": 1080, "height": 1920})
-        page.goto(paths.file_url(str(tmp_html)), wait_until="networkidle")
-        page.wait_for_timeout(200)
-        page.screenshot(path=str(out_p), type="jpeg", quality=95)
-        return True
-
-    from playwright.sync_api import sync_playwright
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        pg = browser.new_page(viewport={"width": 1080, "height": 1920})
-        pg.goto(paths.file_url(str(tmp_html)), wait_until="networkidle")
-        pg.wait_for_timeout(250)
-        pg.screenshot(path=str(out_p), type="jpeg", quality=95)
-        browser.close()
-    return True
+    ok_render = _render_html_to_jpg(html, f"thumb_9x16_{chosen_style}_{out_p.stem}.html", out_p, 1080, 1920, page=page)
+    if ok_render:
+        ok(f"Thumbnail 9:16 [{out_p.name}] -> kiểu {chosen_style}")
+    return ok_render
 
 
 def render_thumbnail_16x9_single(
@@ -577,71 +815,85 @@ def render_thumbnail_16x9_single(
     obj_pos: str = "center top",
     img_filter: str = "contrast(1.10) brightness(1.04) saturate(1.18)",
     page: Optional[Any] = None,
+    style: str = "cyber_split",
+    extra_images: Optional[List[Path]] = None,
+    cards: Optional[List[Dict[str, Any]]] = None,
+    right_image: Optional[Path] = None,
+    line1: Optional[str] = None,
+    line2: Optional[str] = None,
+    left_pos: Optional[str] = None,
+    right_pos: Optional[str] = None,
+    l1_size: Optional[int] = None,
+    l2_size: Optional[int] = None,
 ) -> bool:
     """
-    Render 1 phương án ảnh bìa ngang 16:9 (`1920x1080`) chuẩn thống nhất từ `templates/thumbnail_16x9_sports.html`.
+    Render 1 phương án ảnh bìa ngang 16:9 (`1920x1080`) theo 1 trong 3 phong cách chính thức:
+      - `cyber_split`    (`templates/thumbnail_16x9_sports.html` — kiểu ban đầu)
+      - `magazine_bento` (`templates/thumbnail_16x9_magazine.html` — tạp chí Gold/Navy 3 khung)
+      - `clash_diagonal` (`templates/thumbnail_16x9_clash.html` — đối đầu đường chéo Đỏ/Trắng/Carbon)
     """
-    tpl_path = Path(paths.TEMPLATES) / "thumbnail_16x9_sports.html"
+    chosen_style = _normalize_thumb_style(style, allow_random=False, default="cyber_split")
+    tpl_map = {
+        "cyber_split": "thumbnail_16x9_sports.html",
+        "magazine_bento": "thumbnail_16x9_magazine.html",
+        "clash_diagonal": "thumbnail_16x9_clash.html",
+    }
+    tpl_path = Path(paths.TEMPLATES) / tpl_map[chosen_style]
     if not tpl_path.exists():
-        warn(f"Không tìm thấy template {tpl_path}")
-        return False
+        warn(f"Không tìm thấy template {tpl_path}, fallback cyber_split")
+        chosen_style = "cyber_split"
+        tpl_path = Path(paths.TEMPLATES) / "thumbnail_16x9_sports.html"
+        if not tpl_path.exists():
+            return False
 
     tpl_html = tpl_path.read_text(encoding="utf-8")
     assets_url = paths.file_url(str(paths.ASSETS))
-    logo_file = Path(paths.ASSETS) / "logo" / "diem-doc-logo-1.png"
-    if not logo_file.exists():
-        logo_file = Path(paths.LOGO) / "logo.png"
-    logo_url = paths.file_url(str(logo_file))
+    logo_url = _resolve_logo_url()
     img_p = Path(image_path) if image_path else None
     photo_url = paths.file_url(str(img_p)) if img_p and img_p.exists() else ""
     auto_sz = compute_16x9_hero_font_size(hero_html)
     raw_sz = str(hero_size or auto_sz).replace("px", "")
     clean_size = str(min(int(raw_sz), int(auto_sz))) if raw_sz.isdigit() and auto_sz.isdigit() else auto_sz
 
-    html = (
-        tpl_html.replace("__ASSETS__", assets_url)
-        .replace("__LOGO_URL__", logo_url)
-        .replace("__LOGO__", logo_url)
-        .replace("__THUMB_IMAGE__", photo_url)
-        .replace("__PHOTO__", photo_url)
-        .replace("__THUMB_OBJ_POS__", obj_pos)
-        .replace("__OBJ_POS__", obj_pos)
-        .replace("__THUMB_FILTER__", img_filter)
-        .replace("__THUMB_BADGE__", badge)
-        .replace("__BADGE__", badge)
-        .replace("__THUMB_KICKER__", kicker)
-        .replace("__KICKER__", kicker)
-        .replace("__THUMB_HERO_SIZE__", clean_size)
-        .replace("__HERO_SIZE__", f"{clean_size}px")
-        .replace("__THUMB_HEADLINE__", hero_html)
-        .replace("__HERO_HTML__", hero_html)
-        .replace("__THUMB_SUBTITLE__", subtitle)
-        .replace("__SUBTITLE__", subtitle)
-        .replace("__THUMB_FOOTER_TAG__", tag_a)
-        .replace("__TAG_A__", tag_a)
-        .replace("__TAG_B__", tag_b)
+    html = _fill_common_placeholders(
+        tpl_html, assets_url, logo_url, photo_url, obj_pos, img_filter,
+        badge, kicker, clean_size, hero_html, subtitle, tag_a, tag_b,
     )
 
+    if chosen_style in ("magazine_bento", "clash_diagonal"):
+        l1_txt, l2_txt, s1, s2 = _extract_two_lines_and_sizes(
+            hero_html, badge=badge, subtitle=subtitle, line1=line1, line2=line2,
+            is_vertical=False, l1_size=l1_size, l2_size=l2_size,
+        )
+        html = (
+            html.replace("__LINE_1__", _html_escape(l1_txt))
+            .replace("__LINE_2__", _html_escape(l2_txt))
+            .replace("__L1_SIZE__", str(s1))
+            .replace("__L2_SIZE__", str(s2))
+        )
+        if chosen_style == "magazine_bento":
+            card_paths_explicit = [Path(c["file"]) for c in (cards or []) if c.get("file") and Path(c["file"]).exists()]
+            imgs = _pick_companion_images(img_p, needed=3, extra_images=(card_paths_explicit or extra_images))
+            tags = _build_card_tags(badge, subtitle, cards=cards)
+            for idx in range(3):
+                c_pos = (cards[idx].get("pos") if cards and idx < len(cards) and cards[idx].get("pos") else obj_pos)
+                c_url = paths.file_url(str(imgs[idx])) if idx < len(imgs) and imgs[idx].exists() else photo_url
+                html = (
+                    html.replace(f"__CARD_{idx+1}_IMG__", c_url)
+                    .replace(f"__CARD_{idx+1}_POS__", c_pos)
+                    .replace(f"__CARD_{idx+1}_TAG__", _html_escape(tags[idx]))
+                )
+        else:
+            extras = [right_image] if right_image else (extra_images or [])
+            imgs = _pick_companion_images(img_p, needed=2, extra_images=extras)
+            left_u = paths.file_url(str(imgs[0])) if imgs and imgs[0].exists() else photo_url
+            right_u = paths.file_url(str(imgs[1])) if len(imgs) > 1 and imgs[1].exists() else left_u
+            html = (
+                html.replace("__LEFT_IMG__", left_u)
+                .replace("__RIGHT_IMG__", right_u)
+                .replace("__LEFT_POS__", left_pos or obj_pos)
+                .replace("__RIGHT_POS__", right_pos or "center 20%")
+            )
+
     out_p = Path(out_path)
-    tmp_dir = Path(paths.WORK) / "_thumbnails_tmp"
-    tmp_dir.mkdir(parents=True, exist_ok=True)
-    tmp_html = tmp_dir / f"thumb_16x9_{out_p.stem}.html"
-    tmp_html.write_text(html, encoding="utf-8")
-    out_p.parent.mkdir(parents=True, exist_ok=True)
-
-    if page is not None:
-        page.set_viewport_size({"width": 1920, "height": 1080})
-        page.goto(paths.file_url(str(tmp_html)), wait_until="networkidle")
-        page.wait_for_timeout(200)
-        page.screenshot(path=str(out_p), type="jpeg", quality=95)
-        return True
-
-    from playwright.sync_api import sync_playwright
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        pg = browser.new_page(viewport={"width": 1920, "height": 1080})
-        pg.goto(paths.file_url(str(tmp_html)), wait_until="networkidle")
-        pg.wait_for_timeout(250)
-        pg.screenshot(path=str(out_p), type="jpeg", quality=95)
-        browser.close()
-    return True
+    return _render_html_to_jpg(html, f"thumb_16x9_{chosen_style}_{out_p.stem}.html", out_p, 1920, 1080, page=page)

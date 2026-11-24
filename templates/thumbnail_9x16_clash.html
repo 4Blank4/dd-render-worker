@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<!--
+  THUMBNAIL 9:16 KIỂU 3 — HIGH-CONTRAST CLASH SPLIT (Đỏ / Trắng Bạc / Đen Carbon)
+  Dùng qua core/diemdoc/publisher.py (style="clash_diagonal") cho Video Short 9:16.
+-->
+<style>
+  @font-face { font-family:'Anton'; src:url('__ASSETS__/fonts/Anton/Anton-Regular.ttf'); font-weight:400; font-display:block; }
+  @font-face { font-family:'Oswald'; src:url('__ASSETS__/fonts/Oswald/static/Oswald-Bold.ttf'); font-weight:700; font-display:block; }
+  @font-face { font-family:'Montserrat'; src:url('__ASSETS__/fonts/Montserrat/static/Montserrat-Bold.ttf'); font-weight:700; font-display:block; }
+  @font-face { font-family:'PlexMono'; src:url('__ASSETS__/fonts/IBM_Plex_Mono/IBMPlexMono-Bold.ttf'); font-weight:700; font-display:block; }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:hidden; background:#090B10; color:#FFFFFF; font-family:'Oswald',sans-serif; }
+  .stage { position:relative; width:1080px; height:1920px; overflow:hidden; }
+  .top-img { position:absolute; top:0; left:0; width:100%; height:52%; overflow:hidden; background:#111827; }
+  .bot-img { position:absolute; bottom:0; left:0; width:100%; height:52%; overflow:hidden; background:#1F1215; }
+  .top-img img, .bot-img img { width:100%; height:100%; object-fit:cover; filter:__THUMB_FILTER__; }
+  .top-grad { position:absolute; top:0; left:0; right:0; height:240px; z-index:4; background:linear-gradient(180deg,rgba(9,11,16,0.92),transparent); }
+  .mid-mask { position:absolute; top:38%; left:0; right:0; height:26%; z-index:5; background:linear-gradient(180deg,transparent 0%, rgba(9,11,16,0.94) 30%, rgba(9,11,16,0.94) 70%, transparent 100%); }
+  .hdr { position:absolute; top:48px; left:40px; right:40px; z-index:10; display:flex; justify-content:space-between; align-items:center; gap:14px; }
+  .badge {
+    background:#DC2626; color:#FFF; font-size:27px; font-weight:700; padding:10px 24px; border-radius:8px;
+    border:2px solid #FFF; letter-spacing:1.5px; text-transform:uppercase;
+    max-width:650px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .brand { display:flex; align-items:center; gap:10px; background:rgba(9,11,16,0.92); border:2px solid #FFF; border-radius:999px; padding:8px 20px 8px 10px; flex-shrink:0; }
+  .brand img { width:38px; height:38px; border-radius:50%; object-fit:cover; }
+  .brand span { font-size:22px; font-weight:700; letter-spacing:2px; text-transform:uppercase; }
+
+  .mid-cta {
+    position:absolute; top:50%; left:28px; right:28px; transform:translateY(-50%); z-index:12;
+    display:flex; flex-direction:column; align-items:center; text-align:center; gap:14px;
+  }
+  .row1 {
+    background:#F8FAFC; color:#090B10; font-family:'Anton',sans-serif; font-size:__L1_SIZE__px; line-height:1.05;
+    padding:12px 30px; border-radius:10px; transform:skewX(-5deg); box-shadow:0 12px 30px rgba(0,0,0,0.8);
+    text-transform:uppercase; white-space:nowrap; max-width:990px;
+  }
+  .row2 {
+    background:#DC2626; color:#FFFFFF; font-family:'Anton',sans-serif; font-size:__L2_SIZE__px; line-height:1.06;
+    padding:12px 28px; border-radius:10px; border:3px solid #FACC15; transform:skewX(-5deg); box-shadow:0 12px 32px rgba(220,38,38,0.65);
+    text-transform:uppercase; white-space:nowrap; max-width:990px;
+  }
+  .unskew { display:inline-block; transform:skewX(5deg); }
+  .sub {
+    font-family:'Montserrat',sans-serif; font-weight:700; font-size:24px; color:#FACC15;
+    background:rgba(9,11,16,0.92); padding:8px 22px; border-radius:8px; border:1.5px solid rgba(250,204,21,0.5);
+    text-transform:uppercase; max-width:980px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="top-img"><img src="__TOP_IMG__" style="object-position:__TOP_POS__;"></div>
+  <div class="bot-img"><img src="__BOT_IMG__" style="object-position:__BOT_POS__;"></div>
+  <div class="top-grad"></div>
+  <div class="mid-mask"></div>
+  <div class="hdr">
+    <div class="badge">__THUMB_BADGE__</div>
+    <div class="brand"><img src="__LOGO_URL__" alt="" onerror="this.style.display='none'"><span>__THUMB_TAG_A__</span></div>
+  </div>
+  <div class="mid-cta">
+    <div class="row1"><span class="unskew">__LINE_1__</span></div>
+    <div class="row2"><span class="unskew">__LINE_2__</span></div>
+    <div class="sub">__THUMB_SUBTITLE__</div>
+  </div>
+</div>
+</body>
+</html>

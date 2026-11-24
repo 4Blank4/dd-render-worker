@@ -192,10 +192,14 @@ def compute_pan_params(img_path: str, duration: float = 3.0, dir_toggle: bool = 
 
 def parse_date_chip(day_str: str) -> str:
     """
-    Phân tích chuỗi ngày (vd: 19.10.2026 hoặc 2026-10-19) sang định dạng chuẩn:
-    'THỨ HAI · 19.10.2026'. Báo lỗi dừng build nếu không xác định được.
+    Phân tích chuỗi ngày (vd: 19.10.2026 hoặc Weekly-23.11.2026) sang định dạng chuẩn:
+    'THỨ HAI · 19.10.2026' hoặc 'TUẦN 16–22.11 · CN 23.11.2026' cho Video Tuần.
+    Báo lỗi dừng build nếu không xác định được.
     """
     cleaned = os.path.basename(day_str.rstrip("/")).strip()
+    if cleaned.lower().startswith("weekly-"):
+        from diemdoc.weekly_coverage import format_weekly_date_chip
+        return format_weekly_date_chip(cleaned)
     match = re.search(r'(\d{1,2})[._\-/](\d{1,2})[._\-/](\d{4})', cleaned)
     if not match:
         match = re.search(r'(\d{1,2})[._\-/](\d{1,2})[._\-/](\d{4})', day_str)

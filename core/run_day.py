@@ -1563,9 +1563,9 @@ def create_youtube_thumbnail(img_path: str, title: str, date_str: str, out_path:
 
 
 def generate_3_thumbnails_169(day_str: str, day_dir: str, items: List[Dict[str, Any]]) -> None:
-    """Sinh đủ 3 Thumbnail A/B/C ngang 16:9 chuẩn Cinematic Cyber-Stadium (Ronaldo & Messi style) bằng Playwright."""
-    tpl_path = os.path.join(paths.TEMPLATES, "thumbnail_16x9_sports.html")
-    logo_path = os.path.join(paths.ASSETS, "logo", "diem-doc-logo-1.png")
+    """Sinh đủ 3 Thumbnail A/B/C ngang 16:9 dùng cả 3 kiểu chính thức (cyber_split, magazine_bento, clash_diagonal)."""
+    from pathlib import Path
+    from diemdoc.publisher import DEFAULT_LONG_ABC_STYLES, render_thumbnail_16x9_single
 
     custom_plan_path = os.path.join(day_dir, "thumbnails_plan.json")
     if not os.path.exists(custom_plan_path):
@@ -1585,17 +1585,23 @@ def generate_3_thumbnails_169(day_str: str, day_dir: str, items: List[Dict[str, 
     date_display = "" if is_spec else fmt_date_from_day(day_dir)
     versions = ["A", "B", "C"]
 
+    def _pick_item_img(it: Dict[str, Any], idx: int) -> str:
+        img_src = it.get("image_path")
+        if not img_src or not os.path.exists(img_src):
+            for s_i in range(1, 15):
+                cand = it.get(f"image_{s_i}")
+                if cand and os.path.exists(cand):
+                    img_src = cand
+                    break
+        if not img_src or not os.path.exists(img_src):
+            cands = sorted(glob.glob(os.path.join(day_dir, "images", f"*Tin_{idx+1:02d}*.jpg")))
+            img_src = cands[0] if cands else os.path.join(paths.LOGO, "logo.png")
+        return os.path.abspath(img_src)
+
+    all_item_imgs = [Path(_pick_item_img(it, i)) for i, it in enumerate(items[:10])]
+
     try:
         from playwright.sync_api import sync_playwright
-        with open(tpl_path, "r", encoding="utf-8") as f:
-            tpl_code = f.read()
-        tpl_code = tpl_code.replace("__ASSETS__", paths.file_url(paths.ASSETS))
-        tpl_code = tpl_code.replace("__LOGO_URL__", paths.file_url(logo_path))
-
-        work_dir = paths.work_project_dir(day_str)
-        temp_html_dir = os.path.join(work_dir, "thumbnails_render")
-        os.makedirs(temp_html_dir, exist_ok=True)
-
         with sync_playwright() as p:
             br = p.chromium.launch(headless=True, args=[
                 "--no-sandbox", "--allow-file-access-from-files", "--disable-dev-shm-usage"
@@ -1606,26 +1612,12 @@ def generate_3_thumbnails_169(day_str: str, day_dir: str, items: List[Dict[str, 
                 c_item = (custom_plan[idx] if idx < len(custom_plan) else None)
                 item = items[idx % len(items)] if items else {}
 
-                # Image selection
                 if c_item and c_item.get("image_file") and os.path.exists(c_item["image_file"]):
                     img_src = os.path.abspath(c_item["image_file"])
                 else:
-                    img_src = item.get("image_path")
-                    if not img_src or not os.path.exists(img_src):
-                        for s_i in range(1, 15):
-                            cand = item.get(f"image_{s_i}")
-                            if cand and os.path.exists(cand):
-                                img_src = cand
-                                break
-                    if not img_src or not os.path.exists(img_src):
-                        cands = sorted(glob.glob(os.path.join(day_dir, "images", f"*Tin_{idx+1:02d}*.jpg")))
-                        img_src = cands[0] if cands else os.path.join(paths.LOGO, "logo.png")
-                    img_src = os.path.abspath(img_src)
+                    img_src = _pick_item_img(item, idx)
 
-                # Badge
                 badge = (c_item.get("badge") if c_item else None) or item.get("group", "BẢN TIN THỂ THAO").upper()
-
-                # Headline 3 màu tương phản
                 raw_title = (c_item.get("headline") if c_item else None)
                 if not raw_title:
                     t_str = item.get("title", "BẢN TIN THỂ THAO").strip()
@@ -1638,46 +1630,37 @@ def generate_3_thumbnails_169(day_str: str, day_dir: str, items: List[Dict[str, 
 
                 kicker = (c_item.get("kicker") if c_item else None) or f"{item.get('title', 'TIN NÓNG')[:35]}..."
                 subtitle = (c_item.get("subtitle") if c_item else None) or (item.get("summary", "")[:90] + "...")
-                footer_tag = (c_item.get("footer_tag") if c_item else None) or "TỔNG HỢP TUẦN QUA"
+                footer_tag = (c_item.get("footer_tag") if c_item else None) or "ĐIỂM ĐỌC"
                 obj_pos = (c_item.get("obj_pos") if c_item else "center 18%")
                 filt = (c_item.get("filter") if c_item else "contrast(1.10) brightness(1.05) saturate(1.18)")
-
-                photo_url = paths.file_url(img_src)
-                logo_url = paths.file_url(logo_path)
-                hero_size = (c_item.get("hero_size") if c_item else None) or "86px"
+                hero_size = str((c_item.get("hero_size") if c_item else None) or "86").replace("px", "")
                 tag_a = (c_item.get("tag_a") if c_item else None) or footer_tag
                 tag_b = (c_item.get("tag_b") if c_item else None) or (date_display if date_display else "CHUẨN 1080P")
+                chosen_style = (c_item.get("style") if c_item else None) or DEFAULT_LONG_ABC_STYLES[idx % len(DEFAULT_LONG_ABC_STYLES)]
 
-                html_content = (
-                    tpl_code.replace("__LOGO__", logo_url)
-                    .replace("__LOGO_URL__", logo_url)
-                    .replace("__PHOTO__", photo_url)
-                    .replace("__THUMB_IMAGE__", photo_url)
-                    .replace("__BADGE__", badge)
-                    .replace("__THUMB_BADGE__", badge)
-                    .replace("__KICKER__", kicker)
-                    .replace("__THUMB_KICKER__", kicker)
-                    .replace("__HERO_SIZE__", str(hero_size))
-                    .replace("__HERO_HTML__", raw_title)
-                    .replace("__THUMB_HEADLINE__", raw_title)
-                    .replace("__SUBTITLE__", subtitle)
-                    .replace("__THUMB_SUBTITLE__", subtitle)
-                    .replace("__TAG_A__", tag_a)
-                    .replace("__THUMB_FOOTER_TAG__", footer_tag)
-                    .replace("__TAG_B__", tag_b)
-                    .replace("__OBJ_POS__", obj_pos)
-                    .replace("__THUMB_OBJ_POS__", obj_pos)
-                    .replace("__THUMB_FILTER__", filt)
+                render_thumbnail_16x9_single(
+                    out_path=Path(day_dir) / f"thumbnail_{ver}.jpg",
+                    image_path=Path(img_src),
+                    kicker=kicker,
+                    hero_html=raw_title,
+                    subtitle=subtitle,
+                    badge=badge,
+                    tag_a=tag_a,
+                    tag_b=tag_b,
+                    hero_size=hero_size,
+                    obj_pos=obj_pos,
+                    img_filter=filt,
+                    page=page,
+                    style=chosen_style,
+                    extra_images=[Path(img_src)] + [ep for ep in all_item_imgs if str(ep) != str(Path(img_src))],
+                    cards=(c_item.get("cards") if c_item else None),
+                    line1=(c_item.get("line1") if c_item else None),
+                    line2=(c_item.get("line2") if c_item else None),
+                    left_pos=(c_item.get("left_pos") if c_item else None),
+                    right_pos=(c_item.get("right_pos") if c_item else None),
+                    l1_size=(c_item.get("l1_size") if c_item else None),
+                    l2_size=(c_item.get("l2_size") if c_item else None),
                 )
-
-                hfile = os.path.join(temp_html_dir, f"thumb_{ver}.html")
-                with open(hfile, "w", encoding="utf-8") as hf:
-                    hf.write(html_content)
-
-                out_thumb = os.path.join(day_dir, f"thumbnail_{ver}.jpg")
-                page.goto(paths.file_url(hfile), wait_until="networkidle")
-                page.wait_for_timeout(600)
-                page.screenshot(path=out_thumb, type="jpeg", quality=95)
 
             br.close()
     except Exception as e:

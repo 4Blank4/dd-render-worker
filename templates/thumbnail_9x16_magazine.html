@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<!--
+  THUMBNAIL 9:16 KIỂU 2 — SPORTS MAGAZINE BENTO STACK (Gold & Midnight Navy)
+  Dùng qua core/diemdoc/publisher.py (style="magazine_bento") cho Video Short 9:16.
+-->
+<style>
+  @font-face { font-family:'Anton'; src:url('__ASSETS__/fonts/Anton/Anton-Regular.ttf'); font-weight:400; font-display:block; }
+  @font-face { font-family:'Oswald'; src:url('__ASSETS__/fonts/Oswald/static/Oswald-Bold.ttf'); font-weight:700; font-display:block; }
+  @font-face { font-family:'Montserrat'; src:url('__ASSETS__/fonts/Montserrat/static/Montserrat-Bold.ttf'); font-weight:700; font-display:block; }
+  @font-face { font-family:'PlexMono'; src:url('__ASSETS__/fonts/IBM_Plex_Mono/IBMPlexMono-Bold.ttf'); font-weight:700; font-display:block; }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body {
+    width:1080px; height:1920px; overflow:hidden;
+    background: radial-gradient(circle at 50% 10%, #1E3A8A 0%, #091026 55%, #040711 100%);
+    color:#FFFFFF; font-family:'Oswald',sans-serif;
+  }
+  .wrap { width:1080px; height:1920px; padding:48px 42px; display:flex; flex-direction:column; justify-content:space-between; }
+  .hdr { display:flex; justify-content:space-between; align-items:center; gap:14px; }
+  .ribbon {
+    background:linear-gradient(90deg,#FACC15,#F59E0B); color:#070B14; font-size:27px;
+    font-weight:700; padding:10px 24px; border-radius:10px; letter-spacing:1.8px; text-transform:uppercase;
+    max-width:640px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .brand {
+    display:flex; align-items:center; gap:10px; background:rgba(10,16,32,0.92);
+    border:2px solid rgba(250,204,21,0.6); border-radius:999px; padding:8px 20px 8px 10px; flex-shrink:0;
+  }
+  .brand img { width:38px; height:38px; border-radius:50%; object-fit:cover; }
+  .brand span { font-size:22px; font-weight:700; letter-spacing:2px; color:#FACC15; text-transform:uppercase; }
+
+  .grid-3 { display:flex; flex-direction:column; gap:18px; height:1060px; margin:20px 0; }
+  .tile {
+    position:relative; flex:1; border-radius:20px; overflow:hidden; border:4px solid #FACC15;
+    box-shadow:0 16px 36px rgba(0,0,0,0.65); background:#0B1224;
+  }
+  .tile.t2 { border-color:#EF4444; }
+  .tile.t3 { border-color:#38BDF8; }
+  .tile img { width:100%; height:100%; object-fit:cover; filter:__THUMB_FILTER__; }
+  .tile::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg,rgba(4,7,17,0.72) 0%, transparent 55%); }
+  .t-badge {
+    position:absolute; left:20px; bottom:20px; z-index:3; padding:8px 20px; border-radius:8px;
+    font-size:25px; font-weight:700; color:#050812; letter-spacing:1.2px; text-transform:uppercase;
+    background:#FACC15; max-width:90%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .tile.t2 .t-badge { background:#EF4444; color:#FFFFFF; }
+  .tile.t3 .t-badge { background:#38BDF8; color:#050812; }
+
+  .panel {
+    background:rgba(10,16,34,0.96); border:3px solid rgba(250,204,21,0.55);
+    border-left:14px solid #FACC15; border-radius:20px; padding:28px 32px;
+    display:flex; flex-direction:column; gap:16px;
+  }
+  .kicker {
+    font-family:'PlexMono',monospace; font-size:23px; color:#38BDF8; letter-spacing:1.5px;
+    text-transform:uppercase; margin-bottom:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .h1 {
+    font-family:'Anton',sans-serif; font-size:__L1_SIZE__px; line-height:1.10; padding-top:4px;
+    color:#FACC15; text-transform:uppercase; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .h2 {
+    font-family:'Anton',sans-serif; font-size:__L2_SIZE__px; line-height:1.08;
+    color:#FFFFFF; text-transform:uppercase; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .sub {
+    font-family:'Montserrat',sans-serif; font-size:24px; font-weight:700; color:#CBD5E1;
+    margin-top:2px; text-transform:uppercase; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hdr">
+    <div class="ribbon">__THUMB_BADGE__</div>
+    <div class="brand"><img src="__LOGO_URL__" alt="" onerror="this.style.display='none'"><span>__THUMB_TAG_A__</span></div>
+  </div>
+  <div class="grid-3">
+    <div class="tile t1">
+      <img src="__CARD_1_IMG__" style="object-position:__CARD_1_POS__;">
+      <div class="t-badge">__CARD_1_TAG__</div>
+    </div>
+    <div class="tile t2">
+      <img src="__CARD_2_IMG__" style="object-position:__CARD_2_POS__;">
+      <div class="t-badge">__CARD_2_TAG__</div>
+    </div>
+    <div class="tile t3">
+      <img src="__CARD_3_IMG__" style="object-position:__CARD_3_POS__;">
+      <div class="t-badge">__CARD_3_TAG__</div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="kicker">__THUMB_KICKER__</div>
+    <div class="h1">__LINE_1__</div>
+    <div class="h2">__LINE_2__</div>
+    <div class="sub">__THUMB_SUBTITLE__</div>
+  </div>
+</div>
+</body>
+</html>

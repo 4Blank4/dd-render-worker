@@ -35,10 +35,10 @@ DIGEST_SPECS = {
     "gap_ms": 190,
     "seo_title": "Tin tuần 23/11: U17 Việt Nam, Liverpool 4-0 Man Utd & Đại hội toàn quốc",
     "description": [
-        "Tổng hợp nhanh 20 sự kiện thể thao Việt Nam và thế giới nóng nhất tuần qua (18–23/11/2026) chỉ trong chưa đầy 3 phút.",
+        "Tổng hợp nhanh 20 sự kiện thể thao Việt Nam và thế giới nóng nhất tuần qua (16–22/11/2026, cập nhật 23/11/2026) chỉ trong chưa đầy 3 phút.",
         "Tâm điểm tuyển Việt Nam với chấn thương nghỉ hết năm của Đình Bắc, hai siêu phẩm lịch sử của U17 Việt Nam vào lưới U17 Bỉ, mưa kỷ lục bơi lội Đại hội Thể thao toàn quốc 2026, Liverpool vùi dập Manchester United 4-0 trong ngày ra mắt của Pochettino, Carlos Alcaraz vô địch ATP Finals và Marc Márquez san bằng kỷ lục tám lần vô địch MotoGP.",
     ],
-    "fb_hook": "🔥 TỔNG HỢP 20 SỰ KIỆN THỂ THAO CHẤN ĐỘNG NHẤT TUẦN QUA (18–23/11) TRONG CHƯA ĐẦY 3 PHÚT!",
+    "fb_hook": "🔥 TỔNG HỢP 20 SỰ KIỆN THỂ THAO CHẤN ĐỘNG NHẤT TUẦN QUA (16–22/11) TRONG CHƯA ĐẦY 3 PHÚT!",
     "tiktok_caption": "Một tuần thể thao bùng nổ: U17 Việt Nam ghi 2 siêu phẩm World Cup, Ánh Viên giành HCB Đại hội, Liverpool hủy diệt Man Utd 4-0 khiến Pochettino lập kỷ lục tệ nhất 100 năm, Alcaraz vô địch ATP Finals và Marc Márquez lần thứ 8 vô địch MotoGP!",
     "sources_line": "📰 Nguồn tin: Thanh Niên, VnExpress, Tuổi Trẻ, Dân Trí, BBC Sport, Sky Sports, The Guardian, ESPN.",
     "hashtags": [

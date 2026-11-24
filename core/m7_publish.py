@@ -36,11 +36,15 @@ _HERE = os.path.dirname(os.path.abspath(__file__))
 _ROOT = os.path.dirname(_HERE)
 sys.path.insert(0, os.path.join(_ROOT, "core"))
 
+from pathlib import Path
 from diemdoc import paths
 from diemdoc.log import banner, die, log, ok, step, warn
 from diemdoc.timeline import cards_of, load_timeline, scene_duration, scene_start
 from diemdoc.publisher import (
+    DEFAULT_LONG_ABC_STYLES,
     compute_9x16_hero_font_size,
+    render_thumbnail_16x9_single,
+    render_thumbnail_9x16,
     write_mota_16x9,
     write_mota_9x16,
 )
@@ -174,77 +178,58 @@ def make_thumbnail(project_dir: str, tl: dict, out_dir: str | None = None) -> li
     rendered_files = []
 
     if fmt == "long":
-        # 16:9 Thumbnail Suite
+        # 16:9 Thumbnail Suite — tự động tạo đủ 3 kiểu A/B/C (cyber_split, magazine_bento, clash_diagonal)
         w, h = 1920, 1080
-        tpl_path = THUMB_16X9_TEMPLATE if os.path.exists(THUMB_16X9_TEMPLATE) else THUMB_9X16_TEMPLATE
-        with open(tpl_path, "r", encoding="utf-8") as f:
-            template_code = f.read()
-        template_code = template_code.replace("__ASSETS__", paths.file_url(paths.ASSETS))
-
         variants = _scaffold_thumbnail_variants(project_dir, tl)
+        extra_imgs = [Path(project_dir) / p if not os.path.isabs(p) else Path(p) for p in _get_project_images(project_dir)]
 
         with sync_playwright() as p:
             br = p.chromium.launch(headless=True, args=[
                 "--no-sandbox", "--allow-file-access-from-files", "--disable-dev-shm-usage"])
             page = br.new_page(viewport={"width": w, "height": h}, device_scale_factor=1)
 
-            for var in variants:
+            for idx, var in enumerate(variants):
                 sfx = var["suffix"]
-                html_name = f"thumbnail_{sfx}.html"
                 jpg_name = f"thumbnail_{sfx}.jpg"
 
-                html_content = template_code
-                logo_path = os.path.join(paths.ASSETS, "logo", "diem-doc-logo-1.png")
-                logo_url = paths.file_url(logo_path)
                 img_val = var.get("image", "")
-                if img_val and not img_val.startswith(("http://", "https://", "file://", "data:")):
-                    cand = os.path.join(project_dir, img_val)
-                    if os.path.exists(cand):
-                        img_val = paths.file_url(cand)
+                img_path = Path(img_val) if os.path.isabs(img_val) else (Path(project_dir) / img_val)
+                if not img_path.exists():
+                    img_path = extra_imgs[0] if extra_imgs else Path(paths.LOGO) / "logo.png"
+
+                chosen_style = var.get("style") or DEFAULT_LONG_ABC_STYLES[idx % len(DEFAULT_LONG_ABC_STYLES)]
                 hero_html = var.get("hero_html") or var.get("headline", "")
-                hero_size = var.get("hero_size", "86px")
+                hero_size = str(var.get("hero_size", "86")).replace("px", "")
                 obj_pos = var.get("obj_pos", "center top")
                 tag_a = var.get("tag_a") or var.get("footer_tag", "ĐIỂM ĐỌC")
                 tag_b = var.get("tag_b", "CHUẨN 1080P")
 
-                # Tương thích đồng thời placeholder chuẩn mới (__PHOTO__, __HERO_HTML__...) và cũ
-                html_content = (
-                    html_content.replace("__LOGO__", logo_url)
-                    .replace("__LOGO_URL__", logo_url)
-                    .replace("__PHOTO__", img_val)
-                    .replace("__THUMB_IMAGE__", img_val)
-                    .replace("__OBJ_POS__", obj_pos)
-                    .replace("__THUMB_OBJ_POS__", obj_pos)
-                    .replace("__BADGE__", var.get("badge", "TÂM ĐIỂM"))
-                    .replace("__THUMB_BADGE__", var.get("badge", "TÂM ĐIỂM"))
-                    .replace("__KICKER__", var.get("kicker", "ĐIỂM ĐỌC THỂ THAO"))
-                    .replace("__THUMB_KICKER__", var.get("kicker", "ĐIỂM ĐỌC THỂ THAO"))
-                    .replace("__HERO_SIZE__", hero_size)
-                    .replace("__HERO_HTML__", hero_html)
-                    .replace("__THUMB_HEADLINE__", hero_html)
-                    .replace("__SUBTITLE__", var.get("subtitle", ""))
-                    .replace("__THUMB_SUBTITLE__", var.get("subtitle", ""))
-                    .replace("__TAG_A__", tag_a)
-                    .replace("__THUMB_FOOTER_TAG__", tag_a)
-                    .replace("__TAG_B__", tag_b)
-                    .replace("__THUMB_FILTER__", var.get("filter", "contrast(1.08) brightness(1.02)"))
+                out_proj = Path(project_dir) / jpg_name
+                out_pub = Path(out_dir) / jpg_name
+
+                log(f"Render thumbnail {sfx} ({chosen_style} / {var['angle_name']}) {w}x{h}...", tag="m7")
+                render_thumbnail_16x9_single(
+                    out_path=out_proj,
+                    image_path=img_path,
+                    kicker=var.get("kicker", "ĐIỂM ĐỌC THỂ THAO"),
+                    hero_html=hero_html,
+                    subtitle=var.get("subtitle", ""),
+                    badge=var.get("badge", "TÂM ĐIỂM"),
+                    tag_a=tag_a,
+                    tag_b=tag_b,
+                    hero_size=hero_size,
+                    obj_pos=obj_pos,
+                    img_filter=var.get("filter", "contrast(1.08) brightness(1.02)"),
+                    page=page,
+                    style=chosen_style,
+                    extra_images=extra_imgs,
+                    cards=var.get("cards"),
+                    line1=var.get("line1"),
+                    line2=var.get("line2"),
                 )
-
-                html_file = os.path.join(project_dir, html_name)
-                with open(html_file, "w", encoding="utf-8") as f:
-                    f.write(html_content)
-
-                out_proj = os.path.join(project_dir, jpg_name)
-                out_pub = os.path.join(out_dir, jpg_name)
-
-                log(f"Render thumbnail {sfx} ({var['angle_name']}) {w}x{h}...", tag="m7")
-                page.goto(paths.file_url(html_file), wait_until="networkidle")
-                page.wait_for_timeout(600)
-                page.screenshot(path=out_proj, type="jpeg", quality=95)
-                _safe_copy(out_proj, out_pub)
-
-                rendered_files.append(out_pub)
-                ok(f"Thumbnail {sfx}: {paths.rel_to_root(out_pub)}")
+                _safe_copy(str(out_proj), str(out_pub))
+                rendered_files.append(str(out_pub))
+                ok(f"Thumbnail {sfx} ({chosen_style}): {paths.rel_to_root(str(out_pub))}")
 
             # Copy variant A thành thumbnail.jpg mặc định
             thumb_def_proj = os.path.join(project_dir, "thumbnail.jpg")
@@ -255,65 +240,34 @@ def make_thumbnail(project_dir: str, tl: dict, out_dir: str | None = None) -> li
             br.close()
 
     else:
-        # 9:16 Vertical Thumbnail (Chuẩn Cyber-Stadium Electric Cyan)
-        w, h = 1080, 1920
-        with open(THUMB_9X16_TEMPLATE, "r", encoding="utf-8") as f:
-            template_code = f.read()
-        template_code = template_code.replace("__ASSETS__", paths.file_url(paths.ASSETS))
-
-        logo_path = os.path.join(paths.ASSETS, "logo", "diem-doc-logo-1.png")
-        logo_url = paths.file_url(logo_path)
-        images = _get_project_images(project_dir)
-        img_src = images[0] if images else ""
-        if img_src and not img_src.startswith(("http://", "https://", "file://", "data:")):
-            cand = os.path.join(project_dir, img_src)
-            if os.path.exists(cand):
-                img_src = paths.file_url(cand)
-
+        # 9:16 Vertical Thumbnail — mặc định chọn ngẫu nhiên 1 trong 3 kiểu chính thức
+        images = [Path(project_dir) / p if not os.path.isabs(p) else Path(p) for p in _get_project_images(project_dir)]
+        img_path = images[0] if images else (Path(paths.LOGO) / "logo.png")
         hero_html = tl.get("thumb_hero_html") or "<span class='hl-cyan'>TIN NÓNG</span><br>THỂ THAO 24H"
         hero_size = tl.get("thumb_hero_size") or compute_9x16_hero_font_size(hero_html)
         kicker_txt = tl.get("thumb_kicker") or tl.get("group") or "ĐIỂM ĐỌC THỂ THAO"
         sub_txt = tl.get("thumb_subtitle") or (tl.get("title") or tl.get("topic", "THỂ THAO 24H"))[:75].upper()
 
-        html_content = (
-            template_code.replace("__LOGO__", logo_url)
-            .replace("__PHOTO__", img_src)
-            .replace("__THUMB_IMAGE__", img_src)
-            .replace("__OBJ_POS__", tl.get("thumb_obj_pos", "center 20%"))
-            .replace("__BADGE__", tl.get("thumb_badge", "TIN NÓNG"))
-            .replace("__KICKER__", kicker_txt)
-            .replace("__THUMB_KICKER__", kicker_txt)
-            .replace("__HERO_SIZE__", str(hero_size))
-            .replace("__THUMB_HERO_SIZE__", str(hero_size).replace("px", ""))
-            .replace("__HERO_HTML__", hero_html)
-            .replace("__THUMB_HERO__", hero_html)
-            .replace("__SUBTITLE__", sub_txt)
-            .replace("__THUMB_SUBTITLE__", sub_txt)
-            .replace("__TAG_A__", tl.get("thumb_tag_a", "ĐIỂM ĐỌC"))
-            .replace("__THUMB_TAG_A__", tl.get("thumb_tag_a", "ĐIỂM ĐỌC"))
-            .replace("__TAG_B__", tl.get("thumb_tag_b", "CHUẨN 1080P"))
-            .replace("__THUMB_TAG_B__", tl.get("thumb_tag_b", "CHUẨN 1080P"))
+        out_proj = Path(project_dir) / "thumbnail.jpg"
+        out_pub = Path(out_dir) / "thumbnail.jpg"
+
+        render_thumbnail_9x16(
+            out_path=out_proj,
+            image_path=img_path,
+            kicker=kicker_txt,
+            hero_html=hero_html,
+            subtitle=sub_txt,
+            badge=tl.get("thumb_badge", "TIN NÓNG"),
+            tag_a=tl.get("thumb_tag_a", "ĐIỂM ĐỌC"),
+            tag_b=tl.get("thumb_tag_b", "CHUẨN 1080P"),
+            hero_size=str(hero_size).replace("px", ""),
+            obj_pos=tl.get("thumb_obj_pos", "center 20%"),
+            style=tl.get("thumb_style"),
+            extra_images=images,
         )
-
-        html_file = os.path.join(project_dir, "thumbnail.html")
-        with open(html_file, "w", encoding="utf-8") as f:
-            f.write(html_content)
-
-        out_proj = os.path.join(project_dir, "thumbnail.jpg")
-        out_pub = os.path.join(out_dir, "thumbnail.jpg")
-
-        with sync_playwright() as p:
-            br = p.chromium.launch(headless=True, args=[
-                "--no-sandbox", "--allow-file-access-from-files", "--disable-dev-shm-usage"])
-            page = br.new_page(viewport={"width": w, "height": h}, device_scale_factor=1)
-            page.goto(paths.file_url(html_file), wait_until="networkidle")
-            page.wait_for_timeout(600)
-            page.screenshot(path=out_proj, type="jpeg", quality=95)
-            _safe_copy(out_proj, out_pub)
-            br.close()
-
-        rendered_files.append(out_pub)
-        ok(f"Thumbnail 9:16: {paths.rel_to_root(out_pub)}")
+        _safe_copy(str(out_proj), str(out_pub))
+        rendered_files.append(str(out_pub))
+        ok(f"Thumbnail 9:16: {paths.rel_to_root(str(out_pub))}")
 
     return rendered_files
 

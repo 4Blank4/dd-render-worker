@@ -31,7 +31,8 @@ _ROOT = os.path.dirname(_HERE)
 if _HERE not in sys.path:
     sys.path.insert(0, _HERE)
 
-from diemdoc.log import banner, ok, warn
+from diemdoc.log import banner, log, ok, warn
+from diemdoc.weekly_coverage import audit_weekly_local_coverage, resolve_weekly_dates
 
 ROOT = Path(_ROOT)
 
@@ -67,6 +68,28 @@ def _strip_html(s: str) -> str:
     return re.sub(r"<[^>]+>", "", s or "").strip()
 
 
+WEEK_RANGE_TOKEN_RE = re.compile(r"\b(\d{1,2})\s*[–\-]\s*(\d{1,2})\s*[/.]\s*(\d{1,2})\b")
+
+
+def _check_wrong_week_range(txt: str, w_info: Dict[str, Any]) -> Optional[str]:
+    """Bắt lỗi ghi khoảng tuần sai (ví dụ 18–23/11 hoặc 18–22/11 thay vì 16–22/11 Thứ Hai -> Chủ Nhật)."""
+    mon = w_info["monday_date"]
+    sun = w_info["sunday_date"]
+    upd = w_info["update_date"]
+    valid_months = {mon.month, sun.month, upd.month}
+    for m in WEEK_RANGE_TOKEN_RE.finditer(txt or ""):
+        ds, de, mo = int(m.group(1)), int(m.group(2)), int(m.group(3))
+        if mo not in valid_months:
+            continue
+        # Sai 1: gộp ngày cập nhật (VD 23) làm cuối khoảng tuần (16–23/11, 17–23/11, 18–23/11)
+        if de == upd.day and ds < upd.day and ds >= (upd.day - 10):
+            return m.group(0)
+        # Sai 2: bắt đầu từ Thứ Ba..Thứ Bảy tuần trước thay vì Thứ Hai (VD 17–22/11, 18–22/11)
+        if de == sun.day and mon.month == sun.month and mon.day < ds < sun.day:
+            return m.group(0)
+    return None
+
+
 def run_qa(day_str: str) -> Tuple[int, int]:
     day_dir = ROOT / "outputs" / day_str
     if not day_dir.exists():
@@ -76,6 +99,21 @@ def run_qa(day_str: str) -> Tuple[int, int]:
     banner(f"AUTO-QA PRECHECK — NGÀY {day_str}")
     errors = 0
     warnings = 0
+
+    is_weekly = os.path.basename(day_str.rstrip("/")).lower().startswith("weekly-")
+    w_info = resolve_weekly_dates(day_str) if is_weekly else None
+    if is_weekly:
+        cov = audit_weekly_local_coverage(day_str, ROOT / "outputs")
+        ok(
+            f"Khung tuần chuẩn: {cov['week_range_slash']} "
+            f"(00:01 {cov['monday_date'].strftime('%d/%m')} -> 23:59 {cov['sunday_date'].strftime('%d/%m')}) "
+            f"| Ngày cập nhật: {cov['update_str_slash']} | Date-chip: {cov['date_chip']}"
+        )
+        if cov["internet_fetch_windows"]:
+            wins = "; ".join(f"{w['from']} -> {w['to']}" for w in cov["internet_fetch_windows"])
+            log(f"Độ phủ bản tin ngày local còn thiếu khoảng: {wins} (cần cào/bổ sung Internet khi tổng hợp mới)")
+        else:
+            ok("Độ phủ bản tin ngày local: Đầy đủ 7/7 ngày (Thứ Hai -> Chủ Nhật).")
 
     # 1. Kiểm tra văn bản kịch bản (intro_hook.json + thethao.json)
     for fname in ("intro_hook.json", "thethao.json"):
@@ -96,6 +134,11 @@ def run_qa(day_str: str) -> Tuple[int, int]:
                 if m_num:
                     print(f"[WARN] {label}.{field} có dấu chấm hàng nghìn (ViTTS dễ đọc nhầm): '{m_num.group(0)}'")
                     warnings += 1
+                if w_info:
+                    bad_wk = _check_wrong_week_range(txt, w_info)
+                    if bad_wk:
+                        print(f"[FAIL] {label}.{field} ghi sai khoảng tuần '{bad_wk}' (phải là {w_info['week_range_slash']})")
+                        errors += 1
 
     # 2. Kiểm tra ảnh trong image_plan.json
     plan_p = day_dir / "image_plan.json"
@@ -169,6 +212,11 @@ def run_qa(day_str: str) -> Tuple[int, int]:
         if m_bad:
             print(f"[FAIL] {mf.name} chứa cụm từ máy móc/cấm: '{m_bad.group(0)}'")
             errors += 1
+        if w_info:
+            bad_wk = _check_wrong_week_range(txt, w_info)
+            if bad_wk:
+                print(f"[FAIL] {mf.name} ghi sai khoảng tuần '{bad_wk}' (phải là {w_info['week_range_slash']}, cập nhật {w_info['update_str_slash']})")
+                errors += 1
         for line in txt.splitlines():
             if line.startswith("Option "):
                 title_part = line.split(":", 1)[1].strip()
