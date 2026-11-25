@@ -1264,12 +1264,51 @@
   sentences.forEach(s => (s.keywords || []).forEach(k => kwList.push(k.toLowerCase())));
 
   function renderHeroTitleHTML(txt, customKws) {
-    const words = (txt || "").trim().split(" ");
-    const kws = (customKws && customKws.length) ? customKws.map(k => k.toLowerCase()) : kwList;
-    return words.map(w => {
-      const cleanW = w.toLowerCase().replace(/[.,!?;:"]/g, "");
-      const isKw = cleanW.length >= 2 && kws.some(k => k.includes(cleanW) || cleanW.includes(k));
-      return `<span class="title-word ${isKw ? 'kw-gold' : ''}">${w}</span>`;
+    const rawWords = (txt || "").trim().split(/\s+/).filter(Boolean);
+    const normWord = (w) => w.toLowerCase().replace(/^[.,!?;:"'()\[\]“”‘’]+|[.,!?;:"'()\[\]“”‘’]+$/g, "");
+    const normWords = rawWords.map(normWord);
+    const hlFlags = new Array(rawWords.length).fill(false);
+
+    const kws = (customKws && customKws.length) ? customKws.slice() : kwList.slice();
+    const builtInPatterns = [
+      /\b(?:Công\s+an\s+[A-ZĐ][\p{L}]+(?:\s+[A-ZĐ][\p{L}]+)*|Công\s+an\s+Nhân\s+dân|Tòa\s+án\s+Thể\s+thao|Đại\s+hội\s+Thể\s+thao(?:\s+toàn\s+quốc)?|Ngoại\s+hạng\s+Anh|Quả\s+bóng\s+vàng|Chiếc\s+giày\s+vàng)\b/gu,
+      /\b(?:U\d+|CAHN|FIFA|UEFA|AFC|CAS|FA|VFF|PSV|PSG|AFCON|CONMEBOL|CONCACAF|ATP|PGA|FIDE|World\s+Cup|Champions\s+League|Copa\s+América|La\s+Liga)(?:\s+[A-ZĐ][\p{L}]+)*\b/gu,
+      /\b[A-ZĐ][\p{L}]+(?:\s+(?:de|van|di|da|del|al|el|la|le))?(?:\s+[A-ZĐ][\p{L}]+)+\b/gu,
+      /\b\d+-\d+\b/gu,
+      /\b\d+(?:[.,]\d+)?\s*(?:HCV|HCB|HCĐ|%|điểm|bàn)\b/giu
+    ];
+    builtInPatterns.forEach(rx => {
+      let m;
+      while ((m = rx.exec(txt || "")) !== null) {
+        kws.push(m[0]);
+      }
+    });
+
+    const uniquePhrases = Array.from(new Set(kws.map(p => (p || "").trim()).filter(Boolean)));
+    uniquePhrases.sort((a, b) => b.split(/\s+/).length - a.split(/\s+/).length || b.length - a.length);
+
+    uniquePhrases.forEach(phrase => {
+      const pTokens = phrase.split(/\s+/).map(normWord).filter(Boolean);
+      if (!pTokens.length) return;
+      if (pTokens.length === 1 && pTokens[0].length < 2 && !/^\d+$/.test(pTokens[0])) return;
+      for (let i = 0; i <= normWords.length - pTokens.length; i++) {
+        let matched = true;
+        for (let j = 0; j < pTokens.length; j++) {
+          if (normWords[i + j] !== pTokens[j]) {
+            matched = false;
+            break;
+          }
+        }
+        if (matched) {
+          for (let j = 0; j < pTokens.length; j++) {
+            hlFlags[i + j] = true;
+          }
+        }
+      }
+    });
+
+    return rawWords.map((w, idx) => {
+      return `<span class="title-word ${hlFlags[idx] ? 'kw-gold' : ''}">${w}</span>`;
     }).join(" ");
   }
 

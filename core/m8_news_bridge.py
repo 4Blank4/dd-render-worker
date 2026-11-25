@@ -247,16 +247,59 @@ def clean_photo_credit(raw_source: Optional[str]) -> str:
 
 
 def _extract_keywords(text: str) -> List[str]:
-    """Tìm các từ khóa đặc biệt (tên riêng, số liệu, tổ chức) để highlight vàng."""
+    """Tìm các từ khóa đặc biệt (tên riêng, tỷ số, số liệu, tổ chức) để highlight đồng bộ cả cụm."""
     keywords: List[str] = []
-    nums = re.findall(r'\b\d+(?:[.,]\d+)?(?:\s*%)?(?:\s*điểm)?\b', text)
-    keywords.extend(nums[:3])
 
-    names = re.findall(r'\b(?:FIFA|AFC|VAR|U\d+|V-League|World Cup|Asian Cup|Cup C1)\b', text)
-    keywords.extend(names[:2])
+    # 1. Tỷ số trận đấu trước (3-1, 5-1, 2-2...) để giữ nguyên cụm thay vì xé lẻ thành số đơn
+    scores = re.findall(r'\b\d+-\d+\b', text)
+    keywords.extend(scores[:2])
 
-    proper_names = re.findall(r'\b[A-ZĐ][a-zđàáảãạăắằẳẵặâấầẩẫậèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵ]+(?:\s+[A-ZĐ][a-zđàáảãạăắằẳẵặâấầẩẫậèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵ]+)+\b', text)
-    keywords.extend(proper_names[:2])
+    # 2. Các cụm danh từ riêng / tổ chức / giải đấu Việt Nam có chữ thường xen giữa & cụm viết tắt Uxx
+    _vi_lower = r'[a-zđàáảãạăắằẳẵặâấầẩẫậèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵ]'
+    _vi_cap = rf'[A-ZĐ]{_vi_lower}+'
+    _special_orgs = re.findall(
+        rf'\b(?:Công\s+an\s+{_vi_cap}(?:\s+{_vi_cap})*|'
+        rf'Công\s+an\s+Nhân\s+dân|'
+        rf'Tòa\s+án\s+Thể\s+thao|'
+        rf'Đại\s+hội\s+Thể\s+thao(?:\s+toàn\s+quốc)?|'
+        rf'Ngoại\s+hạng\s+Anh|'
+        rf'Quả\s+bóng\s+vàng|'
+        rf'Chiếc\s+giày\s+vàng|'
+        rf'U\d+(?:\s+{_vi_cap})+)\b',
+        text,
+    )
+    keywords.extend(_special_orgs[:3])
+
+    # 3. Tên giải đấu, tổ chức, đội viết tắt quốc tế
+    names = re.findall(
+        r'\b(?:FIFA|UEFA|AFC|VAR|CAS|FA|VFF|CAHN|PSV|PSG|AFCON|CONMEBOL|CONCACAF|ATP|PGA|FIDE|'
+        r'U\d+|V-League|World Cup|Asian Cup|Champions League|Cup C1|Copa América|La Liga|Sofascore)\b',
+        text,
+    )
+    keywords.extend(names[:3])
+
+    # 4. Cụm tên riêng nhiều từ (hỗ trợ tiểu từ như De Bruyne, Al Nassr, van Dijk...)
+    proper_names = re.findall(
+        rf'\b{_vi_cap}(?:\s+(?:de|van|di|da|del|al|el|la|le))?(?:\s+{_vi_cap})+\b',
+        text,
+    )
+    for pn in proper_names:
+        # Tránh thêm lặp đoạn con (vd: "Hà Nội" khi đã có "Công an Hà Nội")
+        if any(pn in org and pn != org for org in _special_orgs):
+            continue
+        keywords.append(pn)
+        if len(keywords) >= 6:
+            break
+
+    # 5. Số liệu nổi bật (không lấy số rời thuộc tỷ số)
+    score_parts = {p for sc in scores for p in sc.split("-")}
+    nums = re.findall(r'\b\d+(?:[.,]\d+)?(?:\s*%)?(?:\s*(?:điểm|HCV|HCB|HCĐ|bàn))?\b', text)
+    for n in nums:
+        if n in score_parts:
+            continue
+        keywords.append(n)
+        if len(keywords) >= 6:
+            break
 
     seen = set()
     uniq = []
@@ -265,7 +308,7 @@ def _extract_keywords(text: str) -> List[str]:
         if k_clean and k_clean.lower() not in seen:
             seen.add(k_clean.lower())
             uniq.append(k_clean)
-    return uniq[:4]
+    return uniq[:5]
 
 
 def _syllabic_weights(tokens: List[str]) -> List[float]:

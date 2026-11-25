@@ -951,14 +951,55 @@
   } else {
     fixedHeadlineEl.textContent = titleText;
 
-    // Trích xuất từ khóa highlight vàng trong Hero Title
-    const titleWords = titleText.split(" ");
-    const kwList = [];
-    sentences.forEach(s => (s.keywords || []).forEach(k => kwList.push(k.toLowerCase())));
+    // Trích xuất cụm từ khóa đồng bộ trong Hero Title (khớp nguyên cụm/nguyên từ, không khớp chuỗi con gây nửa trắng nửa xanh)
+    const rawWords = titleText.split(/\s+/).filter(Boolean);
+    const normWord = (w) => w.toLowerCase().replace(/^[.,!?;:"'()\[\]“”‘’]+|[.,!?;:"'()\[\]“”‘’]+$/g, "");
+    const normWords = rawWords.map(normWord);
+    const hlFlags = new Array(rawWords.length).fill(false);
 
-    heroTitleEl.innerHTML = titleWords.map(w => {
-      const isKw = kwList.some(k => k.includes(w.toLowerCase()) || w.toLowerCase().includes(k));
-      return `<span class="title-word ${isKw ? 'kw-gold' : ''}">${w}</span>`;
+    const candidatePhrases = [];
+    // Cụm đặc thù trực tiếp trên tiêu đề (VD: "Công an Hà Nội", "Tòa án Thể thao", "U17 Việt Nam", "3-1"...)
+    const builtInPatterns = [
+      /\b(?:Công\s+an\s+[A-ZĐ][\p{L}]+(?:\s+[A-ZĐ][\p{L}]+)*|Công\s+an\s+Nhân\s+dân|Tòa\s+án\s+Thể\s+thao|Đại\s+hội\s+Thể\s+thao(?:\s+toàn\s+quốc)?|Ngoại\s+hạng\s+Anh|Quả\s+bóng\s+vàng|Chiếc\s+giày\s+vàng)\b/gu,
+      /\b(?:U\d+|CAHN|FIFA|UEFA|AFC|CAS|FA|VFF|PSV|PSG|AFCON|CONMEBOL|CONCACAF|ATP|PGA|FIDE|World\s+Cup|Champions\s+League|Copa\s+América|La\s+Liga)(?:\s+[A-ZĐ][\p{L}]+)*\b/gu,
+      /\b[A-ZĐ][\p{L}]+(?:\s+(?:de|van|di|da|del|al|el|la|le))?(?:\s+[A-ZĐ][\p{L}]+)+\b/gu,
+      /\b\d+-\d+\b/gu,
+      /\b\d+(?:[.,]\d+)?\s*(?:HCV|HCB|HCĐ|%|điểm|bàn)\b/giu
+    ];
+    builtInPatterns.forEach(rx => {
+      let m;
+      while ((m = rx.exec(titleText)) !== null) {
+        candidatePhrases.push(m[0]);
+      }
+    });
+    sentences.forEach(s => (s.keywords || []).forEach(k => candidatePhrases.push(k)));
+
+    // Ưu tiên cụm dài trước để highlight trọn vẹn cả cụm (VD: "Công an Hà Nội" trước "Hà Nội")
+    const uniquePhrases = Array.from(new Set(candidatePhrases.map(p => (p || "").trim()).filter(Boolean)));
+    uniquePhrases.sort((a, b) => b.split(/\s+/).length - a.split(/\s+/).length || b.length - a.length);
+
+    uniquePhrases.forEach(phrase => {
+      const pTokens = phrase.split(/\s+/).map(normWord).filter(Boolean);
+      if (!pTokens.length) return;
+      if (pTokens.length === 1 && pTokens[0].length < 2 && !/^\d+$/.test(pTokens[0])) return;
+      for (let i = 0; i <= normWords.length - pTokens.length; i++) {
+        let matched = true;
+        for (let j = 0; j < pTokens.length; j++) {
+          if (normWords[i + j] !== pTokens[j]) {
+            matched = false;
+            break;
+          }
+        }
+        if (matched) {
+          for (let j = 0; j < pTokens.length; j++) {
+            hlFlags[i + j] = true;
+          }
+        }
+      }
+    });
+
+    heroTitleEl.innerHTML = rawWords.map((w, idx) => {
+      return `<span class="title-word ${hlFlags[idx] ? 'kw-gold' : ''}">${w}</span>`;
     }).join(" ");
   }
 
