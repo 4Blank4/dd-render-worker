@@ -50,15 +50,23 @@ DIGEST_SPECS = {
         "#ChampionsLeague",
     ],
     "thumb": {
+        "style": "magazine_bento",
         "image": "Tin_01_1.jpg",
         "kicker": "ĐIỂM NHANH 23 TIN THỂ THAO 25.11",
         "hero_html": '<span class="hl-cyan">23 TIN NHANH!</span><br><span class="hl-white">CAHN HẠ KOBE 3-1</span><br><span class="hl-yellow">REAL THẮNG ĐẬM 5-1!</span>',
+        "line1": "CAHN HẠ KOBE 3-1",
+        "line2": "REAL THẮNG ĐẬM 5-1!",
         "subtitle": "ÁNH VIÊN KỶ LỤC • U17 VN HẠNG 7 • SENEGAL ĐÒI CÚP",
         "badge": "23 TIN NHANH",
         "tag_a": "VN & QUỐC TẾ",
         "tag_b": "25.11.2026",
         "hero_size": "74",
         "obj_pos": "center 20%",
+        "cards": [
+            {"file": "Tin_01_1.jpg", "tag": "CAHN HẠ KOBE 3-1", "pos": "center 20%"},
+            {"file": "Tin_13_1.jpg", "tag": "REAL THẮNG ĐẬM 5-1", "pos": "center 18%"},
+            {"file": "Tin_07_1.jpg", "tag": "ÁNH VIÊN KỶ LỤC", "pos": "center 15%"},
+        ],
     },
     "items": [
         {

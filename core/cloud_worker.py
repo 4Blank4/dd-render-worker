@@ -973,6 +973,19 @@ def run_digest_short_cloud(day_dir: Path, day_str: str, final_out_dir: Path) -> 
 
     if isinstance(cfg, dict) and cfg.get("thumb"):
         t_cfg = cfg["thumb"]
+        t_cards = None
+        if isinstance(t_cfg.get("cards"), list):
+            t_cards = []
+            for c in t_cfg["cards"]:
+                c_copy = dict(c)
+                cf = c_copy.get("file")
+                if cf and not os.path.isabs(str(cf)):
+                    c_copy["file"] = str(images_dir / str(cf))
+                t_cards.append(c_copy)
+        t_bot = None
+        if t_cfg.get("bottom_image"):
+            bf = str(t_cfg["bottom_image"])
+            t_bot = Path(bf) if os.path.isabs(bf) else (images_dir / bf)
         render_thumbnail_9x16(
             out_path=shorts_dir / out_thumb_name,
             image_path=images_dir / t_cfg["image"],
@@ -984,6 +997,15 @@ def run_digest_short_cloud(day_dir: Path, day_str: str, final_out_dir: Path) -> 
             tag_b=t_cfg["tag_b"],
             hero_size=t_cfg.get("hero_size"),
             obj_pos=t_cfg.get("obj_pos", "center 20%"),
+            style=t_cfg.get("style"),
+            cards=t_cards,
+            bottom_image=t_bot,
+            line1=t_cfg.get("line1"),
+            line2=t_cfg.get("line2"),
+            top_pos=t_cfg.get("top_pos"),
+            bot_pos=t_cfg.get("bot_pos"),
+            l1_size=t_cfg.get("l1_size"),
+            l2_size=t_cfg.get("l2_size"),
         )
 
     if isinstance(cfg, dict) and cfg.get("seo_title"):
