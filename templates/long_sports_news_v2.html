@@ -294,6 +294,15 @@
     justify-content: center;
   }
 
+  .full-slide-frame {
+    position: absolute;
+    max-width: 100%;
+    max-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .sharp-img {
     max-width: 100%;
     max-height: 100%;
@@ -332,6 +341,8 @@
   .split-img {
     width: 100%; height: 100%;
     object-fit: cover;
+    object-position: 50% 18%;
+    transform-origin: 50% 16%;
     will-change: transform;
     display: block;
   }
@@ -383,7 +394,7 @@
     letter-spacing: 0.5px;
   }
 
-  /* LAYOUT 4: CINEMA WIDESCREEN 21:9 LETTERBOX */
+  /* LAYOUT 4: CINEMA WIDESCREEN SAFE-HEAD */
   .layout-cinema {
     width: 100%; height: 100%;
     position: relative;
@@ -392,7 +403,7 @@
 
   .cinema-container {
     position: absolute;
-    top: 110px; bottom: 145px; left: 70px; right: 70px;
+    top: 104px; bottom: 138px; left: 96px; right: 96px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -400,7 +411,7 @@
 
   .cinema-frame {
     width: 100%;
-    height: 92%;
+    height: 98%;
     position: relative;
     border-radius: 12px;
     overflow: hidden;
@@ -412,18 +423,27 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: 50% 16%;
+    transform-origin: 50% 14%;
+    will-change: transform;
     display: block;
   }
 
   .cinema-letterbox-bar {
     position: absolute;
     left: 0; right: 0;
-    height: 24px;
-    background: #060911;
+    height: 10px;
+    pointer-events: none;
     z-index: 5;
   }
-  .cinema-letterbox-bar.top { top: 0; }
-  .cinema-letterbox-bar.bottom { bottom: 0; }
+  .cinema-letterbox-bar.top {
+    top: 0;
+    background: linear-gradient(180deg, rgba(6, 9, 17, 0.82) 0%, rgba(6, 9, 17, 0.0) 100%);
+  }
+  .cinema-letterbox-bar.bottom {
+    bottom: 0;
+    background: linear-gradient(0deg, rgba(6, 9, 17, 0.85) 0%, rgba(6, 9, 17, 0.0) 100%);
+  }
 
   /* LAYOUT 5: TRIPTYCH 3 ẢNH PHỐI HỢP */
   .layout-triptych {
@@ -465,6 +485,9 @@
   .triptych-img {
     width: 100%; height: 100%;
     object-fit: cover;
+    object-position: 50% 18%;
+    transform-origin: 50% 16%;
+    will-change: transform;
     display: block;
   }
 
@@ -505,6 +528,8 @@
   .mosaic-img {
     width: 100%; height: 100%;
     object-fit: cover;
+    object-position: 50% 18%;
+    transform-origin: 50% 16%;
     display: block;
     will-change: transform;
   }
@@ -540,6 +565,8 @@
   .filmstrip-img {
     width: 100%; height: 100%;
     object-fit: cover;
+    object-position: 50% 18%;
+    transform-origin: 50% 16%;
     display: block;
     will-change: transform;
   }
@@ -580,6 +607,8 @@
   .spotlight-img {
     width: 100%; height: 100%;
     object-fit: cover;
+    object-position: 50% 18%;
+    transform-origin: 50% 16%;
     display: block;
     will-change: transform;
   }
@@ -612,6 +641,8 @@
   .bento-img {
     width: 100%; height: 100%;
     object-fit: cover;
+    object-position: 50% 18%;
+    transform-origin: 50% 16%;
     display: block;
     will-change: transform;
   }
@@ -1026,9 +1057,15 @@
     }
   }
 
-  // 3. Render DOM cho 5 Layouts
+  // 3. Render DOM cho 9 Layouts (có Smart Focal Point chống cắt đầu nhân vật)
   const root = document.getElementById("scenes-root");
   root.innerHTML = "";
+
+  function _imgPosStyle(imObj, extraCss = "") {
+    const pos = (imObj && imObj.obj_pos) ? imObj.obj_pos : "50% 18%";
+    const orig = (imObj && (imObj.origin || imObj.obj_pos)) ? (imObj.origin || imObj.obj_pos) : "50% 16%";
+    return `object-position:${pos};transform-origin:${orig};${extraCss}`;
+  }
 
   sentences.forEach((sent, sIdx) => {
     const stage = document.createElement("div");
@@ -1036,11 +1073,17 @@
     stage.id = `sent-stage-${sIdx}`;
 
     const imgs = sent.images || [];
-    const mainImg = imgs.length ? imgs[0].src : "";
-    const img2 = imgs.length > 1 ? imgs[1].src : mainImg;
-    const img3 = imgs.length > 2 ? imgs[2].src : img2;
-    const img4 = imgs.length > 3 ? imgs[3].src : "";
-    const img5 = imgs.length > 4 ? imgs[4].src : "";
+    const imObj1 = imgs.length ? imgs[0] : null;
+    const imObj2 = imgs.length > 1 ? imgs[1] : imObj1;
+    const imObj3 = imgs.length > 2 ? imgs[2] : imObj2;
+    const imObj4 = imgs.length > 3 ? imgs[3] : null;
+    const imObj5 = imgs.length > 4 ? imgs[4] : null;
+
+    const mainImg = imObj1 ? imObj1.src : "";
+    const img2 = imObj2 ? imObj2.src : mainImg;
+    const img3 = imObj3 ? imObj3.src : img2;
+    const img4 = imObj4 ? imObj4.src : "";
+    const img5 = imObj5 ? imObj5.src : "";
 
     const statHtml = (sent.stat_badge && sent.stat_badge.value) ? `
       <div class="stat-hud-card" id="stat-hud-${sIdx}">
@@ -1060,15 +1103,15 @@
               <div class="corner-bracket top-right"></div>
               <div class="corner-bracket bottom-left"></div>
               <div class="corner-bracket bottom-right"></div>
-              <img class="split-img" id="img-a-${sIdx}" src="${mainImg}">
+              <img class="split-img" id="img-a-${sIdx}" src="${mainImg}" style="${_imgPosStyle(imObj1)}">
             </div>
             <div class="split-panel">
               <div class="corner-bracket top-left"></div>
               <div class="corner-bracket top-right"></div>
               <div class="corner-bracket bottom-left"></div>
               <div class="corner-bracket bottom-right"></div>
-              <img class="split-img" id="img-b-${sIdx}" src="${img2}">
-              ${imgs.length > 2 ? `<img class="split-img" id="img-c-${sIdx}" src="${img3}" style="position:absolute;inset:0;opacity:0;">` : ""}
+              <img class="split-img" id="img-b-${sIdx}" src="${img2}" style="${_imgPosStyle(imObj2)}">
+              ${imgs.length > 2 ? `<img class="split-img" id="img-c-${sIdx}" src="${img3}" style="${_imgPosStyle(imObj3, 'position:absolute;inset:0;opacity:0;')}">` : ""}
             </div>
           </div>
           ${statHtml}
@@ -1084,9 +1127,9 @@
               <div class="corner-bracket top-right" style="border-color:#00E5FF;"></div>
               <div class="corner-bracket bottom-left" style="border-color:#00E5FF;"></div>
               <div class="corner-bracket bottom-right" style="border-color:#00E5FF;"></div>
-              <div style="position:relative;overflow:hidden;border-radius:6px;">
+              <div style="position:relative;overflow:hidden;border-radius:6px;background:#060911;">
                 <img class="polaroid-img" id="img-a-${sIdx}" src="${mainImg}">
-                ${imgs.length > 1 ? `<img class="polaroid-img" id="img-b-${sIdx}" src="${img2}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;">` : ""}
+                ${imgs.length > 1 ? `<img class="polaroid-img" id="img-b-${sIdx}" src="${img2}" style="${_imgPosStyle(imObj2, 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;')}">` : ""}
               </div>
               <div class="polaroid-caption">${data.channel_name || "ĐIỂM ĐỌC"} • ${data.group || "TIN NÓNG"}</div>
             </div>
@@ -1105,8 +1148,8 @@
               <div class="corner-bracket top-right"></div>
               <div class="corner-bracket bottom-left"></div>
               <div class="corner-bracket bottom-right"></div>
-              <img class="cinema-img" id="img-a-${sIdx}" src="${mainImg}">
-              ${imgs.length > 1 ? `<img class="cinema-img" id="img-b-${sIdx}" src="${img2}" style="position:absolute;inset:0;opacity:0;">` : ""}
+              <img class="cinema-img" id="img-a-${sIdx}" src="${mainImg}" style="${_imgPosStyle(imObj1)}">
+              ${imgs.length > 1 ? `<img class="cinema-img" id="img-b-${sIdx}" src="${img2}" style="${_imgPosStyle(imObj2, 'position:absolute;inset:0;opacity:0;')}">` : ""}
               <div class="cinema-letterbox-bar bottom"></div>
             </div>
           </div>
@@ -1119,19 +1162,19 @@
           <img class="backdrop-blur" id="bg-${sIdx}" src="${mainImg}">
           <div class="triptych-container">
             <div class="triptych-panel side">
-              <img class="triptych-img" id="img-b-${sIdx}" src="${img2}">
-              ${img4 ? `<img class="triptych-img" id="img-d-${sIdx}" src="${img4}" style="position:absolute;inset:0;opacity:0;">` : ""}
+              <img class="triptych-img" id="img-b-${sIdx}" src="${img2}" style="${_imgPosStyle(imObj2)}">
+              ${img4 ? `<img class="triptych-img" id="img-d-${sIdx}" src="${img4}" style="${_imgPosStyle(imObj4, 'position:absolute;inset:0;opacity:0;')}">` : ""}
             </div>
             <div class="triptych-panel center">
               <div class="corner-bracket top-left"></div>
               <div class="corner-bracket top-right"></div>
               <div class="corner-bracket bottom-left"></div>
               <div class="corner-bracket bottom-right"></div>
-              <img class="triptych-img" id="img-a-${sIdx}" src="${mainImg}">
+              <img class="triptych-img" id="img-a-${sIdx}" src="${mainImg}" style="${_imgPosStyle(imObj1)}">
             </div>
             <div class="triptych-panel side">
-              <img class="triptych-img" id="img-c-${sIdx}" src="${img3}">
-              ${img5 ? `<img class="triptych-img" id="img-e-${sIdx}" src="${img5}" style="position:absolute;inset:0;opacity:0;">` : ""}
+              <img class="triptych-img" id="img-c-${sIdx}" src="${img3}" style="${_imgPosStyle(imObj3)}">
+              ${img5 ? `<img class="triptych-img" id="img-e-${sIdx}" src="${img5}" style="${_imgPosStyle(imObj5, 'position:absolute;inset:0;opacity:0;')}">` : ""}
             </div>
           </div>
           ${statHtml}
@@ -1147,16 +1190,16 @@
               <div class="corner-bracket top-right"></div>
               <div class="corner-bracket bottom-left"></div>
               <div class="corner-bracket bottom-right"></div>
-              <img class="mosaic-img" id="img-a-${sIdx}" src="${mainImg}">
+              <img class="mosaic-img" id="img-a-${sIdx}" src="${mainImg}" style="${_imgPosStyle(imObj1)}">
             </div>
             <div class="mosaic-stack">
               <div class="mosaic-sub">
-                <img class="mosaic-img" id="img-b-${sIdx}" src="${img2}">
-                ${img4 ? `<img class="mosaic-img" id="img-d-${sIdx}" src="${img4}" style="position:absolute;inset:0;opacity:0;">` : ""}
+                <img class="mosaic-img" id="img-b-${sIdx}" src="${img2}" style="${_imgPosStyle(imObj2)}">
+                ${img4 ? `<img class="mosaic-img" id="img-d-${sIdx}" src="${img4}" style="${_imgPosStyle(imObj4, 'position:absolute;inset:0;opacity:0;')}">` : ""}
               </div>
               <div class="mosaic-sub">
-                <img class="mosaic-img" id="img-c-${sIdx}" src="${img3}">
-                ${img5 ? `<img class="mosaic-img" id="img-e-${sIdx}" src="${img5}" style="position:absolute;inset:0;opacity:0;">` : ""}
+                <img class="mosaic-img" id="img-c-${sIdx}" src="${img3}" style="${_imgPosStyle(imObj3)}">
+                ${img5 ? `<img class="mosaic-img" id="img-e-${sIdx}" src="${img5}" style="${_imgPosStyle(imObj5, 'position:absolute;inset:0;opacity:0;')}">` : ""}
               </div>
             </div>
           </div>
@@ -1171,7 +1214,7 @@
           <div class="corner-bracket top-right"></div>
           <div class="corner-bracket bottom-left"></div>
           <div class="corner-bracket bottom-right"></div>
-          <img class="filmstrip-img" id="fs-img-${sIdx}-${k}" src="${im.src}">
+          <img class="filmstrip-img" id="fs-img-${sIdx}-${k}" src="${im.src}" style="${_imgPosStyle(im)}">
         </div>
       `).join("");
       stage.innerHTML = `
@@ -1188,7 +1231,7 @@
     } else if (sent.layout === "spotlight_sequence") {
       const slidesHtml = imgs.map((im, k) => `
         <div class="spotlight-slide" id="sp-slide-${sIdx}-${k}" style="opacity:${k === 0 ? 1 : 0};z-index:${k + 1};">
-          <img class="spotlight-img" id="sp-img-${sIdx}-${k}" src="${im.src}">
+          <img class="spotlight-img" id="sp-img-${sIdx}-${k}" src="${im.src}" style="${_imgPosStyle(im)}">
         </div>
       `).join("");
       stage.innerHTML = `
@@ -1206,6 +1249,7 @@
       `;
     } else if (sent.layout === "bento_grid") {
       const b4 = img4 || mainImg;
+      const imObjB4 = imObj4 || imObj1;
       stage.innerHTML = `
         <div class="layout-bento_grid">
           <img class="backdrop-blur" id="bg-${sIdx}" src="${mainImg}">
@@ -1213,42 +1257,59 @@
             <div class="bento-cell bento-lead" id="bento-${sIdx}-0">
               <div class="corner-bracket top-left"></div>
               <div class="corner-bracket bottom-right"></div>
-              <img class="bento-img" id="img-a-${sIdx}" src="${mainImg}">
+              <img class="bento-img" id="img-a-${sIdx}" src="${mainImg}" style="${_imgPosStyle(imObj1)}">
             </div>
             <div class="bento-cell" id="bento-${sIdx}-1">
-              <img class="bento-img" id="img-b-${sIdx}" src="${img2}">
+              <img class="bento-img" id="img-b-${sIdx}" src="${img2}" style="${_imgPosStyle(imObj2)}">
             </div>
             <div class="bento-cell" id="bento-${sIdx}-2">
-              <img class="bento-img" id="img-c-${sIdx}" src="${img3}">
+              <img class="bento-img" id="img-c-${sIdx}" src="${img3}" style="${_imgPosStyle(imObj3)}">
             </div>
             <div class="bento-cell" id="bento-${sIdx}-3">
-              <img class="bento-img" id="img-d-${sIdx}" src="${b4}">
-              ${img5 ? `<img class="bento-img" id="img-e-${sIdx}" src="${img5}" style="position:absolute;inset:0;opacity:0;">` : ""}
+              <img class="bento-img" id="img-d-${sIdx}" src="${b4}" style="${_imgPosStyle(imObjB4)}">
+              ${img5 ? `<img class="bento-img" id="img-e-${sIdx}" src="${img5}" style="${_imgPosStyle(imObj5, 'position:absolute;inset:0;opacity:0;')}">` : ""}
             </div>
           </div>
           ${statHtml}
         </div>
       `;
-    } else { // default: full (hỗ trợ 1 hoặc nhiều ảnh crossfade tuần tự)
-      const extraFull = imgs.slice(1).map((im, idx) =>
-        `<img class="sharp-img img-slot-${idx + 1}" id="full-img-${sIdx}-${idx + 1}" src="${im.src}" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;object-fit:cover;border-radius:inherit;">`
-      ).join("");
-      stage.innerHTML = `
-        <div class="layout-full">
-          <img class="backdrop-blur" id="bg-${sIdx}" src="${mainImg}">
-          <div class="foreground-frame">
-            <div class="photo-frame-styled" id="frame-${sIdx}">
-              <div class="corner-bracket top-left"></div>
-              <div class="corner-bracket top-right"></div>
-              <div class="corner-bracket bottom-left"></div>
-              <div class="corner-bracket bottom-right"></div>
-              <img class="sharp-img img-slot-0" id="img-a-${sIdx}" src="${mainImg}">
-              ${extraFull}
+    } else { // default: full (mỗi ảnh một khung contain độc lập để không bao giờ bị ép tỷ lệ hay cắt đầu)
+      if (imgs.length <= 1) {
+        stage.innerHTML = `
+          <div class="layout-full">
+            <img class="backdrop-blur" id="bg-${sIdx}" src="${mainImg}">
+            <div class="foreground-frame">
+              <div class="photo-frame-styled" id="frame-${sIdx}" style="max-width:100%;max-height:100%;display:flex;">
+                <div class="corner-bracket top-left"></div>
+                <div class="corner-bracket top-right"></div>
+                <div class="corner-bracket bottom-left"></div>
+                <div class="corner-bracket bottom-right"></div>
+                <img class="sharp-img img-slot-0" id="img-a-${sIdx}" src="${mainImg}" style="${_imgPosStyle(imObj1)}">
+              </div>
             </div>
+            ${statHtml}
           </div>
-          ${statHtml}
-        </div>
-      `;
+        `;
+      } else {
+        const multiFullSlides = imgs.map((im, idx) => `
+          <div class="photo-frame-styled full-slide-frame" id="full-slide-${sIdx}-${idx}" style="opacity:${idx === 0 ? 1 : 0};z-index:${idx + 1};">
+            <div class="corner-bracket top-left"></div>
+            <div class="corner-bracket top-right"></div>
+            <div class="corner-bracket bottom-left"></div>
+            <div class="corner-bracket bottom-right"></div>
+            <img class="sharp-img img-slot-${idx}" id="${idx === 0 ? `img-a-${sIdx}` : `full-img-${sIdx}-${idx}`}" src="${im.src}" style="${_imgPosStyle(im)}">
+          </div>
+        `).join("");
+        stage.innerHTML = `
+          <div class="layout-full">
+            <img class="backdrop-blur" id="bg-${sIdx}" src="${mainImg}">
+            <div class="foreground-frame">
+              ${multiFullSlides}
+            </div>
+            ${statHtml}
+          </div>
+        `;
+      }
     }
     root.appendChild(stage);
   });
@@ -1314,9 +1375,9 @@
     }
 
     if (sent.layout === "triptych") {
-      tl.fromTo(`#img-a-${sIdx}`, { scale: 1.0 }, { scale: 1.07, duration: sDur, ease: "none" }, sStart);
-      tl.fromTo(`#img-b-${sIdx}`, { scale: 1.06 }, { scale: 1.0, duration: sDur, ease: "none" }, sStart);
-      tl.fromTo(`#img-c-${sIdx}`, { scale: 1.0 }, { scale: 1.06, duration: sDur, ease: "none" }, sStart);
+      tl.fromTo(`#img-a-${sIdx}`, { scale: 1.0 }, { scale: 1.05, duration: sDur, ease: "none" }, sStart);
+      tl.fromTo(`#img-b-${sIdx}`, { scale: 1.05 }, { scale: 1.0, duration: sDur, ease: "none" }, sStart);
+      tl.fromTo(`#img-c-${sIdx}`, { scale: 1.0 }, { scale: 1.05, duration: sDur, ease: "none" }, sStart);
       if (imgs.length > 3) {
         const midT = sStart + sDur * 0.48;
         tl.fromTo(`#img-d-${sIdx}`, { opacity: 0, scale: 1.04 }, { opacity: 1, scale: 1.0, duration: 0.6, ease: "power1.inOut" }, midT);
@@ -1328,17 +1389,17 @@
         _setPhotoCreditAt(midT2, imgs[4].credit);
       }
     } else if (sent.layout === "hero_mosaic") {
-      tl.fromTo(`#img-a-${sIdx}`, { scale: 1.0 }, { scale: 1.07, duration: sDur, ease: "none" }, sStart);
-      tl.fromTo(`#img-b-${sIdx}`, { scale: 1.06, yPercent: 1.5 }, { scale: 1.0, yPercent: -1.5, duration: sDur, ease: "none" }, sStart);
-      tl.fromTo(`#img-c-${sIdx}`, { scale: 1.0, yPercent: -1.5 }, { scale: 1.06, yPercent: 1.5, duration: sDur, ease: "none" }, sStart);
+      tl.fromTo(`#img-a-${sIdx}`, { scale: 1.0 }, { scale: 1.05, duration: sDur, ease: "none" }, sStart);
+      tl.fromTo(`#img-b-${sIdx}`, { scale: 1.05 }, { scale: 1.0, duration: sDur, ease: "none" }, sStart);
+      tl.fromTo(`#img-c-${sIdx}`, { scale: 1.0 }, { scale: 1.05, duration: sDur, ease: "none" }, sStart);
       if (imgs.length > 3) {
         const t4 = sStart + sDur * 0.45;
-        tl.fromTo(`#img-d-${sIdx}`, { opacity: 0, scale: 1.06 }, { opacity: 1, scale: 1.0, duration: 0.55, ease: "power2.out" }, t4);
+        tl.fromTo(`#img-d-${sIdx}`, { opacity: 0, scale: 1.04 }, { opacity: 1, scale: 1.0, duration: 0.55, ease: "power2.out" }, t4);
         _setPhotoCreditAt(t4, imgs[3].credit);
       }
       if (imgs.length > 4) {
         const t5 = sStart + sDur * 0.65;
-        tl.fromTo(`#img-e-${sIdx}`, { opacity: 0, scale: 1.06 }, { opacity: 1, scale: 1.0, duration: 0.55, ease: "power2.out" }, t5);
+        tl.fromTo(`#img-e-${sIdx}`, { opacity: 0, scale: 1.04 }, { opacity: 1, scale: 1.0, duration: 0.55, ease: "power2.out" }, t5);
         _setPhotoCreditAt(t5, imgs[4].credit);
       }
     } else if (sent.layout === "filmstrip_carousel") {
@@ -1350,7 +1411,7 @@
       const endX = Math.min(0, viewportW - totalTrackW - 40);
       tl.fromTo(`#fs-track-${sIdx}`, { x: startX }, { x: endX, duration: sDur, ease: "none" }, sStart);
       imgs.forEach((im, k) => {
-        tl.fromTo(`#fs-img-${sIdx}-${k}`, { scale: 1.0 }, { scale: 1.05, duration: sDur, ease: "none" }, sStart);
+        tl.fromTo(`#fs-img-${sIdx}-${k}`, { scale: 1.0 }, { scale: 1.04, duration: sDur, ease: "none" }, sStart);
         if (k > 0) {
           _setPhotoCreditAt(im.start || (sStart + (sDur * k) / nCards), im.credit);
         }
@@ -1379,7 +1440,7 @@
             );
           } else {
             tl.fromTo(`#sp-slide-${sIdx}-${k}`,
-              { opacity: 0, scale: 1.07 },
+              { opacity: 0, scale: 1.05 },
               { opacity: 1, scale: 1.0, duration: 0.45, ease: "power2.out" },
               Math.max(sStart, tStart - 0.15)
             );
@@ -1387,8 +1448,8 @@
           _setPhotoCreditAt(tStart, im.credit);
         }
         tl.fromTo(`#sp-img-${sIdx}-${k}`,
-          { scale: 1.02, xPercent: -1.2 * dirSign },
-          { scale: 1.07, xPercent: 1.2 * dirSign, duration: d, ease: "none" },
+          { scale: 1.02, xPercent: -1.0 * dirSign },
+          { scale: 1.05, xPercent: 1.0 * dirSign, duration: d, ease: "none" },
           tStart
         );
       });
@@ -1398,21 +1459,21 @@
         { opacity: 1, y: 0, scale: 1.0, duration: 0.45, stagger: 0.08, ease: "power2.out" },
         sStart
       );
-      tl.fromTo(`#img-a-${sIdx}`, { scale: 1.0 }, { scale: 1.06, duration: sDur, ease: "none" }, sStart);
-      tl.fromTo(`#img-b-${sIdx}`, { scale: 1.06 }, { scale: 1.0, duration: sDur, ease: "none" }, sStart);
-      tl.fromTo(`#img-c-${sIdx}`, { scale: 1.0 }, { scale: 1.06, duration: sDur, ease: "none" }, sStart);
-      tl.fromTo(`#img-d-${sIdx}`, { scale: 1.05 }, { scale: 1.0, duration: sDur, ease: "none" }, sStart);
+      tl.fromTo(`#img-a-${sIdx}`, { scale: 1.0 }, { scale: 1.05, duration: sDur, ease: "none" }, sStart);
+      tl.fromTo(`#img-b-${sIdx}`, { scale: 1.05 }, { scale: 1.0, duration: sDur, ease: "none" }, sStart);
+      tl.fromTo(`#img-c-${sIdx}`, { scale: 1.0 }, { scale: 1.05, duration: sDur, ease: "none" }, sStart);
+      tl.fromTo(`#img-d-${sIdx}`, { scale: 1.04 }, { scale: 1.0, duration: sDur, ease: "none" }, sStart);
       if (imgs.length > 4) {
         const t5 = sStart + sDur * 0.52;
-        tl.fromTo(`#img-e-${sIdx}`, { opacity: 0, scale: 1.05 }, { opacity: 1, scale: 1.0, duration: 0.55, ease: "power1.inOut" }, t5);
+        tl.fromTo(`#img-e-${sIdx}`, { opacity: 0, scale: 1.04 }, { opacity: 1, scale: 1.0, duration: 0.55, ease: "power1.inOut" }, t5);
         _setPhotoCreditAt(t5, imgs[4].credit);
       }
     } else if (sent.layout === "split") {
-      tl.fromTo(`#img-a-${sIdx}`, { scale: 1.0 }, { scale: 1.06, duration: sDur, ease: "none" }, sStart);
-      tl.fromTo(`#img-b-${sIdx}`, { scale: 1.06 }, { scale: 1.0, duration: sDur, ease: "none" }, sStart);
+      tl.fromTo(`#img-a-${sIdx}`, { scale: 1.0 }, { scale: 1.05, duration: sDur, ease: "none" }, sStart);
+      tl.fromTo(`#img-b-${sIdx}`, { scale: 1.05 }, { scale: 1.0, duration: sDur, ease: "none" }, sStart);
       if (imgs.length > 2) {
         const t3 = sStart + sDur * 0.52;
-        tl.fromTo(`#img-c-${sIdx}`, { opacity: 0, scale: 1.05 }, { opacity: 1, scale: 1.0, duration: 0.55, ease: "power1.inOut" }, t3);
+        tl.fromTo(`#img-c-${sIdx}`, { opacity: 0, scale: 1.04 }, { opacity: 1, scale: 1.0, duration: 0.55, ease: "power1.inOut" }, t3);
         _setPhotoCreditAt(t3, imgs[2].credit);
       }
     } else if (sent.layout === "polaroid") {
@@ -1423,24 +1484,26 @@
         _setPhotoCreditAt(t2, imgs[1].credit);
       }
     } else if (sent.layout === "cinema") {
-      tl.fromTo(`#img-a-${sIdx}`, { scale: 1.06, xPercent: -1.8 }, { scale: 1.09, xPercent: 1.8, duration: sDur, ease: "none" }, sStart);
+      tl.fromTo(`#img-a-${sIdx}`, { scale: 1.02, xPercent: -1.1 }, { scale: 1.05, xPercent: 1.1, duration: sDur, ease: "none" }, sStart);
       if (imgs.length > 1) {
         const t2 = Math.max(sStart + 0.5, imgs[1].start || (sStart + sDur * 0.5));
-        tl.fromTo(`#img-b-${sIdx}`, { opacity: 0, scale: 1.08 }, { opacity: 1, scale: 1.03, duration: 0.7, ease: "power1.inOut" }, t2 - 0.35);
+        tl.fromTo(`#img-b-${sIdx}`, { opacity: 0, scale: 1.05 }, { opacity: 1, scale: 1.02, duration: 0.7, ease: "power1.inOut" }, t2 - 0.35);
         _setPhotoCreditAt(t2, imgs[1].credit);
       }
     } else {
-      // full: hỗ trợ 1 hoặc chuỗi N ảnh crossfade tuần tự
+      // full: hỗ trợ 1 hoặc chuỗi N ảnh crossfade tuần tự (từng khung contain độc lập)
       if (imgs.length <= 1) {
-        tl.fromTo(`#img-a-${sIdx}`, { scale: 1.0 }, { scale: 1.06, duration: sDur, ease: "none" }, sStart);
+        tl.fromTo(`#img-a-${sIdx}`, { scale: 1.0 }, { scale: 1.04, duration: sDur, ease: "none" }, sStart);
       } else {
-        tl.fromTo(`#img-a-${sIdx}`, { scale: 1.0 }, { scale: 1.04, duration: Math.max(0.5, (imgs[1].start || (sStart + sDur / imgs.length)) - sStart), ease: "none" }, sStart);
+        tl.fromTo(`#full-slide-${sIdx}-0`, { scale: 0.99 }, { scale: 1.02, duration: Math.max(0.5, (imgs[1].start || (sStart + sDur / imgs.length)) - sStart), ease: "none" }, sStart);
         for (let k = 1; k < imgs.length; k++) {
           const imk = imgs[k];
           const transStart = Math.max(sStart + 0.4, imk.start || (sStart + (sDur * k) / imgs.length));
           const transEnd = k === imgs.length - 1 ? sEnd : (imgs[k + 1].start || (sStart + (sDur * (k + 1)) / imgs.length));
-          tl.fromTo(`#full-img-${sIdx}-${k}`, { opacity: 0, scale: 1.04 }, { opacity: 1, scale: 1.0, duration: 0.65, ease: "power1.inOut" }, transStart - 0.3);
-          tl.to(`#full-img-${sIdx}-${k}`, { scale: 1.05, duration: Math.max(0.4, transEnd - transStart), ease: "none" }, transStart);
+          tl.fromTo(`#full-slide-${sIdx}-${k}`, { opacity: 0, scale: 1.02 }, { opacity: 1, scale: 1.0, duration: 0.55, ease: "power1.inOut" }, transStart - 0.28);
+          tl.to(`#full-slide-${sIdx}-${k - 1}`, { opacity: 0, duration: 0.45, ease: "power1.inOut" }, transStart - 0.12);
+          tl.to(`#full-slide-${sIdx}-${k}`, { scale: 1.02, duration: Math.max(0.4, transEnd - transStart), ease: "none" }, transStart);
+          tl.set(`#bg-${sIdx}`, { attr: { src: imk.src } }, transStart);
           _setPhotoCreditAt(transStart, imk.credit);
         }
       }

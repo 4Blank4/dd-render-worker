@@ -135,24 +135,200 @@ def _hash_str(s: str) -> int:
     return int(hashlib.md5(s.encode("utf-8")).hexdigest()[:8], 16)
 
 
+_FOCAL_POINT_CACHE: Dict[str, Dict[str, Any]] = {}
+_CV2_CASCADE_CACHE: Dict[str, Any] = {}
+
+
+def _get_cv2_cascades() -> List[Any]:
+    if "cascades" in _CV2_CASCADE_CACHE:
+        return _CV2_CASCADE_CACHE["cascades"]
+    cascades: List[Any] = []
+    try:
+        import cv2
+        base = getattr(cv2, "data", None)
+        haar_dir = base.haarcascades if base and hasattr(base, "haarcascades") else ""
+        for xml_name in (
+            "haarcascade_frontalface_default.xml",
+            "haarcascade_frontalface_alt.xml",
+            "haarcascade_frontalface_alt2.xml",
+            "haarcascade_profileface.xml",
+        ):
+            xml_path = os.path.join(haar_dir, xml_name)
+            if os.path.exists(xml_path):
+                clf = cv2.CascadeClassifier(xml_path)
+                if not clf.empty():
+                    cascades.append(clf)
+    except Exception:
+        cascades = []
+    _CV2_CASCADE_CACHE["cascades"] = cascades
+    return cascades
+
+
+def compute_smart_focal_point(img_path: str) -> Dict[str, Any]:
+    """
+    Tính điểm neo thị giác thông minh (Smart Focal Point) chống cắt đầu nhân vật:
+    - Ưu tiên dò khuôn mặt bằng OpenCV Haar Cascade (frontal + profile) để giữ trọn vùng trán/tóc.
+    - Fallback thuần PIL + NumPy (gradient saliency vùng đầu & thân trên) cho ảnh quay lưng, mũ bơi, góc rộng.
+    - Trả về `obj_pos` ("X% Y%"), `origin` ("X% Y%"), `aspect_ratio`, `has_face`, `tight_top`.
+    """
+    default_res = {
+        "focal_x": 50.0,
+        "focal_y": 18.0,
+        "obj_pos": "50% 18%",
+        "origin": "50% 16%",
+        "has_face": False,
+        "tight_top": False,
+        "aspect_ratio": 1.778,
+    }
+    if not img_path or not os.path.exists(img_path):
+        return dict(default_res)
+
+    try:
+        abs_p = os.path.abspath(img_path)
+        st = os.stat(abs_p)
+        cache_key = f"{abs_p}:{st.st_size}:{int(st.st_mtime)}"
+        if cache_key in _FOCAL_POINT_CACHE:
+            return dict(_FOCAL_POINT_CACHE[cache_key])
+
+        from PIL import Image
+        import numpy as np
+
+        with Image.open(abs_p) as im:
+            orig_w, orig_h = im.size
+            if orig_w <= 0 or orig_h <= 0:
+                return dict(default_res)
+            ar = round(orig_w / float(orig_h), 3)
+            scale = min(1.0, 640.0 / max(orig_w, orig_h))
+            sw = max(32, int(round(orig_w * scale)))
+            sh = max(32, int(round(orig_h * scale)))
+            gray_im = im.convert("L").resize((sw, sh), Image.Resampling.BILINEAR)
+            gray = np.asarray(gray_im, dtype=np.uint8)
+
+        faces_norm: List[Tuple[float, float, float, float]] = []
+        cascades = _get_cv2_cascades()
+        if cascades:
+            try:
+                min_side = max(18, int(round(min(sw, sh) * 0.05)))
+                for clf in cascades[:3]:
+                    det = clf.detectMultiScale(gray, scaleFactor=1.08, minNeighbors=4, minSize=(min_side, min_side))
+                    if det is not None and len(det) > 0:
+                        for (fx, fy, fw, fh) in det:
+                            ny = fy / float(sh)
+                            if ny < 0.70:
+                                faces_norm.append((fx / float(sw), ny, fw / float(sw), fh / float(sh)))
+                    if faces_norm:
+                        break
+                if not faces_norm and len(cascades) >= 4:
+                    det_p = cascades[3].detectMultiScale(gray, scaleFactor=1.08, minNeighbors=4, minSize=(min_side, min_side))
+                    if det_p is not None and len(det_p) > 0:
+                        for (fx, fy, fw, fh) in det_p:
+                            ny = fy / float(sh)
+                            if ny < 0.70:
+                                faces_norm.append((fx / float(sw), ny, fw / float(sw), fh / float(sh)))
+            except Exception:
+                faces_norm = []
+
+        # Tỷ lệ crop dọc tối đa khi đặt vào khung rộng (~2.15:1)
+        max_wide_ar = 2.18
+        delta_y = max(0.10, 1.0 - (min(ar, max_wide_ar - 0.05) / max_wide_ar))
+
+        if faces_norm:
+            max_area = max(fw * fh for (_, _, fw, fh) in faces_norm)
+            main_faces = [f for f in faces_norm if (f[2] * f[3]) >= max_area * 0.40]
+            tot_w = sum(f[2] * f[3] for f in main_faces)
+            cx_norm = sum((f[0] + 0.5 * f[2]) * (f[2] * f[3]) for f in main_faces) / max(1e-6, tot_w)
+            # Biên an toàn trên đỉnh đầu (chừa thêm 50% chiều cao mặt cho trán + tóc/mũ)
+            safe_head_top = min(max(0.0, f[1] - 0.50 * f[3]) for f in main_faces)
+            lead_face = max(main_faces, key=lambda f: f[2] * f[3])
+            lead_fy, lead_fh = lead_face[1], lead_face[3]
+
+            py_max_safe = (safe_head_top / delta_y) * 100.0
+            target_y_top = max(0.0, (lead_fy + 0.35 * lead_fh) - 0.24 * (1.0 - delta_y))
+            py_ideal = (target_y_top / delta_y) * 100.0
+
+            py = max(0.0, min(py_ideal, py_max_safe, 58.0))
+            px = max(18.0, min(82.0, cx_norm * 100.0))
+            tight_top = bool(safe_head_top < 0.09 or lead_fh > 0.25)
+            has_face = True
+        else:
+            gf = gray.astype(np.float32)
+            gx = np.abs(gf[:, 1:] - gf[:, :-1])
+            gy = np.abs(gf[1:, :] - gf[:-1, :])
+            mag = gx[:-1, :] + gy[:, :-1]
+            mh, mw = mag.shape
+
+            y0, y1 = int(mh * 0.05), max(int(mh * 0.05) + 2, int(mh * 0.72))
+            band = mag[y0:y1, :]
+            col_energy = band.sum(axis=0)
+            total_e = float(col_energy.sum())
+            if total_e > 1e-3:
+                xs = np.linspace(0.0, 100.0, mw, dtype=np.float32)
+                raw_px = float((col_energy * xs).sum() / total_e)
+                px = max(28.0, min(72.0, 0.55 * raw_px + 0.45 * 50.0))
+            else:
+                px = 50.0
+
+            top_strip = float(mag[max(0, int(mh * 0.01)):max(2, int(mh * 0.16)), int(mw * 0.18):int(mw * 0.82)].mean())
+            mid_strip = float(mag[int(mh * 0.16):max(4, int(mh * 0.55)), int(mw * 0.15):int(mw * 0.85)].mean()) + 1e-3
+            top_ratio = top_strip / mid_strip
+
+            if ar < 1.52:
+                py = 8.0 if top_ratio > 0.70 else 12.0
+                tight_top = True
+            elif top_ratio > 0.78:
+                py = 6.0
+                tight_top = True
+            else:
+                # Ảnh thể thao 16:9 thường có mặt sân/biển quảng cáo ở 25% đáy và đầu VĐV ở 5–20% đỉnh
+                py = 12.0
+                tight_top = False
+            has_face = False
+
+        px_r = round(px, 1)
+        py_r = round(py, 1)
+        obj_pos = f"{px_r:.0f}% {py_r:.0f}%"
+        orig_y = max(4.0, min(py_r, 20.0))
+        origin = f"{px_r:.0f}% {orig_y:.0f}%"
+
+        res = {
+            "focal_x": px_r,
+            "focal_y": py_r,
+            "obj_pos": obj_pos,
+            "origin": origin,
+            "has_face": has_face,
+            "tight_top": tight_top,
+            "aspect_ratio": ar,
+        }
+        _FOCAL_POINT_CACHE[cache_key] = res
+        return dict(res)
+    except Exception:
+        return dict(default_res)
+
+
 def compute_pan_params(img_path: str, duration: float = 3.0, dir_toggle: bool = False) -> Dict[str, Any]:
     """
-    Tính toán thông số lia ảnh ngang (Pan / 'ảnh chạy') cho Shorts 9:16:
+    Tính toán thông số lia ảnh ngang (Pan / 'ảnh chạy') cho Shorts 9:16 + Smart Focal Point cho 16:9 & 9:16:
     - Nhận diện ảnh ngang vs ảnh đứng
-    - Xác định tâm điểm thị giác (focal center) dựa trên chi tiết & độ sáng
+    - Xác định điểm neo chống cắt đầu (`obj_pos`, `origin`) dựa trên nhận diện khuôn mặt & chi tiết vùng đầu
     - Tính toán khoảng dịch chuyển start_x -> end_x không bao giờ bị lộ khoảng trống viền
     - Đổi chiều lia (toggle) xen kẽ giữa các ảnh để tạo nhịp điệu sinh động
     """
+    focal_info = compute_smart_focal_point(img_path)
     fallback = {
         "width": 1920, "height": 1080, "aspect_ratio": 1.778,
         "is_portrait": False, "rendered_w": 2542, "pan_shift": 1462,
-        "travel": 780, "start_x": -731, "end_x": -731
+        "travel": 780, "start_x": -731, "end_x": -731,
+        "obj_pos": focal_info["obj_pos"],
+        "origin": focal_info["origin"],
+        "focal_x": focal_info["focal_x"],
+        "focal_y": focal_info["focal_y"],
+        "has_face": focal_info["has_face"],
+        "tight_top": focal_info["tight_top"],
     }
     if not img_path or not os.path.exists(img_path):
         return fallback
     try:
         from PIL import Image
-        import numpy as np
         with Image.open(img_path) as im:
             w, h = im.size
             ar = round(w / max(1, h), 3)
@@ -165,11 +341,16 @@ def compute_pan_params(img_path: str, duration: float = 3.0, dir_toggle: bool = 
                 return {
                     "width": w, "height": h, "aspect_ratio": ar,
                     "is_portrait": True, "rendered_w": ren_w, "pan_shift": 0,
-                    "travel": 0, "start_x": 0, "end_x": 0
+                    "travel": 0, "start_x": 0, "end_x": 0,
+                    "obj_pos": focal_info["obj_pos"],
+                    "origin": focal_info["origin"],
+                    "focal_x": focal_info["focal_x"],
+                    "focal_y": focal_info["focal_y"],
+                    "has_face": focal_info["has_face"],
+                    "tight_top": focal_info["tight_top"],
                 }
 
             # Lia toàn cảnh trọn vẹn (Chạy hết ảnh từ mép này sang mép kia)
-            # Quét qua toàn bộ chiều rộng ảnh để tạo nhịp điệu nhanh, điện ảnh, bám sát hành động trận đấu
             margin = max(10, int(shift * 0.04))
             pos_left = -margin
             pos_right = -(shift - margin)
@@ -184,7 +365,13 @@ def compute_pan_params(img_path: str, duration: float = 3.0, dir_toggle: bool = 
             return {
                 "width": w, "height": h, "aspect_ratio": ar,
                 "is_portrait": False, "rendered_w": ren_w, "pan_shift": shift,
-                "travel": abs(sx - ex), "start_x": sx, "end_x": ex
+                "travel": abs(sx - ex), "start_x": sx, "end_x": ex,
+                "obj_pos": focal_info["obj_pos"],
+                "origin": focal_info["origin"],
+                "focal_x": focal_info["focal_x"],
+                "focal_y": focal_info["focal_y"],
+                "has_face": focal_info["has_face"],
+                "tight_top": focal_info["tight_top"],
             }
     except Exception:
         return fallback
@@ -657,15 +844,41 @@ _LAYOUT_POOLS_BY_COUNT = {
 }
 
 
+_WIDE_CROP_LAYOUTS = {"cinema", "bento_grid", "spotlight_sequence"}
+
+
+def _has_tall_or_tight_head_image(img_paths: Optional[List[str]]) -> bool:
+    """Kiểm tra xem nhóm ảnh của câu có ảnh gần vuông/dọc (AR < 1.52) hoặc đầu sát mép trên hay không."""
+    if not img_paths:
+        return False
+    for p in img_paths:
+        if not p or not os.path.exists(p):
+            continue
+        info = compute_smart_focal_point(p)
+        if info.get("aspect_ratio", 1.778) < 1.52 or info.get("tight_top", False):
+            return True
+    return False
+
+
 def _pick_smart_layout(
     img_count: int,
     last_layout: str,
     seed_val: int,
     used_counts: Optional[Dict[str, int]] = None,
+    img_paths: Optional[List[str]] = None,
 ) -> str:
-    """Chọn layout tối ưu theo số ảnh (1..5), chống lặp 2 câu liền kề và cân bằng đủ 9 layout."""
+    """
+    Chọn layout tối ưu theo số ảnh (1..5), chống lặp 2 câu liền kề, cân bằng đủ 9 layout
+    và tự động né các khung siêu rộng cắt dọc (cinema, bento_grid, spotlight_sequence)
+    khi câu chứa ảnh 4:3 / 3:2 hoặc ảnh có đầu nhân vật sát mép trên.
+    """
     bucket = 4 if img_count >= 4 else max(1, img_count)
-    pool = _LAYOUT_POOLS_BY_COUNT[bucket]
+    pool = list(_LAYOUT_POOLS_BY_COUNT[bucket])
+    if _has_tall_or_tight_head_image(img_paths):
+        safe_pool = [l for l in pool if l not in _WIDE_CROP_LAYOUTS]
+        if safe_pool:
+            pool = safe_pool
+
     candidates = [l for l in pool if l != last_layout] or pool
     if used_counts is not None:
         min_cnt = min(used_counts.get(l, 0) for l in candidates)
@@ -774,7 +987,7 @@ def compute_daily_plan(items: List[Dict[str, Any]], date_str: str, img_dir: str)
                 if not s_imgs:
                     s_imgs = matched_images[3 + s_idx : 3 + s_idx + 1] if len(matched_images) > 3 + s_idx else matched_images[:1]
                 item_img_plan.append(s_imgs)
-                chosen_layout = _pick_smart_layout(len(s_imgs), last_layout, item_seed + s_idx * 13, used_counts)
+                chosen_layout = _pick_smart_layout(len(s_imgs), last_layout, item_seed + s_idx * 13, used_counts, img_paths=s_imgs)
                 item_layouts.append(chosen_layout)
                 last_layout = chosen_layout
         elif has_title_and_sent_pool:
@@ -792,37 +1005,29 @@ def compute_daily_plan(items: List[Dict[str, Any]], date_str: str, img_dir: str)
                 if not s_imgs:
                     s_imgs = [sent_pool[-1]] if sent_pool else matched_images[:1]
                 item_img_plan.append(s_imgs)
-                chosen_layout = _pick_smart_layout(len(s_imgs), last_layout, item_seed + s_idx * 11, used_counts)
+                chosen_layout = _pick_smart_layout(len(s_imgs), last_layout, item_seed + s_idx * 11, used_counts, img_paths=s_imgs)
                 item_layouts.append(chosen_layout)
                 last_layout = chosen_layout
         else:
-            # Phân bổ layout xoay vòng cũ nếu không đủ ảnh phân tách
+            # Phân bổ ảnh trước rồi chọn layout thông minh theo số ảnh & tỷ lệ ảnh (tránh ép ảnh dọc/4:3 vào cinema)
             item_layouts = []
-            item_seed = _hash_str(f"{base_seed}_{it_id}")
-
-            for s_idx in range(len(sents)):
-                candidates = [l for l in _LAYOUT_POOL if l != last_layout]
-                pick_idx = (item_seed + s_idx * 7) % len(candidates)
-                chosen_layout = candidates[pick_idx]
-                item_layouts.append(chosen_layout)
-                last_layout = chosen_layout
-
             item_img_plan = []
+            item_seed = _hash_str(f"{base_seed}_{it_id}")
             last_assigned_img = ""
             for s_idx in range(len(sents)):
                 num_imgs = 2 if len(sents) <= 3 else (2 if s_idx % 2 == 0 else 1)
-                if item_layouts[s_idx] in ["split", "cinema"]:
-                    num_imgs = 2
-                elif item_layouts[s_idx] == "triptych":
-                    num_imgs = 3 if len(matched_images) >= 3 else len(matched_images)
-
+                num_imgs = min(max(1, len(matched_images)), num_imgs)
                 s_imgs = []
                 for m_i in range(num_imgs):
                     pool = [im for im in matched_images if im != last_assigned_img] or matched_images
-                    c_img = pool[(s_idx + m_i) % len(pool)]
-                    s_imgs.append(c_img)
-                    last_assigned_img = c_img
+                    if pool:
+                        c_img = pool[(s_idx + m_i) % len(pool)]
+                        s_imgs.append(c_img)
+                        last_assigned_img = c_img
                 item_img_plan.append(s_imgs)
+                chosen_layout = _pick_smart_layout(len(s_imgs), last_layout, item_seed + s_idx * 7, used_counts, img_paths=s_imgs)
+                item_layouts.append(chosen_layout)
+                last_layout = chosen_layout
 
         plan_per_item[it_id] = {
             "layouts": item_layouts,
