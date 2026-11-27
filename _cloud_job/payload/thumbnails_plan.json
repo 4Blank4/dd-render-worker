@@ -1,0 +1,58 @@
+[
+  {
+    "suffix": "A",
+    "style": "cyber_split",
+    "badge": "BẢN TIN 27.11.2026",
+    "kicker": "U17 WORLD CUP 2026 • QATAR",
+    "headline": "U17 VIỆT NAM<br>THUA MALI 0-2",
+    "subtitle": "Khép lại hành trình lịch sử với 5 bàn thắng & vị trí thứ ba bảng G",
+    "footer_tag": "TIN NÓNG • 27.11",
+    "image_file": "outputs/27.11.2026/images/Tin_01_1.jpg",
+    "obj_pos": "center 20%",
+    "filter": "contrast(1.06) saturate(1.1)"
+  },
+  {
+    "suffix": "B",
+    "style": "clash_diagonal",
+    "badge": "TÂM ĐIỂM VIỆT NAM",
+    "kicker": "U17 WORLD CUP • ĐẠI HỘI 2026",
+    "headline": "U17 VN RỜI WORLD CUP<br>MỸ TIÊN HẠ ÁNH VIÊN",
+    "subtitle": "U17 Việt Nam thua Mali 0-2 • Võ Thị Mỹ Tiên lập kỷ lục chạm mốc 8 HCV",
+    "footer_tag": "TIN NÓNG • 27.11",
+    "image_file": "outputs/27.11.2026/images/Tin_01_1.jpg",
+    "right_image": "outputs/27.11.2026/images/Tin_06_2.jpg",
+    "left_pos": "center 20%",
+    "right_pos": "center 22%",
+    "obj_pos": "center 20%",
+    "filter": "contrast(1.06) saturate(1.08)"
+  },
+  {
+    "suffix": "C",
+    "style": "magazine_bento",
+    "badge": "TOÀN CẢNH 27.11.2026",
+    "kicker": "U17 WC • ĐẠI HỘI • EUROPA LEAGUE",
+    "headline": "U17 VN DỪNG BƯỚC<br>MỸ TIÊN & MILAN THẮNG",
+    "subtitle": "U17 Việt Nam thua Mali 0-2 • Võ Thị Mỹ Tiên 8 HCV • AC Milan ngược dòng 4-2",
+    "footer_tag": "TIN NÓNG • 27.11",
+    "image_file": "outputs/27.11.2026/images/Tin_01_1.jpg",
+    "cards": [
+      {
+        "file": "outputs/27.11.2026/images/Tin_01_1.jpg",
+        "tag": "U17 VN THUA MALI 0-2",
+        "pos": "center 20%"
+      },
+      {
+        "file": "outputs/27.11.2026/images/Tin_06_2.jpg",
+        "tag": "MỸ TIÊN HẠ ÁNH VIÊN",
+        "pos": "center 22%"
+      },
+      {
+        "file": "outputs/27.11.2026/images/Tin_11_1.jpg",
+        "tag": "AC MILAN NGƯỢC DÒNG 4-2",
+        "pos": "center 20%"
+      }
+    ],
+    "obj_pos": "center 20%",
+    "filter": "contrast(1.06) saturate(1.1)"
+  }
+]
