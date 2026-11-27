@@ -1,0 +1,77 @@
+{
+  "id": 0,
+  "art_id": "art_00",
+  "group": "TÂM ĐIỂM THỂ THAO 27.11.2026",
+  "title": "",
+  "summary": "Chào mừng quý vị đến với Điểm Đọc trong bản tin tổng hợp thể thao ngày 27 tháng 11 năm 2026, cập nhật những diễn biến nóng nhất của thể thao Việt Nam và thế giới. Tại Qatar, đội tuyển U17 Việt Nam khép lại hành trình lịch sử ở vòng bảng U17 World Cup 2026 sau trận thua U17 Mali 0-2 trong đêm giàu cảm xúc của thầy trò huấn luyện viên Cristiano Roland. Ở đấu trường quốc nội, kình ngư Võ Thị Mỹ Tiên lần thứ hai đánh bại Nguyễn Thị Ánh Viên để chạm mốc tám huy chương vàng cá nhân tại Đại hội Thể thao toàn quốc 2026, còn đội trưởng Nguyễn Quang Hải gây chú ý với nguyện vọng chia tay đội tuyển Việt Nam. Trên sân cỏ châu Âu rạng sáng nay, AC Milan và Juventus đồng loạt ngược dòng thắng đậm tại Europa League, Bournemouth lập kỳ tích bóng đá Anh dù chơi thiếu người, trong khi Jannik Sinner lỡ hẹn Australian Open vì phẫu thuật đầu gối.",
+  "total_images": 16,
+  "hide_date_chip": false,
+  "source": "Thanh Niên / VnExpress / Tuổi Trẻ / Dân Trí / BBC Sport / Sky Sports / The Guardian",
+  "news_source": "VIỆT NAM & THẾ GIỚI",
+  "credit": "ĐIỂM ĐỌC TỔNG HỢP",
+  "voice": "Song giọng Nữ & Nam",
+  "voice_gender": "mixed",
+  "voice_preset": "mixed",
+  "audio_path": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/27.11.2026/audio/audio_intro.wav",
+  "audio_title": "",
+  "image_path": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/27.11.2026/images/Tin_00_1.jpg",
+  "hide_title": true,
+  "voice_segments": [
+    {
+      "voice_preset": "secondary",
+      "text": "Chào mừng quý vị đến với Điểm Đọc trong bản tin tổng hợp thể thao ngày 27 tháng 11 năm 2026, cập nhật những diễn biến nóng nhất của thể thao Việt Nam và thế giới."
+    },
+    {
+      "voice_preset": "primary",
+      "text": "Tại Qatar, đội tuyển U17 Việt Nam khép lại hành trình lịch sử ở vòng bảng U17 World Cup 2026 sau trận thua U17 Mali 0-2 trong đêm giàu cảm xúc của thầy trò huấn luyện viên Cristiano Roland."
+    },
+    {
+      "voice_preset": "secondary",
+      "text": "Ở đấu trường quốc nội, kình ngư Võ Thị Mỹ Tiên lần thứ hai đánh bại Nguyễn Thị Ánh Viên để chạm mốc tám huy chương vàng cá nhân tại Đại hội Thể thao toàn quốc 2026, còn đội trưởng Nguyễn Quang Hải gây chú ý với nguyện vọng chia tay đội tuyển Việt Nam."
+    },
+    {
+      "voice_preset": "primary",
+      "text": "Trên sân cỏ châu Âu rạng sáng nay, AC Milan và Juventus đồng loạt ngược dòng thắng đậm tại Europa League, Bournemouth lập kỳ tích bóng đá Anh dù chơi thiếu người, trong khi Jannik Sinner lỡ hẹn Australian Open vì phẫu thuật đầu gối."
+    }
+  ],
+  "stat_badges": {
+    "1": {
+      "label": "BẢN TIN NGÀY",
+      "value": "27.11.2026",
+      "sub": "Toàn cảnh Việt Nam & Thế giới"
+    },
+    "2": {
+      "label": "U17 WORLD CUP",
+      "value": "VIỆT NAM 0-2 MALI",
+      "sub": "Khép lại giải với cột mốc lịch sử"
+    },
+    "3": {
+      "label": "ĐẠI HỘI TDTT 2026",
+      "value": "MỸ TIÊN ĐẠT 8 HCV",
+      "sub": "Vượt Ánh Viên, phá kỷ lục 200m tự do"
+    },
+    "4": {
+      "label": "EUROPA LEAGUE",
+      "value": "MILAN 4-2 • JUVE 4-1",
+      "sub": "Bournemouth thắng 5/5 lượt mở màn"
+    }
+  },
+  "image_1": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/27.11.2026/images/Tin_00_1.jpg",
+  "image_2": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/27.11.2026/images/Tin_00_2.jpg",
+  "image_3": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/27.11.2026/images/Tin_00_3.jpg",
+  "image_4": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/27.11.2026/images/Tin_00_4.jpg",
+  "image_5": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/27.11.2026/images/Tin_00_5.jpg",
+  "image_6": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/27.11.2026/images/Tin_00_6.jpg",
+  "image_7": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/27.11.2026/images/Tin_00_7.jpg",
+  "image_8": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/27.11.2026/images/Tin_00_8.jpg",
+  "image_9": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/27.11.2026/images/Tin_00_9.jpg",
+  "image_10": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/27.11.2026/images/Tin_00_10.jpg",
+  "image_11": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/27.11.2026/images/Tin_00_11.jpg",
+  "image_12": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/27.11.2026/images/Tin_00_12.jpg",
+  "image_13": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/27.11.2026/images/Tin_00_13.jpg",
+  "image_14": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/27.11.2026/images/Tin_00_14.jpg",
+  "image_15": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/27.11.2026/images/Tin_00_15.jpg",
+  "image_16": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/27.11.2026/images/Tin_00_16.jpg",
+  "duration": 43.26,
+  "audio_duration": 43.26
+}
