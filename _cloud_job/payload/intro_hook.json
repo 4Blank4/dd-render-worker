@@ -1,0 +1,75 @@
+{
+  "id": 0,
+  "art_id": "art_00",
+  "group": "TÂM ĐIỂM THỂ THAO 28.11.2026",
+  "title": "",
+  "summary": "Chào mừng quý vị đến với Điểm Đọc trong bản tin tổng hợp thể thao ngày 28 tháng 11 năm 2026, cập nhật những diễn biến nóng nhất của thể thao Việt Nam và thế giới. Tại sân cỏ quốc nội, trận cầu tâm điểm vòng chín V-League giữa Thép Xanh Nam Định và Công an Hà Nội khép lại với tỷ số hòa 0-0, trong khi Sông Lam Nghệ An đánh bại Ninh Bình 1-0 để nối dài mạch bất bại. Ở Đại hội Thể thao toàn quốc 2026, kình ngư Nguyễn Thị Ánh Viên khép lại hành trình tái xuất với bảy huy chương vàng, còn Võ Thị Mỹ Tiên thống trị đường đua xanh với chín ngôi vô địch cá nhân. Trên đấu trường quốc tế, Chelsea gục ngã 2-3 trước Nottingham Forest khiến áp lực đè nặng lên huấn luyện viên Xabi Alonso, Manchester United gia hạn hợp đồng với Bruno Fernandes đến năm 2028 và huyền thoại MotoGP Marc Márquez bất ngờ tuyên bố giải nghệ.",
+  "total_images": 16,
+  "hide_date_chip": false,
+  "source": "Thanh Niên / VnExpress / Tuổi Trẻ / Dân Trí / BBC Sport / Sky Sports / The Guardian",
+  "news_source": "VIỆT NAM & THẾ GIỚI",
+  "credit": "ĐIỂM ĐỌC TỔNG HỢP",
+  "voice": "Song giọng Nữ & Nam",
+  "voice_gender": "mixed",
+  "voice_preset": "mixed",
+  "audio_path": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/28.11.2026/audio/audio_00.wav",
+  "audio_title": "",
+  "image_path": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/28.11.2026/images/Tin_00_1.jpg",
+  "hide_title": true,
+  "voice_segments": [
+    {
+      "voice_preset": "secondary",
+      "text": "Chào mừng quý vị đến với Điểm Đọc trong bản tin tổng hợp thể thao ngày 28 tháng 11 năm 2026, cập nhật những diễn biến nóng nhất của thể thao Việt Nam và thế giới."
+    },
+    {
+      "voice_preset": "primary",
+      "text": "Tại sân cỏ quốc nội, trận cầu tâm điểm vòng chín V-League giữa Thép Xanh Nam Định và Công an Hà Nội khép lại với tỷ số hòa 0-0, trong khi Sông Lam Nghệ An đánh bại Ninh Bình 1-0 để nối dài mạch bất bại."
+    },
+    {
+      "voice_preset": "secondary",
+      "text": "Ở Đại hội Thể thao toàn quốc 2026, kình ngư Nguyễn Thị Ánh Viên khép lại hành trình tái xuất với bảy huy chương vàng, còn Võ Thị Mỹ Tiên thống trị đường đua xanh với chín ngôi vô địch cá nhân."
+    },
+    {
+      "voice_preset": "primary",
+      "text": "Trên đấu trường quốc tế, Chelsea gục ngã 2-3 trước Nottingham Forest khiến áp lực đè nặng lên huấn luyện viên Xabi Alonso, Manchester United gia hạn hợp đồng với Bruno Fernandes đến năm 2028 và huyền thoại MotoGP Marc Márquez bất ngờ tuyên bố giải nghệ."
+    }
+  ],
+  "stat_badges": {
+    "1": {
+      "label": "BẢN TIN NGÀY",
+      "value": "28.11.2026",
+      "sub": "Toàn cảnh Việt Nam & Thế giới"
+    },
+    "2": {
+      "label": "VÒNG 9 V-LEAGUE",
+      "value": "NAM ĐỊNH 0-0 CAHN",
+      "sub": "SLNA thắng Ninh Bình 1-0 giữ hạng nhì"
+    },
+    "3": {
+      "label": "ĐẠI HỘI TDTT 2026",
+      "value": "ÁNH VIÊN 7 • MỸ TIÊN 9",
+      "sub": "TP.HCM dẫn đầu với 96 huy chương vàng"
+    },
+    "4": {
+      "label": "TÂM ĐIỂM QUỐC TẾ",
+      "value": "CHELSEA THUA 2-3",
+      "sub": "Marc Márquez giải nghệ ở tuổi 33"
+    }
+  },
+  "image_1": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/28.11.2026/images/Tin_00_1.jpg",
+  "image_2": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/28.11.2026/images/Tin_00_2.jpg",
+  "image_3": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/28.11.2026/images/Tin_00_3.jpg",
+  "image_4": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/28.11.2026/images/Tin_00_4.jpg",
+  "image_5": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/28.11.2026/images/Tin_00_5.jpg",
+  "image_6": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/28.11.2026/images/Tin_00_6.jpg",
+  "image_7": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/28.11.2026/images/Tin_00_7.jpg",
+  "image_8": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/28.11.2026/images/Tin_00_8.jpg",
+  "image_9": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/28.11.2026/images/Tin_00_9.jpg",
+  "image_10": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/28.11.2026/images/Tin_00_10.jpg",
+  "image_11": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/28.11.2026/images/Tin_00_11.jpg",
+  "image_12": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/28.11.2026/images/Tin_00_12.jpg",
+  "image_13": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/28.11.2026/images/Tin_00_13.jpg",
+  "image_14": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/28.11.2026/images/Tin_00_14.jpg",
+  "image_15": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/28.11.2026/images/Tin_00_15.jpg",
+  "image_16": "/Users/phamminhtrieu/Library/CloudStorage/GoogleDrive-pmtrieu.iweb@gmail.com/Drive của tôi/2026/Agent/DD-The-thao/outputs/28.11.2026/images/Tin_00_16.jpg"
+}
